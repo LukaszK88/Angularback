@@ -6,7 +6,10 @@ use App\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class FightersController extends Controller
@@ -19,7 +22,7 @@ class FightersController extends Controller
     public function index()
     {
 
-            $fighters = User::all();
+            $fighters = User::where('name','!=','')->orderBy('total_points','desc')->get();
             $response = [
                 'fighters' => $fighters
             ];
@@ -28,10 +31,21 @@ class FightersController extends Controller
 
     }
 
+    public function user()
+    {
+        $token = JWTAuth::getToken();
+
+        $user = JWTAuth::toUser($token);
+
+
+        return response()->json($user);
+
+    }
+
     public function bohurt()
     {
 
-        $fighters = User::with('bohurt')->get();
+        $fighters = User::with('bohurt')->where('name','!=','')->get();
 
         $response = [
             'fighters' => $fighters
@@ -47,32 +61,24 @@ class FightersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|max:64|email',
-            'password' => 'required'
-        ]);
+    {  $email = $request->input('username');
+        $password = $request->input('password');
+        $user = User::where('username', '=', $email)->first();
 
-        if ($validator->fails()) {
+        if (!$user)
+        {
+            return response()->json(['error' => 'Wrong username'], 401);
+        }else {
 
-            return response()->json([ 'errors' => $validator->errors()], 201);
+            $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
 
-        }
-
-        if (auth()->attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-
-            return response()->json([ 'message' => 'you are logged in'], 201);
-
-        }else{
-
-            return response()->json([ 'errors' => [
-                'message' => 'Please double check your credentials'
-                ]
-            ], 201);
+            if ($token) {
+                return response()->json(['token' => $token]);
+            } else {
+                return response()->json(['error' => 'Wrong email and/or password'], 401);
+            }
 
         }
-
-
     }
 
     /**
@@ -92,16 +98,17 @@ class FightersController extends Controller
         if ($validator->fails()) {
 
 
-            return response()->json([ 'errors' => $validator->errors()], 201);
+            return response()->json([ 'errors' => $validator->errors()], 400);
 
         }
 
-        $fighter = User::create([
+        $user = User::create([
             'username' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ]);
 
-        return response()->json([ 'message' => 'Account successfully crated'], 201);
+
+        return response()->json([ 'token' => JWTAuth::fromUser($user)], 201);
     }
 
     /**
@@ -147,5 +154,88 @@ class FightersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function facebook(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+        $params = [
+            'code' => $request->input('code'),
+            'client_id' => $request->input('clientId'),
+            'redirect_uri' => $request->input('redirectUri'),
+            'client_secret' => Config::get('app.facebook_secret')
+        ];
+        // Step 1. Exchange authorization code for access token.
+        $accessTokenResponse = $client->request('GET', 'https://graph.facebook.com/v2.5/oauth/access_token', [
+            'query' => $params
+        ]);
+        $accessToken = json_decode($accessTokenResponse->getBody(), true);
+        // Step 2. Retrieve profile information about the current user.
+        $fields = 'id,email,first_name,last_name,link,name,picture';
+        $profileResponse = $client->request('GET', 'https://graph.facebook.com/v2.5/me', [
+            'query' => [
+                'access_token' => $accessToken['access_token'],
+                'fields' => $fields
+            ]
+        ]);
+        $profile = json_decode($profileResponse->getBody(), true);
+
+
+        $user = User::where('username', '=', $profile['id']);
+
+        if ($user->first()) {
+            return response()->json(['token' => JWTAuth::fromUser($user->first())]);
+        }
+
+        $user = User::firstOrCreate(['username' => $profile['email']],
+            ['facebook' => $profile['id'],
+                'facebook_picture' => $profile['picture']['data']['url'],
+            ]);
+
+
+            return response()->json(['token' => JWTAuth::fromUser($user)]);
+
+
+    }
+
+    /**
+     * Login with Google.
+     */
+    public function google(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+        $params = [
+            'code' => $request->input('code'),
+            'client_id' => $request->input('clientId'),
+            'client_secret' => Config::get('app.google_secret'),
+            'redirect_uri' => $request->input('redirectUri'),
+            'grant_type' => 'authorization_code',
+        ];
+        // Step 1. Exchange authorization code for access token.
+        $accessTokenResponse = $client->request('POST', 'https://accounts.google.com/o/oauth2/token', [
+            'form_params' => $params
+        ]);
+        $accessToken = json_decode($accessTokenResponse->getBody(), true);
+        // Step 2. Retrieve profile information about the current user.
+        $profileResponse = $client->request('GET', 'https://www.googleapis.com/plus/v1/people/me/openIdConnect', [
+            'headers' => array('Authorization' => 'Bearer ' . $accessToken['access_token'])
+        ]);
+        $profile = json_decode($profileResponse->getBody(), true);
+
+        // Step 3b. Create a new user account or return an existing one.
+
+            $user = User::where('username', '=', $profile['email']);
+            if ($user->first())
+            {
+                return response()->json(['token' => JWTAuth::fromUser($user->first())]);
+            }
+
+            $user = User::firstOrCreate(['username' => $profile['email']],
+                    ['google' => $profile['sub'],
+                        'google_picture' => $profile['picture'],
+                ]);
+
+            return response()->json(['token' => JWTAuth::fromUser($user)]);
+
     }
 }

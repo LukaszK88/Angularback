@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
+
+Route::get('/user',[
+    'uses' => 'FightersController@user'
+] )->middleware('jwt.auth');
+
 Route::get('/fighters',[
     'uses' => 'FightersController@index'
 ] );
@@ -29,3 +34,12 @@ Route::post('/fighters/store',[
 Route::post('/fighters/authenticate',[
     'uses' => 'FightersController@authenticate'
 ] );
+
+Route::post('/login/facebook', [
+    'uses' => 'FightersController@facebook'
+]);
+
+Route::post('/login/google', [
+    'uses' => 'FightersController@google'
+]);
+
