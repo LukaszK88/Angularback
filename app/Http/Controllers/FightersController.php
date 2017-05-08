@@ -10,10 +10,21 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Transformers\UserTransformer;
+use Illuminate\Support\Facades\Storage;
 
 
-class FightersController extends Controller
+class FightersController extends ApiController
 {
+    protected $userTransformer;
+    /**
+     * FightersController constructor.
+     */
+    public function __construct(UserTransformer $userTransformer)
+    {
+        $this->userTransformer = $userTransformer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +33,29 @@ class FightersController extends Controller
     public function index()
     {
 
-            $fighters = User::where('name','!=','')->orderBy('total_points','desc')->get();
+            $users = User::where('name','!=','')->orderBy('total_points','desc')->get();
             $response = [
-                'fighters' => $fighters
+                'fighters' => $this->userTransformer->transformCollection($users)
             ];
 
             return response()->json($response,200);
+
+    }
+
+    public function storePhoto(Request $request, $id, User $user)
+    {
+        $file = $request->file('file');
+
+        $name = $file->getClientOriginalName();
+
+        Storage::disk('local')->put('profile/'.$id , $file );
+
+        $user->updateOrCreate(['id'=> $id]
+        ,['image' => Storage::url($file)]);
+
+        //$file->move('img/profile', $name);
+
+          return 'done';
 
     }
 
@@ -67,15 +95,16 @@ class FightersController extends Controller
 
         if (!$user)
         {
-            return response()->json(['error' => 'Wrong username'], 401);
+            return $this->responseNotFound('Wrong username');
         }else {
 
             $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
 
             if ($token) {
-                return response()->json(['token' => $token]);
+                return $this->tokenCreated($token, 'You are logged in!');
+
             } else {
-                return response()->json(['error' => 'Wrong email and/or password'], 401);
+                return $this->responseNotFound('Wrong combination');
             }
 
         }
@@ -91,14 +120,12 @@ class FightersController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users,username|max:64|email',
-            'password' => 'required',
+            'email' => 'required|unique:users,username',
         ]);
 
         if ($validator->fails()) {
 
-
-            return response()->json([ 'errors' => $validator->errors()], 400);
+            return $this->responseNotFound($validator->errors());
 
         }
 
@@ -107,8 +134,7 @@ class FightersController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-
-        return response()->json([ 'token' => JWTAuth::fromUser($user)], 201);
+        return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful');
     }
 
     /**
@@ -140,9 +166,17 @@ class FightersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $token = JWTAuth::getToken();
+
+        $user = JWTAuth::toUser($token);
+
+
+        $user->update($request->all());
+
+
+        return $this->responseCreated('Profile updated');
     }
 
     /**
@@ -181,10 +215,10 @@ class FightersController extends Controller
         $profile = json_decode($profileResponse->getBody(), true);
 
 
-        $user = User::where('username', '=', $profile['id']);
+        $user = User::where('username', '=', $profile['email']);
 
         if ($user->first()) {
-            return response()->json(['token' => JWTAuth::fromUser($user->first())]);
+            return $this->tokenCreated(JWTAuth::fromUser($user->first()),'You are logged in with Facebook redirecting...!');
         }
 
         $user = User::firstOrCreate(['username' => $profile['email']],
@@ -193,7 +227,7 @@ class FightersController extends Controller
             ]);
 
 
-            return response()->json(['token' => JWTAuth::fromUser($user)]);
+        return $this->tokenCreated(JWTAuth::fromUser($user),'You are logged in with Facebook redirecting...!');
 
 
     }
@@ -227,7 +261,8 @@ class FightersController extends Controller
             $user = User::where('username', '=', $profile['email']);
             if ($user->first())
             {
-                return response()->json(['token' => JWTAuth::fromUser($user->first())]);
+                return $this->tokenCreated(JWTAuth::fromUser($user->first()),'You are logged in with Gmail redirecting...!');
+
             }
 
             $user = User::firstOrCreate(['username' => $profile['email']],
@@ -235,7 +270,7 @@ class FightersController extends Controller
                         'google_picture' => $profile['picture'],
                 ]);
 
-            return response()->json(['token' => JWTAuth::fromUser($user)]);
+        return $this->tokenCreated(JWTAuth::fromUser($user),'You are logged in with Gmail redirecting...!');
 
     }
 }

@@ -31,6 +31,10 @@ Route::post('/fighters/store',[
     'uses' => 'FightersController@store'
 ] );
 
+Route::put('/fighters/update',[
+    'uses' => 'FightersController@update'
+] );
+
 Route::post('/fighters/authenticate',[
     'uses' => 'FightersController@authenticate'
 ] );
@@ -43,3 +47,6 @@ Route::post('/login/google', [
     'uses' => 'FightersController@google'
 ]);
 
+Route::post('/storePhoto/{id}', [
+    'uses' => 'FightersController@storePhoto'
+]);
