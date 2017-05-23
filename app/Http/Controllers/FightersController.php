@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bohurt;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -48,12 +49,12 @@ class FightersController extends ApiController
 
         $name = $file->getClientOriginalName();
 
-        Storage::disk('local')->put('profile/'.$id , $file );
+        Storage::disk('local')->put('public/'.$id.'/'.$name , file_get_contents($file->getRealPath()));
 
         $user->updateOrCreate(['id'=> $id]
-        ,['image' => Storage::url($file)]);
+        ,['image' => config('app.url').'/storage/'.$id.'/'.$name]);
 
-        //$file->move('img/profile', $name);
+
 
           return 'done';
 
@@ -73,13 +74,37 @@ class FightersController extends ApiController
     public function bohurt()
     {
 
-        $fighters = User::with('bohurt')->where('name','!=','')->get();
+        $fighters = User::with('bohurt')->with('profight')->where('name','!=','')->get();
 
         $response = [
             'fighters' => $fighters
         ];
 
         return response()->json($response,200);
+
+    }
+
+    public function saveBohurt(Request $request)
+    {
+        //$bohurtRecord = Bohurt::where('user_id',$request->input('fighterId'))->first();
+
+        $record = Bohurt::create([
+            'user_id' => $request->input('fighterId'),
+            'won' => $request->input('bohurt.won'),
+            'last' => $request->input('bohurt.last'),
+            'down' => $request->input('bohurt.down'),
+            'suicide' => $request->input('bohurt.suicide'),
+            'fights' => $request->input('bohurt.suicide') + $request->input('bohurt.down') + $request->input('bohurt.last') + $request->input('bohurt.won'),
+            'points' => ((($request->input('bohurt.won') * 2) + $request->input('bohurt.last')) - ($request->input('bohurt.suicide') * 3) )
+            ]
+        );
+
+        $user = User::find($request->input('fighterId'));
+        $user->update([
+            'total_points' => ($user->total_points + $record->points)
+        ]);
+
+        return $this->responseCreated('Fighter record updated');
 
     }
 

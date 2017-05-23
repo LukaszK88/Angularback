@@ -20,6 +20,7 @@ class UserTransformer extends Transformers
                 'weight' => $user['weight'],
                 'age' => $user['age'],
                 'about' => $user['about'],
+                'role' => $user['role'],
                 'quote' => $user['quote'],
                 'username' => $user['username'],
                 'google_picture' => $user['google_picture'],

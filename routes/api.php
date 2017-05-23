@@ -22,9 +22,9 @@ Route::get('/fighters',[
     'uses' => 'FightersController@index'
 ] );
 
-Route::get('/fighters/bohurt',[
-    'uses' => 'FightersController@bohurt'
-] );
+Route::get('/fighters',['uses' => 'RankingController@tableData']);
+Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
+Route::post('/fighters/profight',['uses' => 'RankingController@saveProfight'] );
 
 
 Route::post('/fighters/store',[
