@@ -16,6 +16,7 @@ class UserTransformer extends Transformers
 
 
             return [
+                'id' => $user['id'],
                 'name' => $user['name'],
                 'weight' => $user['weight'],
                 'age' => $user['age'],
@@ -26,7 +27,6 @@ class UserTransformer extends Transformers
                 'google_picture' => $user['google_picture'],
                 'facebook_picture' => $user['facebook_picture'],
                 'total_points' => $user['total_points'],
-
             ];
 
 

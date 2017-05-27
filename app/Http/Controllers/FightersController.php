@@ -26,22 +26,6 @@ class FightersController extends ApiController
         $this->userTransformer = $userTransformer;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-            $users = User::where('name','!=','')->orderBy('total_points','desc')->get();
-            $response = [
-                'fighters' => $this->userTransformer->transformCollection($users)
-            ];
-
-            return response()->json($response,200);
-
-    }
 
     public function storePhoto(Request $request, $id, User $user)
     {
@@ -68,43 +52,6 @@ class FightersController extends ApiController
 
 
         return response()->json($user);
-
-    }
-
-    public function bohurt()
-    {
-
-        $fighters = User::with('bohurt')->with('profight')->where('name','!=','')->get();
-
-        $response = [
-            'fighters' => $fighters
-        ];
-
-        return response()->json($response,200);
-
-    }
-
-    public function saveBohurt(Request $request)
-    {
-        //$bohurtRecord = Bohurt::where('user_id',$request->input('fighterId'))->first();
-
-        $record = Bohurt::create([
-            'user_id' => $request->input('fighterId'),
-            'won' => $request->input('bohurt.won'),
-            'last' => $request->input('bohurt.last'),
-            'down' => $request->input('bohurt.down'),
-            'suicide' => $request->input('bohurt.suicide'),
-            'fights' => $request->input('bohurt.suicide') + $request->input('bohurt.down') + $request->input('bohurt.last') + $request->input('bohurt.won'),
-            'points' => ((($request->input('bohurt.won') * 2) + $request->input('bohurt.last')) - ($request->input('bohurt.suicide') * 3) )
-            ]
-        );
-
-        $user = User::find($request->input('fighterId'));
-        $user->update([
-            'total_points' => ($user->total_points + $record->points)
-        ]);
-
-        return $this->responseCreated('Fighter record updated');
 
     }
 

@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Bohurt;
+use App\Http\Transformers\RankingTransformer;
+use App\Longsword;
+use App\Polearm;
 use App\Profight;
+use App\SwordBuckler;
+use App\SwordShield;
+use App\Triathlon;
 use App\User;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -18,26 +25,37 @@ use Illuminate\Support\Facades\Storage;
 
 class RankingController extends ApiController
 {
-    protected $userTransformer;
-
-    /**
-     * FightersController constructor.
-     */
-    public function __construct(UserTransformer $userTransformer)
-    {
-        $this->userTransformer = $userTransformer;
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function tableData()
+
+    public function index($id = null)
     {
-
-        $fighters = User::with('bohurt')->with('profight')->where('name', '!=', '')->get();
-
+        if(!$id) {
+            $fighters = User::with('bohurt')
+                ->with('profight')
+                ->with('swordShield')
+                ->with('longsword')
+                ->with('swordBuckler')
+                ->with('polearm')
+                ->with('triathlon')
+                ->where('name', '!=', '')
+                ->get();
+        }
+        elseif ($id){
+            $fighters = User::with('bohurt')
+                ->with('profight')
+                ->with('swordShield')
+                ->with('longsword')
+                ->with('swordBuckler')
+                ->with('polearm')
+                ->with('triathlon')
+                ->where('id', $id)
+                ->first();
+        }
         $response = [
             'fighters' => $fighters
         ];
@@ -46,40 +64,120 @@ class RankingController extends ApiController
 
     }
 
-    public function saveBohurt(Request $request)
+    public function saveBohurt(Request $request, Bohurt $bohurt)
     {
-        $record = Bohurt::create([
-                'user_id' => $request->input('fighterId'),
-                'won' => $request->input('bohurt.won'),
-                'last' => $request->input('bohurt.last'),
-                'down' => $request->input('bohurt.down'),
-                'suicide' => $request->input('bohurt.suicide'),
-                'fights' => $request->input('bohurt.suicide') + $request->input('bohurt.down') + $request->input('bohurt.last') + $request->input('bohurt.won'),
-                'points' => ((($request->input('bohurt.won') * 2) + $request->input('bohurt.last')) - ($request->input('bohurt.suicide') * 3))
-            ]
-        );
+        $record = $this->saveTypeRecord($request, $bohurt);
 
-        $this->addTotalPoints($request->input('fighterId'), $record->points);
+        if($record){
+            $record->update([
+                'fights' => $record->suicide + $record->down + $record->last + $record->won,
+                'points' => ((($record->won * 2) + $record->last) - ($record->suicide * 3))
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
 
         return $this->responseCreated('Fighter record updated');
 
     }
 
-    protected function saveProfight(Request $request)
+    protected function saveProfight(Profight $profight, Request $request)
     {
-        $record = Profight::create([
-                'user_id' => $request->input('fighterId'),
-                'win' => $request->input('profight.win'),
-                'loss' => $request->input('profight.loss'),
-                'ko' => $request->input('profight.ko'),
-                'fc_1' => $request->input('profight.fc_1'),
-                'fc_2' => $request->input('profight.fc_2'),
-                'fc_3' => $request->input('profight.fc_3'),
-                'points' => ($request->input('profight.fc_3') * 3) + ($request->input('profight.fc_2') * 6) + ($request->input('profight.fc_1') * 10) + ($request->input('profight.win') * 3) + ($request->input('profight.ko') * 4) + $request->input('bohurt.suicide')
-            ]
-        );
+        $record = $this->saveTypeRecord($request, $profight);
 
-        $this->addTotalPoints($request->input('fighterId'), $record->points);
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->ko + $record->loss,
+                'points' => (($record->win * 3) + ($record->ko * 4) + ($record->loss) + ($record->fc_1 * 10) + ($record->fc_2 * 6) + ($record->fc_3 * 3))
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
+
+        return $this->responseCreated('Fighter record updated');
+
+    }
+
+    protected function saveSwordShield(Request $request, SwordShield $swordShield)
+    {
+        $record = $this->saveTypeRecord($request, $swordShield);
+
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->loss,
+                'points' => $record->win
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
+
+        return $this->responseCreated('Fighter record updated');
+
+    }
+
+    protected function saveLongsword(Request $request, Longsword $longsword)
+    {
+        $record = $this->saveTypeRecord($request, $longsword);
+
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->loss,
+                'points' => $record->win
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
+
+        return $this->responseCreated('Fighter record updated');
+
+    }
+
+    protected function saveSwordBuckler(Request $request, SwordBuckler $swordBuckler)
+    {
+        $record = $this->saveTypeRecord($request, $swordBuckler);
+
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->loss,
+                'points' => $record->win
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
+
+        return $this->responseCreated('Fighter record updated');
+
+    }
+
+    protected function savePolearm(Request $request, Polearm $polearm)
+    {
+        $record = $this->saveTypeRecord($request, $polearm);
+
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->loss,
+                'points' => $record->win
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
+
+        return $this->responseCreated('Fighter record updated');
+
+    }
+
+    protected function saveTriathlon(Request $request, Triathlon $triathlon)
+    {
+        $record = $this->saveTypeRecord($request, $triathlon);
+
+        if($record){
+            $record->update([
+                'fights' => $record->win + $record->loss,
+                'points' => $record->win
+            ]);
+
+            $this->addTotalPoints($request->input('fighterId'), $record->points);
+        }
 
         return $this->responseCreated('Fighter record updated');
 
@@ -118,6 +216,22 @@ class RankingController extends ApiController
     public function destroy($id)
     {
         //
+    }
+
+    private function saveTypeRecord($request, $class){
+
+        foreach ($request->all() as $record => $value){
+            $records[] = $record;
+            $values[] = $value;
+        }
+
+        $fighterId = ['user_id' => $request->input($records[1])];
+
+        $data = array_merge($values[0],$fighterId);
+
+        $savedRecord = $class->create($data);
+
+        return $savedRecord;
     }
 
     private function addTotalPoints($fighterId, $record){

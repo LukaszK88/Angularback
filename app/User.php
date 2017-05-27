@@ -56,9 +56,9 @@ class User extends Authenticatable
         return $this->hasMany(Triathlon::class);
     }
 
-    public function sword(){
+    public function swordShield(){
 
-        return $this->hasMany(Sword::class);
+        return $this->hasMany(SwordShield::class);
     }
 
     public function longsword(){
@@ -76,8 +76,13 @@ class User extends Authenticatable
         return $this->hasMany(Profight::class);
     }
 
+    public function swordBuckler(){
+
+        return $this->hasMany(SwordBuckler::class);
+    }
+
     public function achievement(){
 
-        return $this->hasMany(Achievements::class);
+        return $this->hasMany(Achievement::class);
     }
 }

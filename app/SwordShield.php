@@ -11,18 +11,16 @@ namespace App;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Bohurt extends Model{
+class SwordShield extends Model{
 
-    protected $table = 'bohurts';
+    protected $table = 'sword_shield';
 
     protected $fillable=[
         'user_id',
         'fights',
-        'won',
-        'last',
-        'down',
-        'suicide',
-        'points'
+        'win',
+        'loss',
+        'points',
     ];
     
     public function user(){

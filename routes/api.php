@@ -18,14 +18,17 @@ Route::get('/user',[
     'uses' => 'FightersController@user'
 ] )->middleware('jwt.auth');
 
-Route::get('/fighters',[
-    'uses' => 'FightersController@index'
-] );
 
-Route::get('/fighters',['uses' => 'RankingController@tableData']);
+Route::get('/fighters/{id?}',['uses' => 'RankingController@index']);
 Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
 Route::post('/fighters/profight',['uses' => 'RankingController@saveProfight'] );
+Route::post('/fighters/sword_shield',['uses' => 'RankingController@saveSwordShield'] );
+Route::post('/fighters/longsword',['uses' => 'RankingController@saveLongsword'] );
+Route::post('/fighters/sword_buckler',['uses' => 'RankingController@saveSwordBuckler'] );
+Route::post('/fighters/polearm',['uses' => 'RankingController@savePolearm'] );
+Route::post('/fighters/triathlon',['uses' => 'RankingController@saveTriathlon'] );
 
+Route::resource('/achievement','AchievementController');
 
 Route::post('/fighters/store',[
     'uses' => 'FightersController@store'
