@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
+
 Route::get('/user',[
     'uses' => 'FightersController@user'
 ] )->middleware('jwt.auth');
@@ -28,7 +29,11 @@ Route::post('/fighters/sword_buckler',['uses' => 'RankingController@saveSwordBuc
 Route::post('/fighters/polearm',['uses' => 'RankingController@savePolearm'] );
 Route::post('/fighters/triathlon',['uses' => 'RankingController@saveTriathlon'] );
 
-Route::resource('/achievement','AchievementController');
+// work on REST
+Route::get('/achievement/{userId}','AchievementController@index');
+Route::post('/achievement/{userId?}/{achievementId?}','AchievementController@store');
+Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
+Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
 
 Route::post('/fighters/store',[
     'uses' => 'FightersController@store'

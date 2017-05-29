@@ -14,6 +14,7 @@ class Achievement extends Model
         'location',
         'category',
         'place',
+        'cup',
         'date'
     ];
 

@@ -52,6 +52,11 @@ class ApiController extends Controller
         return $this->setStatusCode(CodeResponse::HTTP_CREATED)->respondWithMessage($message);
     }
 
+    public function responseDeleted($message){
+
+        return $this->setStatusCode(CodeResponse::HTTP_OK)->respondWithMessage($message);
+    }
+
     /**
      * @param $token
      * @param $message
