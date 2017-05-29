@@ -35,12 +35,17 @@ class FightersController extends ApiController
 
         Storage::disk('local')->put('public/'.$id.'/'.$name , file_get_contents($file->getRealPath()));
 
+        $imageUrl = config('app.url').'/storage/'.$id.'/'.$name;
+
         $user->updateOrCreate(['id'=> $id]
-        ,['image' => config('app.url').'/storage/'.$id.'/'.$name]);
+        ,['image' => $imageUrl]);
 
+        $response = [
+            'message' => 'Photo Uploaded',
+            'imageUrl' => $imageUrl
+        ];
 
-
-          return 'done';
+        return response()->json($response, 200);
 
     }
 
@@ -54,6 +59,8 @@ class FightersController extends ApiController
         return response()->json($user);
 
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,6 +76,15 @@ class FightersController extends ApiController
         {
             return $this->responseNotFound('Wrong username');
         }else {
+
+            if(!empty($user->facebook) && empty($user->password)){
+                return $this->responseNotFound('There is a Facebook acount assocciated with this email, 
+                                                 use your Facebook account to log in');
+            }
+            if(!empty($user->google) && empty($user->password)){
+                return $this->responseNotFound('There is a Google acount assocciated with this email, 
+                                                 use your Google account to log in');
+            }
 
             $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
 
@@ -104,9 +120,10 @@ class FightersController extends ApiController
         $user = User::create([
             'username' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
+            'role' => ''
         ]);
 
-        return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful');
+        return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful, you will hear back from us once your account is activated');
     }
 
     /**
@@ -129,6 +146,30 @@ class FightersController extends ApiController
     public function edit($id)
     {
         //
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $token = JWTAuth::getToken();
+
+        $user = JWTAuth::toUser($token);
+
+        if($user->password){
+
+
+            $valid = Auth::attempt(['username' => $user->username, 'password' => $request->input('currentPassword')]);
+
+            if(!$valid){
+                return $this->responseNotFound('Current Password do not match our record');
+            }
+
+        }
+
+        $user->update([
+            'password' => bcrypt($request->input('newPassword'))
+        ]);
+
+        return $this->responseCreated('Password updated');
     }
 
     /**

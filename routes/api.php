@@ -35,10 +35,10 @@ Route::post('/achievement/{userId?}/{achievementId?}','AchievementController@sto
 Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
 Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
 
-Route::post('/fighters/store',[
-    'uses' => 'FightersController@store'
-] );
+Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 
+Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassword'
+] );
 Route::put('/fighters/update',[
     'uses' => 'FightersController@update'
 ] );

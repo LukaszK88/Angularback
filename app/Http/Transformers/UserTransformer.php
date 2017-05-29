@@ -21,6 +21,7 @@ class UserTransformer extends Transformers
                 'weight' => $user['weight'],
                 'age' => $user['age'],
                 'about' => $user['about'],
+                'password' => $user['password'],
                 'role' => $user['role'],
                 'quote' => $user['quote'],
                 'username' => $user['username'],
