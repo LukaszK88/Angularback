@@ -14,6 +14,7 @@ class User extends Authenticatable
         'username',
         'temp_password',
         'salt',
+        'status',
         'age',
         'about',
         'quote',

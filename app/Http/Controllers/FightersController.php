@@ -79,24 +79,30 @@ class FightersController extends ApiController
             return $this->responseNotFound('Wrong username');
         }else {
 
-            if(!empty($user->facebook) && empty($user->password)){
-                return $this->responseNotFound('There is a Facebook acount assocciated with this email, 
+            if($user->status == 0){
+                return $this->responseNotFound('Your account is not active');
+            }elseif ($user->status == 2){
+                return $this->responseNotFound('Your account is blocked');
+            }else {
+
+                if (!empty($user->facebook) && empty($user->password)) {
+                    return $this->responseNotFound('There is a Facebook acount assocciated with this email, 
                                                  use your Facebook account to log in');
-            }
-            if(!empty($user->google) && empty($user->password)){
-                return $this->responseNotFound('There is a Google acount assocciated with this email, 
+                }
+                if (!empty($user->google) && empty($user->password)) {
+                    return $this->responseNotFound('There is a Google acount assocciated with this email, 
                                                  use your Google account to log in');
+                }
+
+                $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
+
+                if ($token) {
+                    return $this->tokenCreated($token, 'You are logged in!');
+
+                } else {
+                    return $this->responseNotFound('Wrong combination');
+                }
             }
-
-            $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
-
-            if ($token) {
-                return $this->tokenCreated($token, 'You are logged in!');
-
-            } else {
-                return $this->responseNotFound('Wrong combination');
-            }
-
         }
     }
 
@@ -121,8 +127,7 @@ class FightersController extends ApiController
 
         $user = User::create([
             'username' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'role' => ''
+            'password' => bcrypt($request->input('password'))
         ]);
         Mail::to($user->username)->send(new Registration($user));
         return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful, you will hear back from us once your account is activated');
@@ -230,19 +235,27 @@ class FightersController extends ApiController
         $profile = json_decode($profileResponse->getBody(), true);
 
 
-        $user = User::where('username', '=', $profile['email']);
+        $user = User::where('username', '=', $profile['email'])->first();
 
-        if ($user->first()) {
-            return $this->tokenCreated(JWTAuth::fromUser($user->first()),'You are logged in with Facebook redirecting...!');
+        if ($user) {
+            if($user->status == 0){
+                return $this->responseNotFound('Your account is not active');
+            }elseif ($user->status == 2){
+                return $this->responseNotFound('Your account is blocked');
+            }else {
+                return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook redirecting...!');
+            }
         }
 
-        $user = User::firstOrCreate(['username' => $profile['email']],
-            ['facebook' => $profile['id'],
-                'facebook_picture' => $profile['picture']['data']['url'],
+        $user = User::create([
+            'username' => $profile['email'],
+            'facebook' => $profile['id'],
+            'facebook_picture' => $profile['picture']['data']['url'],
             ]);
 
 
-        return $this->tokenCreated(JWTAuth::fromUser($user),'You are logged in with Facebook redirecting...!');
+        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
+
 
 
     }
@@ -273,19 +286,35 @@ class FightersController extends ApiController
 
         // Step 3b. Create a new user account or return an existing one.
 
-            $user = User::where('username', '=', $profile['email']);
-            if ($user->first())
+            $user = User::where('username', '=', $profile['email'])->first();
+            if ($user)
             {
-                return $this->tokenCreated(JWTAuth::fromUser($user->first()),'You are logged in with Gmail redirecting...!');
-
+                if($user->status == 0){
+                    return $this->responseNotFound('Your account is not active');
+                }elseif ($user->status == 2){
+                    return $this->responseNotFound('Your account is blocked');
+                }else {
+                    return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Gmail redirecting...!');
+                }
             }
 
-            $user = User::firstOrCreate(['username' => $profile['email']],
-                    ['google' => $profile['sub'],
-                        'google_picture' => $profile['picture'],
+            $user = User::create([
+                'username' => $profile['email'],
+                'google' => $profile['sub'],
+                'google_picture' => $profile['picture'],
                 ]);
+        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
 
-        return $this->tokenCreated(JWTAuth::fromUser($user),'You are logged in with Gmail redirecting...!');
 
+    }
+
+    private function isActive($user){
+        if($user->status == 0){
+            return $this->responseNotFound('Your account is not active');
+        }elseif ($user->status == 2){
+            return $this->responseNotFound('Your account is blocked');
+        }else {
+            return true;
+        }
     }
 }

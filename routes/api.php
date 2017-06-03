@@ -15,10 +15,14 @@ use Illuminate\Http\Request;
 
 
 //USER
-Route::get('/user',[
+Route::get('/fighter',[
     'uses' => 'FightersController@user'
 ] )->middleware('jwt.auth');
+
 Route::post('/user/recover','UsersController@passwordRecovery');
+Route::resource('/user','UsersController');
+
+
 
 Route::get('/fighters/{id?}',['uses' => 'RankingController@index']);
 Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
@@ -35,8 +39,9 @@ Route::post('/achievement/{userId?}/{achievementId?}','AchievementController@sto
 Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
 Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
 
-//admin
-Route::get('/user/unauthorized','UsersController@showUnauthorized');
+////admin
+Route::get('/admin/{type}','UsersController@showUsers');
+Route::post('/admin/{userId}/{action}','UsersController@adminAction');
 
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 

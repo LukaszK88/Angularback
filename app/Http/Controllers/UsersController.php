@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
 use App\User;
 use Illuminate\Http\Request;
@@ -40,17 +41,47 @@ class UsersController extends ApiController
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showUnauthorized()
+    public function show()
     {
-        $users = User::where('role',0)->get();
+        $users = User::where('status',0)->get();
 
         return $this->respond($users);
+    }
+
+    public function showUsers($type)
+    {
+        if($type == 'blocked'){
+            $users = User::where('status',2)->get();
+        }
+        if($type == 'unauthorized'){
+            $users = User::where('status',0)->get();
+        }
+
+        return $this->respond($users);
+    }
+
+    public function adminAction($userId, $action)
+    {
+        $user = User::find($userId);
+        if($user){
+            if($action == 'block'){
+                $user->update([
+                    'status' => 2
+                ]);
+                return $this->responseCreated('User blocked');
+            }
+            if($action == 'approve'){
+                $user->update([
+                    'status' => 1
+                ]);
+                Mail::to($user->username)->send(new AccountActivated($user));
+                return $this->responseCreated('User approved');
+            }
+            if($action == 'remove'){
+                $user->delete();
+                return $this->responseCreated('User removed');
+            }
+        }
     }
 
     public function passwordRecovery(Request $request)
@@ -96,7 +127,7 @@ class UsersController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -107,6 +138,6 @@ class UsersController extends ApiController
      */
     public function destroy($id)
     {
-        //
+
     }
 }
