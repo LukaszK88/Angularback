@@ -24,7 +24,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'White Company',
 
     /*
     |--------------------------------------------------------------------------

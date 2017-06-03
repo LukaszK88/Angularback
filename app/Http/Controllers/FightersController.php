@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Bohurt;
+use App\Mail\Registration;
 use App\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -122,7 +124,7 @@ class FightersController extends ApiController
             'password' => bcrypt($request->input('password')),
             'role' => ''
         ]);
-
+        Mail::to($user->username)->send(new Registration($user));
         return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful, you will hear back from us once your account is activated');
     }
 

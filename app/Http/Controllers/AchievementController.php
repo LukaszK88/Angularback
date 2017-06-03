@@ -65,18 +65,24 @@ class AchievementController extends ApiController
                 $cup = "<font color='#ffd700'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
             }
 
-            Achievement::updateOrCreate(['id' => $achievementId],[
+            if(array_key_exists('id',$data)){
+                $achievementId = $data['id'];
+            }
+
+            $date = substr($data['date'],0,10);
+
+            $achievement = Achievement::updateOrCreate(['id' => $achievementId],[
                 'user_id' => $userId,
                 'category' => $data['category'],
                 'competition_name' => $data['competition_name'],
                 'location' => $data['location'],
                 'place' => $data['place'],
                 'cup'   => $cup,
-                'date' => $data['date'],
+                'date' => $date,
 
             ]);
 
-            return $this->responseCreated('Achievement Added');
+            return $this->respondWithMessageAndData('Achievement added',$achievement);
         }
 
 
@@ -132,6 +138,7 @@ class AchievementController extends ApiController
        if($achievementId){
            $achievement->delete();
 
+          // return $this->respond($achievement);
            return $this->responseDeleted('Achievement Deleted');
        }
     }

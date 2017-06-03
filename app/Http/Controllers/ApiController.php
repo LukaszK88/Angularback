@@ -102,6 +102,15 @@ class ApiController extends Controller
         ]);
     }
 
+    public function respondWithMessageAndData($message, $data){
+
+        return $this->respond([
+            'data' => $data,
+            'message' => $message,
+            'status_code' => $this->getStatusCode()
+        ]);
+    }
+
     /**
      * @param $token
      * @param $message

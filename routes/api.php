@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 */
 
 
-
+//USER
 Route::get('/user',[
     'uses' => 'FightersController@user'
 ] )->middleware('jwt.auth');
-
+Route::post('/user/recover','UsersController@passwordRecovery');
 
 Route::get('/fighters/{id?}',['uses' => 'RankingController@index']);
 Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
@@ -35,6 +35,9 @@ Route::post('/achievement/{userId?}/{achievementId?}','AchievementController@sto
 Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
 Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
 
+//admin
+Route::get('/user/unauthorized','UsersController@showUnauthorized');
+
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 
 Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassword'
@@ -42,6 +45,8 @@ Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassw
 Route::put('/fighters/update',[
     'uses' => 'FightersController@update'
 ] );
+
+Route::post('/send', 'EmailController@send');
 
 Route::post('/fighters/authenticate',[
     'uses' => 'FightersController@authenticate'
