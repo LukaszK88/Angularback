@@ -5,24 +5,25 @@
  * Date: 28/01/2017
  * Time: 17:16
  */
-namespace App;
+namespace App\Models;
 
-
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Bohurt extends Model{
+class Profight extends Model{
 
-    protected $table = 'bohurts';
+    protected $table = 'profights';
 
     protected $fillable=[
         'user_id',
         'fights',
-        'won',
-        'last',
-        'down',
-        'suicide',
-        'points'
+        'fc_1',
+        'fc_2',
+        'fc_3',
+        'win',
+        'loss',
+        'ko',
+        'points',
     ];
     
     public function user(){

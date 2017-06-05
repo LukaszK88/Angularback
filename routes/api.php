@@ -43,6 +43,9 @@ Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementControl
 Route::get('/admin/{type}','UsersController@showUsers');
 Route::post('/admin/{userId}/{action}','UsersController@adminAction');
 
+//BLOG
+Route::resource('/post','PostsController');
+
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 
 Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassword'

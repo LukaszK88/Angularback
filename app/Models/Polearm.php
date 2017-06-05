@@ -1,12 +1,11 @@
 <?php
 
-namespace App;
-
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Triathlon extends Model
+class Polearm extends Model
 {
-    protected $table = 'triathlon';
+    protected $table = 'polearm';
 
     protected $fillable=[
         'user_id',

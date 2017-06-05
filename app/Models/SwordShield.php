@@ -1,12 +1,18 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Lukasz
+ * Date: 28/01/2017
+ * Time: 17:16
+ */
+namespace App\Models;
 
-namespace App;
-
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Polearm extends Model
-{
-    protected $table = 'polearm';
+class SwordShield extends Model{
+
+    protected $table = 'sword_shield';
 
     protected $fillable=[
         'user_id',
@@ -15,7 +21,7 @@ class Polearm extends Model
         'loss',
         'points',
     ];
-
+    
     public function user(){
 
         return $this->belongsToMany(User::class);

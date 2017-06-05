@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -29,27 +28,14 @@ class User extends Authenticatable
         'total_points',
     ];
 
-    public function setTempPassword($password){
-
-        $this->update([
-            'password' => '',
-            'temp_password' => md5($password)
-        ]);
-
-    }
-
-    public function setPassword($password){
-
-        $this->update([
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'temp_password' => ''
-        ]);
-
-    }
-
     public function bohurt(){
 
         return $this->hasMany(Bohurt::class);
+    }
+
+    public function post(){
+
+        return $this->hasMany(Post::class);
     }
 
     public function triathlon(){

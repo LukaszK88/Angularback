@@ -5,25 +5,20 @@
  * Date: 28/01/2017
  * Time: 17:16
  */
-namespace App;
+namespace App\Models;
 
-
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Profight extends Model{
+class Longsword extends Model{
 
-    protected $table = 'profights';
+    protected $table = 'longswords';
 
     protected $fillable=[
         'user_id',
         'fights',
-        'fc_1',
-        'fc_2',
-        'fc_3',
         'win',
         'loss',
-        'ko',
         'points',
     ];
     

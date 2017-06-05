@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Bohurt;
+use App\Models\Bohurt;
 use App\Http\Transformers\RankingTransformer;
-use App\Longsword;
-use App\Polearm;
-use App\Profight;
-use App\SwordBuckler;
-use App\SwordShield;
-use App\Triathlon;
-use App\User;
+use App\Models\Longsword;
+use App\Models\Polearm;
+use App\Models\Profight;
+use App\Models\SwordBuckler;
+use App\Models\SwordShield;
+use App\Models\Triathlon;
+use App\Models\User;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

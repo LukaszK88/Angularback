@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Achievement;
+use App\Models\Achievement;
 use Illuminate\Http\Request;
 
 class AchievementController extends ApiController

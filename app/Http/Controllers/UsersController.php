@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
