@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
-class PostsController extends ApiController
+class ImagesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,7 @@ class PostsController extends ApiController
      */
     public function index()
     {
-       $posts = Post::with('user')
-           ->with('postType')
-           ->get();
-
-        return $this->respond($posts);
+        //
     }
 
     /**
@@ -50,11 +46,17 @@ class PostsController extends ApiController
      */
     public function show($id)
     {
-        $post = Post::with('user')
-            ->with('postType')
-            ->find($id);
+        //
+    }
 
-        return $this->respond($post);
+    public function getPostImages($postId)
+    {
+        $postImages = Image::where('post_id',$postId)
+                            ->where('image_type_id', 2)
+                            ->get();
+        return $this->respond([
+            'postImages' => $postImages
+        ]);
     }
 
     /**
