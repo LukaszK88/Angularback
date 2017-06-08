@@ -47,7 +47,7 @@ Route::post('/admin/{userId}/{action}','UsersController@adminAction');
 Route::resource('/post','PostsController');
 
 //IMAGES
-Route::get('/images/{postId}','ImagesController@getPostImages');
+Route::get('/images/{postId}','ImagesController@getImagesById');
 
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 

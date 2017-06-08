@@ -49,13 +49,23 @@ class ImagesController extends ApiController
         //
     }
 
-    public function getPostImages($postId)
+    public function getImagesById($postId)
     {
         $postImages = Image::where('post_id',$postId)
                             ->where('image_type_id', 2)
+                            ->inRandomOrder()
+                            ->limit(4)
                             ->get();
+        $galleryImages = Image::where('post_id',$postId)
+                            ->where('image_type_id', 2)
+                            ->get();
+        $headerImage = Image::where('post_id',$postId)
+                            ->where('image_type_id', 1)
+                            ->first();
         return $this->respond([
-            'postImages' => $postImages
+            'postImages' => $postImages,
+            'galleryImages' => $galleryImages,
+            'headerImage' => $headerImage
         ]);
     }
 

@@ -14,7 +14,8 @@ class Post extends Model
         COL_BODY = 'body',
         COL_POST_TYPE = 'post_type';
 
-    const   TCOL_TITLE = self::TABLE.'.'.self::COL_TITLE,
+    const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
+            TCOL_TITLE = self::TABLE.'.'.self::COL_TITLE,
             TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
             TCOL_POST_TYPE = self::TABLE.'.'.self::COL_POST_TYPE;
 

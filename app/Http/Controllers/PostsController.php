@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Post;
+use App\Models\PostType;
 use Illuminate\Http\Request;
 
 class PostsController extends ApiController
@@ -14,9 +16,14 @@ class PostsController extends ApiController
      */
     public function index()
     {
-       $posts = Post::with('user')
-           ->with('postType')
-           ->get();
+
+       $posts =
+           Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
+                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
+                ->select('post.*',PostType::COL_TYPE, Image::TCOL_URL)
+                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
+                ->with('user')
+                ->get();
 
         return $this->respond($posts);
     }
