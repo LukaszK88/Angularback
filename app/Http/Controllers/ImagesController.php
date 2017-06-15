@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class ImagesController extends ApiController
@@ -14,7 +15,11 @@ class ImagesController extends ApiController
      */
     public function index()
     {
-        //
+        $gallery = Post::with('image')
+                        ->where('gallery',1)
+                        ->get();
+
+        return $this->respond($gallery);
     }
 
     /**
@@ -44,29 +49,24 @@ class ImagesController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-    public function getImagesById($postId)
+    public function show($postId)
     {
         $postImages = Image::where('post_id',$postId)
-                            ->where('image_type_id', 2)
-                            ->inRandomOrder()
-                            ->limit(4)
-                            ->get();
+            ->where('image_type_id','<=' ,2)
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
+
+        return $this->respond($postImages);
+    }
+
+    public function showGalleryById($postId)
+    {
         $galleryImages = Image::where('post_id',$postId)
-                            ->where('image_type_id', 2)
-                            ->get();
-        $headerImage = Image::where('post_id',$postId)
-                            ->where('image_type_id', 1)
-                            ->first();
-        return $this->respond([
-            'postImages' => $postImages,
-            'galleryImages' => $galleryImages,
-            'headerImage' => $headerImage
-        ]);
+            ->where('image_type_id','<=',2)
+            ->get();
+
+        return $this->respond($galleryImages);
     }
 
     /**

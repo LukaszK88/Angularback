@@ -12,6 +12,7 @@ class Post extends Model
     const   COL_ID = 'id',
         COL_TITLE = 'title',
         COL_BODY = 'body',
+        COL_GALLERY = 'gallery',
         COL_POST_TYPE = 'post_type';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
@@ -23,13 +24,20 @@ class Post extends Model
         'user_id',
         'title',
         'body',
-        'post_type'
+        'post_type',
+        self::COL_GALLERY
     ];
 
     public function postType(){
 
         return $this->hasMany(PostType::class, 'id', 'post_type');
     }
+
+    public function image(){
+
+        return $this->hasMany(Image::class, 'post_id', 'id');
+    }
+
 
     public function user(){
 

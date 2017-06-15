@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
-use App\Models\Post;
 use App\Models\PostType;
 use Illuminate\Http\Request;
 
-class PostsController extends ApiController
+class PostTypesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,29 +14,9 @@ class PostsController extends ApiController
      */
     public function index()
     {
-        $posts =
-           Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
-                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
-                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
-                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
-                ->with('user')
-                ->get();
+        $types = PostType::all();
 
-        return $this->respond($posts);
-    }
-
-    public function getPostType($type)
-    {
-        $posts =
-            Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
-                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
-                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
-                ->where(Post::TCOL_POST_TYPE,$type)
-                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
-                ->with('user')
-                ->get();
-
-        return $this->respond($posts);
+        return $this->respond($types);
     }
 
     /**
@@ -70,11 +48,7 @@ class PostsController extends ApiController
      */
     public function show($id)
     {
-        $post = Post::with('user')
-            ->with('postType')
-            ->find($id);
-
-        return $this->respond($post);
+        //
     }
 
     /**
