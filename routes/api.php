@@ -45,13 +45,15 @@ Route::post('/admin/{userId}/{action}','UsersController@adminAction');
 
 //BLOG
 Route::resource('/post','PostsController');
-Route::get('/posts/{type}','PostsController@getPostType');
+Route::get('/posts/{type}','PostsController@getPostsOfType');
 
 //POST TYPES
 Route::resource('/types','PostTypesController');
 
 //IMAGES
+Route::post('/images/post/{postId}/{type}','ImagesController@storePostImages');
 Route::resource('/images','ImagesController');
+
 Route::get('/images/gallery/{postId}','ImagesController@showGalleryById');
 
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );

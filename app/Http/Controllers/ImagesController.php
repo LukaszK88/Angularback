@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends ApiController
 {
@@ -41,6 +42,44 @@ class ImagesController extends ApiController
     public function store(Request $request)
     {
         //
+    }
+
+    public function storePostImages(Request $request, $postId, $type)
+    {
+
+        if($type == '2'){
+            $file = $request->file('file');
+
+            $name = $file->getClientOriginalName();
+
+            Storage::disk('local')->put('public/post-' . $postId . '/' . $name, file_get_contents($file->getRealPath()));
+
+            $imageUrl = config('app.url') . '/storage/post-' . $postId . '/' . $name;
+
+            Image::create([
+                'image_type_id' => $type,
+                'url' => $imageUrl,
+                'post_id' => $postId
+            ]);
+
+        }elseif($type == '1') {
+
+            $file = $request->file('file');
+
+            $name = $file['header']->getClientOriginalName();
+
+            Storage::disk('local')->put('public/post-' . $postId . '/' . $name, file_get_contents($file['header']->getRealPath()));
+
+            $imageUrl = config('app.url') . '/storage/post-' . $postId . '/' . $name;
+
+            Image::create([
+                'image_type_id' => $type,
+                'url' => $imageUrl,
+                'post_id' => $postId
+            ]);
+
+            return $this->responseCreated('Header added');
+        }
     }
 
     /**

@@ -16,25 +16,30 @@ class PostsController extends ApiController
      */
     public function index()
     {
-        $posts =
-           Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
-                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
-                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
-                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
-                ->with('user')
-                ->get();
-
-        return $this->respond($posts);
+//        $posts =
+//           Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
+//                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
+//                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
+//                ->whereNotNull(Post::TCOL_BODY)
+//                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
+//                ->with('user')
+//                ->get();
+//
+//        return $this->respond($posts);
     }
 
-    public function getPostType($type)
+    public function getPostsOfType($type)
     {
         $posts =
-            Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
+            Post::leftJoin(Image::TABLE, function ($join) {
+                    $join->on(Post::TCOL_ID,'=',Image::TCOL_POST_ID)
+                        ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
                 ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
                 ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
                 ->where(Post::TCOL_POST_TYPE,$type)
-                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
+                ->whereNotNull(Post::TCOL_BODY)
+                ->groupBy(Post::TCOL_ID)
+                //->with('image')
                 ->with('user')
                 ->get();
 
@@ -59,7 +64,11 @@ class PostsController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $post = Post::create($data);
+
+        return $this->respond($post);
     }
 
     /**
@@ -97,7 +106,15 @@ class PostsController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        Post::where(Post::COL_ID,$id)
+            ->update([
+                'title' => $data['title'],
+                'body'  => $data['body']
+            ]);
+
+        return $this->responseCreated('Post Updated');
     }
 
     /**
@@ -108,6 +125,8 @@ class PostsController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        Post::find($id)->delete();
+
+        $this->responseDeleted('Post Deleted');
     }
 }
