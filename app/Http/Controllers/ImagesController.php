@@ -17,6 +17,7 @@ class ImagesController extends ApiController
     public function index()
     {
         $gallery = Post::with('image')
+                        ->with('user')
                         ->where('gallery',1)
                         ->get();
 
@@ -139,6 +140,24 @@ class ImagesController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        Image::find($id)->delete();
+
+        $this->responseDeleted('Image Deleted');
+    }
+
+    public function deleteGallery($postId)
+    {
+        Image::where(Image::COL_POST_ID,$postId)->delete();
+
+        $post = Post::find($postId);
+        if($post->body === null){
+            $post->delete();
+        }elseif ($post->body){
+            $post->update([
+                Post::COL_GALLERY => 0
+            ]);
+        }
+
+        $this->responseDeleted('Gallery Deleted');
     }
 }

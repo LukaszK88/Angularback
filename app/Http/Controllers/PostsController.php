@@ -80,6 +80,7 @@ class PostsController extends ApiController
     public function show($id)
     {
         $post = Post::with('user')
+            ->with('image')
             ->with('postType')
             ->find($id);
 

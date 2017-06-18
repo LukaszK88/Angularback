@@ -55,6 +55,8 @@ Route::post('/images/post/{postId}/{type}','ImagesController@storePostImages');
 Route::resource('/images','ImagesController');
 
 Route::get('/images/gallery/{postId}','ImagesController@showGalleryById');
+Route::post('/images/gallery/delete/{postId}','ImagesController@deleteGallery');
+
 
 Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 
