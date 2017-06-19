@@ -21,6 +21,7 @@ Route::get('/fighter',[
 
 Route::post('/user/recover','UsersController@passwordRecovery');
 Route::resource('/user','UsersController');
+Route::get('/user-roles','UsersController@getUserRoles');
 
 
 

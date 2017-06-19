@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * Class UsersController
+ * @package App\Http\Controllers
+ */
 class UsersController extends ApiController
 {
     /**
@@ -17,7 +22,18 @@ class UsersController extends ApiController
      */
     public function index()
     {
-        //
+        $users = User::where('status',1)
+            //->join(UserRole::TABLE,User::TCOL_USER_ROLE_ID,'=',UserRole::TCOL_ID)
+            ->get();
+
+        return $this->respond($users);
+    }
+
+    public function getUserRoles()
+    {
+        $userRoles = UserRole::all();
+
+        return $this->respond($userRoles);
     }
 
     /**
@@ -43,9 +59,7 @@ class UsersController extends ApiController
 
     public function show()
     {
-        $users = User::where('status',0)->get();
 
-        return $this->respond($users);
     }
 
     public function showUsers($type)
@@ -127,7 +141,15 @@ class UsersController extends ApiController
      */
     public function update(Request $request, $id)
     {
+        $data = $request->all();
 
+        $user = User::find($id);
+
+        if($user){
+            $user->update($data);
+        }
+
+        return $this->responseCreated('Role updated');
     }
 
     /**
@@ -138,6 +160,12 @@ class UsersController extends ApiController
      */
     public function destroy($id)
     {
+        $user = User::find($id);
 
+        if($user){
+            $user->delete();
+        }
+
+        return $this->responseDeleted('User Deleted');
     }
 }

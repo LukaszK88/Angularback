@@ -6,7 +6,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    protected $table = 'users';
+    protected $table = self::TABLE;
+
+    const TABLE = 'users';
+
+    const COL_USER_ROLE_ID = 'user_role_id';
+
+    const TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID;
 
     protected $fillable=[
         'name',
@@ -22,7 +28,7 @@ class User extends Authenticatable
         'facebook_picture',
         'google',
         'google_picture',
-        'role',
+        self::COL_USER_ROLE_ID,
         'weight',
         'image',
         'total_points',
@@ -71,5 +77,10 @@ class User extends Authenticatable
     public function achievement(){
 
         return $this->hasMany(Achievement::class);
+    }
+
+    public function role(){
+
+        return $this->hasOne(UserRole::class);
     }
 }
