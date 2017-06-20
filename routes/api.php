@@ -44,6 +44,11 @@ Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementControl
 Route::get('/admin/{type}','UsersController@showUsers');
 Route::post('/admin/{userId}/{action}','UsersController@adminAction');
 
+//EVENTS
+Route::resource('/event','EventsController');
+Route::get('/events/{type}','EventsController@getEventsByType');
+Route::get('/event-types','EventsController@getEventTypes');
+
 //BLOG
 Route::resource('/post','PostsController');
 Route::get('/posts/{type}','PostsController@getPostsOfType');
@@ -52,7 +57,9 @@ Route::get('/posts/{type}','PostsController@getPostsOfType');
 Route::resource('/types','PostTypesController');
 
 //IMAGES
+//todo can be one route
 Route::post('/images/post/{postId}/{type}','ImagesController@storePostImages');
+Route::post('/images/event/{eventId}/{type}','ImagesController@storeEventImages');
 Route::resource('/images','ImagesController');
 
 Route::get('/images/gallery/{postId}','ImagesController@showGalleryById');

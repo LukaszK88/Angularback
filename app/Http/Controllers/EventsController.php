@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use App\Models\EventCategories;
+use App\Models\EventType;
 use App\Models\Image;
-use App\Models\Post;
-use App\Models\PostType;
 use Illuminate\Http\Request;
 
-class PostsController extends ApiController
+class EventsController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,25 +17,29 @@ class PostsController extends ApiController
      */
     public function index()
     {
-
+        //
     }
 
-    public function getPostsOfType($type)
+    public function getEventsByType($type)
     {
-        $posts =
-            Post::leftJoin(Image::TABLE, function ($join) {
-                    $join->on(Post::TCOL_ID,'=',Image::TCOL_POST_ID)
-                        ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
-                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
-                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
-                ->where(Post::TCOL_POST_TYPE,$type)
-                ->whereNotNull(Post::TCOL_BODY)
-                ->groupBy(Post::TCOL_ID)
-                //->with('image')
-                ->with('user')
-                ->get();
+        $events = Event::leftJoin(Image::TABLE, function ($join) {
+            $join->on(Event::TCOL_ID,'=',Image::TCOL_EVENT_ID)
+                ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
+            ->join(EventType::TABLE,EventType::TABLE.'.'.EventType::COL_ID,'=',Event::TCOL_EVENT_TYPE_ID)
+            ->select('events.*',EventType::TCOL_TYPE, Image::TCOL_URL)
+            ->where(Event::TCOL_EVENT_TYPE_ID,$type)
+            //->groupBy(EventType::TCOL_ID)
+            ->with('user')
+            ->get();
 
-        return $this->respond($posts);
+        return $this->respond($events);
+    }
+
+    public function getEventTypes()
+    {
+        $types = EventType::all();
+
+        return $this->respond($types);
     }
 
     /**
@@ -57,9 +62,24 @@ class PostsController extends ApiController
     {
         $data = $request->all();
 
-        $post = Post::create($data);
+        $event = Event::create([
+            'user_id' => $data['user_id'],
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'location' => $data['location'],
+            'date' => $data['date'],
+            'event_type_id' => $data['event_type_id'],
+        ]);
 
-        return $this->respond($post);
+           foreach ($data['categories'] as $category){
+
+               EventCategories::create([
+                   'event_id' => $event->id,
+                   'name' => $category['name']
+               ]);
+           }
+
+        return $this->respond($event);
     }
 
     /**
@@ -70,12 +90,7 @@ class PostsController extends ApiController
      */
     public function show($id)
     {
-        $post = Post::with('user')
-            ->with('image')
-            ->with('postType')
-            ->find($id);
-
-        return $this->respond($post);
+        //
     }
 
     /**
@@ -98,15 +113,7 @@ class PostsController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-
-        Post::where(Post::COL_ID,$id)
-            ->update([
-                'title' => $data['title'],
-                'body'  => $data['body']
-            ]);
-
-        return $this->responseCreated('Post Updated');
+        //
     }
 
     /**
@@ -117,8 +124,6 @@ class PostsController extends ApiController
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
-
-        $this->responseDeleted('Post Deleted');
+        //
     }
 }

@@ -83,6 +83,28 @@ class ImagesController extends ApiController
         }
     }
 
+    public function storeEventImages(Request $request, $eventId, $type)
+    {
+
+
+            $file = $request->file('file');
+
+            $name = $file['header']->getClientOriginalName();
+
+            Storage::disk('local')->put('public/event-' . $eventId . '/' . $name, file_get_contents($file['header']->getRealPath()));
+
+            $imageUrl = config('app.url') . '/storage/event-' . $eventId . '/' . $name;
+
+            Image::create([
+                'image_type_id' => $type,
+                'url' => $imageUrl,
+                'event_id' => $eventId
+            ]);
+
+            return $this->responseCreated('Header added');
+
+    }
+
     /**
      * Display the specified resource.
      *
