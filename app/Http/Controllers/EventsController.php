@@ -17,7 +17,13 @@ class EventsController extends ApiController
      */
     public function index()
     {
-        //
+       $events = Event::with('user')
+            ->with('eventType')
+           ->with('category')
+            ->get();
+
+        return $this->respond($events);
+
     }
 
     public function getEventsByType($type)
@@ -71,11 +77,12 @@ class EventsController extends ApiController
             'event_type_id' => $data['event_type_id'],
         ]);
 
-           foreach ($data['categories'] as $category){
+
+           foreach ($data['categories'] as $category => $key){
 
                EventCategories::create([
                    'event_id' => $event->id,
-                   'name' => $category['name']
+                   'name' => $category
                ]);
            }
 
@@ -113,7 +120,29 @@ class EventsController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id);
+        $data = $request->all();
+        if($event){
+            $event->update([
+                'user_id' => $data['user_id'],
+                'title' => $data['title'],
+                'body' => $data['body'],
+                'location' => $data['location'],
+                'date' => $data['date'],
+                'event_type_id' => $data['event_type_id'],
+            ]);
+
+            foreach ($data['categories'] as $category => $key){
+
+                EventCategories::updateOrCreate(['event_id' => $id,'name' => $category],[
+                    'event_id' => $id,
+                    'name' => $category
+                ]);
+
+
+            }
+            return $this->respond($data);
+        }
     }
 
     /**
@@ -124,6 +153,8 @@ class EventsController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        Event::find($id)->delete();
+
+        return $this->responseDeleted('Event Deleted');
     }
 }
