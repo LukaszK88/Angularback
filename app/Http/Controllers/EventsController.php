@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventAttendCategory;
+use App\Models\EventAttendence;
 use App\Models\EventCategories;
 use App\Models\EventType;
 use App\Models\Image;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EventsController extends ApiController
@@ -19,7 +22,7 @@ class EventsController extends ApiController
     {
        $events = Event::with('user')
             ->with('eventType')
-           ->with('category')
+            ->with('category')
             ->get();
 
         return $this->respond($events);
@@ -97,7 +100,21 @@ class EventsController extends ApiController
      */
     public function show($id)
     {
-        //
+        $event = Event::find($id)
+            ->with('user')
+            ->with('eventType')
+            ->with('category')
+            ->with('attendance')
+            ->first();
+
+        return $this->respond($event);
+    }
+
+    public function getEventAttendees($eventId, EventAttendence $eventAttendence){
+
+        $eventAttendees = $eventAttendence->getEventAttendees($eventId);
+
+        return $this->respond($eventAttendees);
     }
 
     /**
@@ -157,4 +174,28 @@ class EventsController extends ApiController
 
         return $this->responseDeleted('Event Deleted');
     }
+
+    public function attendEvent($eventId, $userId, Request $request){
+
+        $attendance  =EventAttendence::updateOrCreate([
+            EventAttendence::COL_EVENT_ID => $eventId,
+            EventAttendence::COL_USER_ID => $userId
+        ],[
+            EventAttendence::COL_GOING => $request->input('going')
+        ]);
+
+        return $this->respond($attendance);
+    }
+
+    public function storeEventAttendedCategories($eventAttendId,Request $request){
+
+        foreach ($request->all() as $category => $key){
+            EventAttendCategory::updateOrCreate([
+                EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
+                EventAttendCategory::COL_NAME => $category
+            ]);
+        }
+        return $this->responseCreated('Categories attended');
+    }
+
 }

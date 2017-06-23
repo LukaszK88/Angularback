@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Http\Middleware\TrimStrings;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -10,9 +11,21 @@ class User extends Authenticatable
 
     const TABLE = 'users';
 
-    const COL_USER_ROLE_ID = 'user_role_id';
+    const COL_USER_ROLE_ID = 'user_role_id',
+        COL_NAME = 'name',
+        COL_FACEBOOK_IMG = 'facebook_picture',
+        COL_GOOGLE_IMG = 'google_picture',
+        COL_IMG = 'image',
+        COL_USERNAME = 'username',
+        COL_ID = 'id';
 
-    const TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID;
+    const TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
+        TCOL_NAME = self::TABLE.'.'.self::COL_NAME,
+        TCOL_FACEBOOK_IMG = self::TABLE.'.'.self::COL_FACEBOOK_IMG,
+        TCOL_GOOGLE_IMG = self::TABLE.'.'.self::COL_GOOGLE_IMG,
+        TCOL_IMG = self::TABLE.'.'.self::COL_IMG,
+        TCOL_USERNAME = self::TABLE.'.'.self::COL_USERNAME,
+        TCOL_ID = self::TABLE.'.'.self::COL_ID;
 
     protected $fillable=[
         'name',
@@ -87,5 +100,10 @@ class User extends Authenticatable
     public function role(){
 
         return $this->hasOne(UserRole::class);
+    }
+
+    public function attendence(){
+
+        return $this->hasOne(EventAttendence::class, 'id', 'user_id');
     }
 }

@@ -37,6 +37,11 @@ class Event extends Model
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
     }
 
+    public function attendance(){
+
+        return $this->hasMany(EventAttendence::class, 'event_id','id');
+    }
+
     public function image(){
 
         return $this->hasMany(Image::class, 'event_id', 'id');
