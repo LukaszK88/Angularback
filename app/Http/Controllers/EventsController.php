@@ -23,6 +23,8 @@ class EventsController extends ApiController
        $events = Event::with('user')
             ->with('eventType')
             ->with('category')
+           ->with('attendance')
+           ->with(['note','note.user'])
             ->get();
 
         return $this->respond($events);
@@ -39,6 +41,7 @@ class EventsController extends ApiController
             ->where(Event::TCOL_EVENT_TYPE_ID,$type)
             //->groupBy(EventType::TCOL_ID)
             ->with('user')
+            ->with('category')
             ->get();
 
         return $this->respond($events);
@@ -49,6 +52,13 @@ class EventsController extends ApiController
         $types = EventType::all();
 
         return $this->respond($types);
+    }
+
+    public function getEventsAttendedByUser($userId, Event $event){
+
+        $events = $event->getAttendingEvents($userId);
+
+        return $this->respond($events);
     }
 
     /**
@@ -100,7 +110,7 @@ class EventsController extends ApiController
      */
     public function show($id)
     {
-        $event = Event::find($id)
+        $event = Event::where(Event::COL_ID,$id)
             ->with('user')
             ->with('eventType')
             ->with('category')
@@ -137,7 +147,7 @@ class EventsController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $event = Event::find($id);
+        $event = Event::where(Event::COL_ID,$id);
         $data = $request->all();
         if($event){
             $event->update([
@@ -148,7 +158,7 @@ class EventsController extends ApiController
                 'date' => $data['date'],
                 'event_type_id' => $data['event_type_id'],
             ]);
-
+//TODO delete on false
             foreach ($data['categories'] as $category => $key){
 
                 EventCategories::updateOrCreate(['event_id' => $id,'name' => $category],[
@@ -190,10 +200,16 @@ class EventsController extends ApiController
     public function storeEventAttendedCategories($eventAttendId,Request $request){
 
         foreach ($request->all() as $category => $key){
-            EventAttendCategory::updateOrCreate([
-                EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
-                EventAttendCategory::COL_NAME => $category
-            ]);
+            if($key === true) {
+                EventAttendCategory::updateOrCreate([
+                    EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
+                    EventAttendCategory::COL_NAME => $category
+                ]);
+            }elseif ($key === false){
+                EventAttendCategory::where(EventAttendCategory::COL_EVENT_ATTEND_ID,$eventAttendId)
+                    ->where(EventAttendCategory::COL_NAME, $category)
+                    ->delete();
+            }
         }
         return $this->responseCreated('Categories attended');
     }

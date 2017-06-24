@@ -43,14 +43,18 @@ Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementControl
 ////admin
 Route::get('/admin/{type}','UsersController@showUsers');
 Route::post('/admin/{userId}/{action}','UsersController@adminAction');
-
+//FIGHTER INFO
+Route::get('/fighter/event-info/{eventAttendId}/{userId}','FightersController@getUserEventInfo');
 //EVENTS
 Route::resource('/event','EventsController');
+Route::resource('/event/notes','EventNotesController');
+
 Route::get('/events/{type}','EventsController@getEventsByType');
 Route::get('/event-types','EventsController@getEventTypes');
 Route::post('/event-attend/{eventId}/{userId}','EventsController@attendEvent');
 Route::post('/event-attend-categories/{eventAttendId}','EventsController@storeEventAttendedCategories');
 Route::get('/event-attendees/{eventId}','EventsController@getEventAttendees');
+Route::get('/event-attending/{userId}','EventsController@getEventsAttendedByUser');
 
 //BLOG
 Route::resource('/post','PostsController');

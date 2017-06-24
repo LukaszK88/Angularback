@@ -20,6 +20,7 @@ class Event extends Model
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
         TCOL_TITLE = self::TABLE.'.'.self::COL_TITLE,
+        TCOL_LOCATION = self::TABLE.'.'.self::COL_LOCATION,
         TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
         TCOL_EVENT_TYPE_ID = self::TABLE.'.'.self::COL_EVENT_TYPE_ID;
 
@@ -32,6 +33,19 @@ class Event extends Model
         self::COL_EVENT_TYPE_ID
     ];
 
+
+    public function getAttendingEvents($userId){
+        return Event::
+            join(EventAttendence::TABLE,self::TCOL_ID,'=',EventAttendence::TCOL_EVENT_ID)
+            //->join(EventAttendCategory::TABLE,EventAttendCategory::TCOL_EVENT_ATTEND_ID,'=',EventAttendence::TCOL_ID)
+            ->select(self::TABLE.'.*',EventAttendence::TCOL_ID.' AS eventAttendId')
+            ->where(EventAttendence::TCOL_USER_ID,$userId)
+            ->where(EventAttendence::COL_GOING,1)
+            ->with(['note','note.user'])
+            ->get();
+    }
+
+
     public function eventType(){
 
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
@@ -40,6 +54,11 @@ class Event extends Model
     public function attendance(){
 
         return $this->hasMany(EventAttendence::class, 'event_id','id');
+    }
+
+    public function note(){
+
+        return $this->hasMany(EventNote::class, 'event_id','id');
     }
 
     public function image(){

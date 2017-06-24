@@ -28,7 +28,7 @@ class EventAttendence extends Model
     public function getEventAttendees($eventId)
     {
         return User::join(self::TABLE,User::TCOL_ID,'=',self::TCOL_USER_ID)
-            ->select(User::TCOL_GOOGLE_IMG, User::TCOL_USERNAME, User::TCOL_NAME, User::COL_IMG, User::COL_FACEBOOK_IMG)
+            ->select(User::TCOL_ID,User::TCOL_GOOGLE_IMG, User::TCOL_USERNAME, User::TCOL_NAME, User::COL_IMG, User::COL_FACEBOOK_IMG)
             ->where(self::TCOL_EVENT_ID,$eventId)
             ->where(self::COL_GOING,1)
             ->get();

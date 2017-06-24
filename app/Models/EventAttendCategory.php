@@ -10,6 +10,8 @@ class EventAttendCategory extends Model
 
     const TABLE = 'event_attend_categories';
 
+    const ALL = self::TABLE.'.*';
+
     const   COL_ID = 'id',
         COL_NAME = 'name',
         COL_EVENT_ATTEND_ID = 'event_attend_id';

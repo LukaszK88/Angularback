@@ -28,6 +28,12 @@ class FightersController extends ApiController
         $this->userTransformer = $userTransformer;
     }
 
+    public function getUserEventInfo($eventAttendId, $userId, User $user){
+
+        $userEventInfo = $user->getUserWithCategoriesHeAttendsOnEvent($eventAttendId, $userId);
+
+        return $this->respond($userEventInfo);
+    }
 
     public function storePhoto(Request $request, $id, User $user)
     {

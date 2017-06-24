@@ -47,6 +47,22 @@ class User extends Authenticatable
         'total_points',
     ];
 
+    public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)
+    {
+        return User::
+            select(User::TCOL_ID, User::TCOL_USERNAME)
+            ->where(self::TCOL_ID,$userId)
+            ->with(['eventAttendCategory' => function ($query) use ($eventAttendId) {
+                $query->where(EventAttendCategory::TCOL_EVENT_ATTEND_ID, '=', $eventAttendId);
+            }])
+            ->first();
+    }
+
+    public function note()
+    {
+        return $this->belongsTo(EventNote::class, 'user_id', 'id');
+    }
+
     public function bohurt(){
 
         return $this->hasMany(Bohurt::class);
@@ -100,6 +116,15 @@ class User extends Authenticatable
     public function role(){
 
         return $this->hasOne(UserRole::class);
+    }
+
+    public function eventAttendCategory()
+    {
+        return $this->hasManyThrough(
+            EventAttendCategory::class,
+            EventAttendence::class,
+            'user_id', 'event_attend_id', 'id'
+        );
     }
 
     public function attendence(){
