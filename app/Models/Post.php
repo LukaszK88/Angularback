@@ -38,6 +38,10 @@ class Post extends Model
         return $this->hasMany(Image::class, 'post_id', 'id');
     }
 
+    public function video(){
+
+        return $this->hasMany(Video::class, 'post_id', 'id');
+    }
 
     public function user(){
 

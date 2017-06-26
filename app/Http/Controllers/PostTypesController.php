@@ -37,7 +37,13 @@ class PostTypesController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $data['slug'] = strtolower($request->input('type'));
+
+        $postType = PostType::create($data);
+
+        return $this->respond($postType);
     }
 
     /**
@@ -82,6 +88,8 @@ class PostTypesController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        $postType = PostType::where(PostType::COL_ID,$id)->delete();
+
+        return $this->respond($postType);
     }
 }

@@ -11,11 +11,14 @@ class PostType extends Model
     const TABLE = 'post_types';
 
     const   COL_ID = 'id',
+            COL_SLUG = 'slug',
             COL_TYPE = 'type';
 
-    const TCOL_TYPE = self::TABLE.'.'.self::COL_TYPE;
+    const TCOL_SLUG = self::TABLE.'.'.self::COL_SLUG,
+        TCOL_TYPE = self::TABLE.'.'.self::COL_TYPE;
 
     protected $fillable=[
+        self::COL_SLUG,
         'type'
     ];
 

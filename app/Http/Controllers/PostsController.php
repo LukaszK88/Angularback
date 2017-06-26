@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostType;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class PostsController extends ApiController
@@ -16,7 +17,16 @@ class PostsController extends ApiController
      */
     public function index()
     {
-
+//        $posts =
+//           Post::join(Image::TABLE,Post::TCOL_ID,'=',Image::TCOL_POST_ID)
+//                ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
+//                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
+//                ->whereNotNull(Post::TCOL_BODY)
+//                ->where(Image::TCOL_IMAGE_TYPE_ID,1)
+//                ->with('user')
+//                ->get();
+//
+//        return $this->respond($posts);
     }
 
     public function getPostsOfType($type)
@@ -25,9 +35,14 @@ class PostsController extends ApiController
             Post::leftJoin(Image::TABLE, function ($join) {
                     $join->on(Post::TCOL_ID,'=',Image::TCOL_POST_ID)
                         ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
+                ->leftJoin(Video::TABLE, function ($join) {
+                    $join->on(Post::TCOL_ID,'=',Video::TCOL_POST_ID)
+                        ->where(Video::TCOL_VIDEO_TYPE_ID, '=', 1);})
                 ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
-                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL)
-                ->where(Post::TCOL_POST_TYPE,$type)
+                ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL, Video::TCOL_URL.' AS video_url')
+               // ->where(Post::TCOL_POST_TYPE,$type)
+                //todo by slug
+                ->where(PostType::TCOL_TYPE,$type)
                 ->whereNotNull(Post::TCOL_BODY)
                 ->groupBy(Post::TCOL_ID)
                 //->with('image')
