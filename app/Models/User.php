@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Http\Middleware\TrimStrings;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {

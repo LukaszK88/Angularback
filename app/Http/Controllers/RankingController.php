@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -32,18 +33,30 @@ class RankingController extends ApiController
      * @return \Illuminate\Http\Response
      */
 
-    public function index($id = null)
+    public function index($id = null, User $user)
     {
         if(!$id) {
-            $fighters = User::with('bohurt')
+            $fighters = User::
+                with('bohurt')
                 ->with('profight')
                 ->with('swordShield')
                 ->with('longsword')
                 ->with('swordBuckler')
                 ->with('polearm')
                 ->with('triathlon')
+
                 ->where('name', '!=', '')
                 ->get();
+
+            foreach ($fighters as $key => $fighter){
+                $fighter['bohurtPoints'] = $fighter->bohurt->sum('points');
+                $fighter['profightPoints'] = $fighter->profight->sum('points');
+                $fighter['swordShieldPoints'] = $fighter->swordShield->sum('points');
+                $fighter['longswordPoints'] = $fighter->longsword->sum('points');
+                $fighter['swordBucklerPoints'] = $fighter->swordBuckler->sum('points');
+                $fighter['polearmPoints'] = $fighter->polearm->sum('points');
+                $fighter['triathlonPoints'] = $fighter->triathlon->sum('points');
+            }
         }
         elseif ($id){
             $fighters = User::with('bohurt')
@@ -55,12 +68,18 @@ class RankingController extends ApiController
                 ->with('triathlon')
                 ->where('id', $id)
                 ->first();
+           $fighters['conunt'] = $fighters->bohurt->sum('points');
         }
         $response = [
             'fighters' => $fighters
+            //'count' => $count
         ];
 
         return response()->json($response, 200);
+
+    }
+
+    public function tableData(){
 
     }
 

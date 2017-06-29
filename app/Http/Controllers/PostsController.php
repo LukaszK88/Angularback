@@ -37,12 +37,12 @@ class PostsController extends ApiController
                         ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
                 ->leftJoin(Video::TABLE, function ($join) {
                     $join->on(Post::TCOL_ID,'=',Video::TCOL_POST_ID)
-                        ->where(Video::TCOL_VIDEO_TYPE_ID, '=', 1);})
+                        ->where(Video::TCOL_VIDEO_TYPE_ID, '=', 1);
+                    ;})
                 ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
                 ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL, Video::TCOL_URL.' AS video_url')
                // ->where(Post::TCOL_POST_TYPE,$type)
-                //todo by slug
-                ->where(PostType::TCOL_TYPE,$type)
+                ->where(PostType::TCOL_SLUG,$type)
                 ->whereNotNull(Post::TCOL_BODY)
                 ->groupBy(Post::TCOL_ID)
                 //->with('image')
@@ -87,6 +87,7 @@ class PostsController extends ApiController
     {
         $post = Post::with('user')
             ->with('image')
+            ->with('video')
             ->with('postType')
             ->find($id);
 
@@ -118,7 +119,7 @@ class PostsController extends ApiController
         Post::where(Post::COL_ID,$id)
             ->update([
                 'title' => $data['title'],
-                'body'  => $data['body']
+                'body'  => $data['body'],
             ]);
 
         return $this->responseCreated('Post Updated');

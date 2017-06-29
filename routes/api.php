@@ -69,6 +69,8 @@ Route::post('/images/post/{postId}/{type}','ImagesController@storePostImages');
 Route::post('/images/event/{eventId}/{type}','ImagesController@storeEventImages');
 Route::resource('/images','ImagesController');
 
+Route::resource('/video','VideoController');
+
 Route::get('/images/gallery/{postId}','ImagesController@showGalleryById');
 Route::post('/images/gallery/delete/{postId}','ImagesController@deleteGallery');
 
