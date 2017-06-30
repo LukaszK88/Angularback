@@ -26,6 +26,7 @@ Route::get('/user-roles','UsersController@getUserRoles');
 
 
 Route::get('/fighters/{id?}',['uses' => 'RankingController@index']);
+Route::get('/fighters-leaderboard',['uses' => 'RankingController@getTableData']);
 Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
 Route::post('/fighters/profight',['uses' => 'RankingController@saveProfight'] );
 Route::post('/fighters/sword_shield',['uses' => 'RankingController@saveSwordShield'] );

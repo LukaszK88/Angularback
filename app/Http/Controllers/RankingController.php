@@ -68,19 +68,31 @@ class RankingController extends ApiController
                 ->with('triathlon')
                 ->where('id', $id)
                 ->first();
-           $fighters['conunt'] = $fighters->bohurt->sum('points');
+
         }
         $response = [
             'fighters' => $fighters
-            //'count' => $count
         ];
 
         return response()->json($response, 200);
 
     }
 
-    public function tableData(){
+    public function getTableData(){
 
+        $data = [];
+        $leaderBoardTables = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
+        foreach ($leaderBoardTables as $leaderBoardTable){
+            $data[$leaderBoardTable] = $this->getMaxPointsPerRankingTable($leaderBoardTable);
+        }
+        $data['The Rock'] = DB::table('bohurts')
+            ->join('users','users.id','=','bohurts.user_id')
+            ->select(DB::raw('(abs(((sum(suicide) + sum(down)) / sum(fights) *100)-100)) as max_points'),'bohurts.created_at','users.name')
+            ->groupBy('bohurts.user_id')
+            ->orderBy('max_points','desc')
+            ->first();
+
+        return $this->respond($data);
     }
 
     public function saveBohurt(Request $request, Bohurt $bohurt)
@@ -259,6 +271,16 @@ class RankingController extends ApiController
         $user->update([
             'total_points' => ($user->total_points + $record)
         ]);
+    }
+
+    private function getMaxPointsPerRankingTable($table)
+    {
+      return  DB::table($table)
+            ->join('users','users.id','=',''.$table.'.user_id')
+            ->select(''.$table.'.created_at','users.name',DB::raw('sum(points) as max_points'))
+            ->groupBy(''.$table.'.user_id')
+            ->orderBy('max_points','desc')
+            ->first();
     }
 
 }
