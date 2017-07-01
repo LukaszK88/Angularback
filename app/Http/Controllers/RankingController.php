@@ -11,17 +11,9 @@ use App\Models\SwordBuckler;
 use App\Models\SwordShield;
 use App\Models\Triathlon;
 use App\Models\User;
-
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Laravel\Socialite\Facades\Socialite;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Transformers\UserTransformer;
-use Illuminate\Support\Facades\Storage;
+
 
 
 class RankingController extends ApiController
@@ -91,6 +83,7 @@ class RankingController extends ApiController
             ->groupBy('bohurts.user_id')
             ->orderBy('max_points','desc')
             ->first();
+        $data['The Rock']->max_points = substr($data['The Rock']->max_points,0,2).' %';
 
         return $this->respond($data);
     }

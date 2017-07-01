@@ -51,6 +51,11 @@ class Event extends Model
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
     }
 
+    public function achievement(){
+
+        return $this->hasMany(Achievement::class, 'event_id','id');
+    }
+
     public function attendance(){
 
         return $this->hasMany(EventAttendence::class, 'event_id','id');

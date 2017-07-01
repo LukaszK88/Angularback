@@ -15,7 +15,14 @@ class AchievementController extends ApiController
     public function index($userId)
     {
         if($userId){
-            $achievements = Achievement::where('user_id',$userId)->get();
+            $achievements = Achievement::with('event')->where('user_id',$userId)->get();
+            $countires = Achievement::
+                with(['event' =>function($query) {
+                    $query->select('id','location');
+                    $query->groupBy('location');
+                }])
+                ->where('user_id',$userId)
+                ->get();
 
             $response = [
                 'data' => [
@@ -25,12 +32,11 @@ class AchievementController extends ApiController
                         'gold' => $achievements->where("place","1st")->count(),
                         'silver' => $achievements->where("place","2nd")->count(),
                         'bronze' => $achievements->where("place","3rd")->count(),
-                        'countries' => Achievement::select('location')->where('user_id',$userId)->distinct()->get()
+                        'countries' => $countires
                     ]
 
                 ]
             ];
-
             return response()->json($response, 200);
         }
     }
@@ -51,41 +57,24 @@ class AchievementController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($userId, $achievementId = null, Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
 
         if($data){
 
-            if($request->input('place') === '3rd'){
-                $cup = "<font color='#a52a2a'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
-            }elseif ($request->input('place') === '2nd'){
-                $cup = "<font color='silver'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+            if($data['place'] === '3rd'){
+                $data['cup'] = "<font color='#a52a2a'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+            }elseif ($data['place'] === '2nd'){
+                $data['cup'] = "<font color='silver'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
             }else{
-                $cup = "<font color='#ffd700'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+                $data['cup'] = "<font color='#ffd700'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
             }
 
-            if(array_key_exists('id',$data)){
-                $achievementId = $data['id'];
-            }
-
-            $date = substr($data['date'],0,10);
-
-            $achievement = Achievement::updateOrCreate(['id' => $achievementId],[
-                'user_id' => $userId,
-                'category' => $data['category'],
-                'competition_name' => $data['competition_name'],
-                'location' => $data['location'],
-                'place' => $data['place'],
-                'cup'   => $cup,
-                'date' => $date,
-
-            ]);
+            $achievement = Achievement::create($data);
 
             return $this->respondWithMessageAndData('Achievement added',$achievement);
         }
-
-
     }
 
     /**
@@ -120,9 +109,21 @@ class AchievementController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $achievementId)
     {
-        //
+        $data = $request->all();
+
+        if($data['place'] === '3rd'){
+            $data['cup'] = "<font color='#a52a2a'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+        }elseif ($data['place'] === '2nd'){
+            $data['cup'] = "<font color='silver'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+        }else{
+            $data['cup'] = "<font color='#ffd700'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>";
+        }
+
+        Achievement::findOrFail($achievementId)->update($data);
+
+        return $this->responseCreated('Achievement updated');
     }
 
     /**

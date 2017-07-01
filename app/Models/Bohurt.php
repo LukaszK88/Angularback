@@ -15,6 +15,8 @@ class Bohurt extends Model{
 
     protected $table = 'bohurts';
 
+    const COL_EVENT_ID = 'event_id';
+
     protected $fillable=[
         'user_id',
         'fights',
@@ -22,8 +24,15 @@ class Bohurt extends Model{
         'last',
         'down',
         'suicide',
+        self::COL_EVENT_ID,
         'points'
     ];
+
+    public function event(){
+
+        return $this->belongsTo(Event::class);
+
+    }
     
     public function user(){
 

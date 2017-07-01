@@ -35,9 +35,10 @@ Route::post('/fighters/sword_buckler',['uses' => 'RankingController@saveSwordBuc
 Route::post('/fighters/polearm',['uses' => 'RankingController@savePolearm'] );
 Route::post('/fighters/triathlon',['uses' => 'RankingController@saveTriathlon'] );
 
-// work on REST
+//TODO work on REST
 Route::get('/achievement/{userId}','AchievementController@index');
-Route::post('/achievement/{userId?}/{achievementId?}','AchievementController@store');
+Route::post('/achievement','AchievementController@store');
+Route::put('/achievement/{achievementId}','AchievementController@update');
 Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
 Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
 
