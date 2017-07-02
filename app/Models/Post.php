@@ -28,6 +28,11 @@ class Post extends Model
         self::COL_GALLERY
     ];
 
+    public function comments(){
+
+        return $this->hasMany(Comment::class);
+    }
+
     public function postType(){
 
         return $this->hasMany(PostType::class, 'id', 'post_type');

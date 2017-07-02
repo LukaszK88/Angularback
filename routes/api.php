@@ -61,7 +61,8 @@ Route::get('/event-attending/{userId}','EventsController@getEventsAttendedByUser
 //BLOG
 Route::resource('/post','PostsController');
 Route::get('/posts/{type}','PostsController@getPostsOfType');
-
+Route::resource('/comment','CommentsController');
+Route::resource('/comment-reply','CommentReplyController');
 //POST TYPES
 Route::resource('/types','PostTypesController');
 

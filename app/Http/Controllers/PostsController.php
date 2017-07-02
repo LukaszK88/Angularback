@@ -6,7 +6,9 @@ use App\Models\Image;
 use App\Models\Post;
 use App\Models\PostType;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostsController extends ApiController
 {
@@ -40,8 +42,10 @@ class PostsController extends ApiController
                         ->where(Video::TCOL_VIDEO_TYPE_ID, '=', 1);
                     ;})
                 ->join(PostType::TABLE,PostType::TABLE.'.'.PostType::COL_ID,'=',Post::TCOL_POST_TYPE)
+
                 ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL, Video::TCOL_URL.' AS video_url')
                // ->where(Post::TCOL_POST_TYPE,$type)
+
                 ->where(PostType::TCOL_SLUG,$type)
                 ->whereNotNull(Post::TCOL_BODY)
                 ->groupBy(Post::TCOL_ID)
@@ -88,8 +92,39 @@ class PostsController extends ApiController
         $post = Post::with('user')
             ->with('image')
             ->with('video')
+            ->with(['comments' => function($query){
+                $query->orderBy('created_at','desc');
+                $query->orderBy('updated_at','desc');
+                $query->with(['user' => function($q) {
+                    $q->select('id','name','username');
+                }]);
+                $query->with(['replies' => function($repliesQuery) {
+                    $repliesQuery->orderBy('created_at','desc');
+                    $repliesQuery->orderBy('updated_at','desc');
+                    $repliesQuery->with(['user' => function($repliesUserQuery) {
+                        $repliesUserQuery->select('id','name','username');
+                    }]);
+                }]);
+            }])
             ->with('postType')
             ->find($id);
+
+        $now = Carbon::now();
+        //$nowCarbon = Carbon::parse($now->now);
+
+        foreach ($post['comments'] as $comment){
+            //TODO function
+            $comment['posted'] = $now->diffForHumans($comment['created_at'], true);
+            if(!is_null($comment['updated_at'])){
+                $comment['comment_update'] = $now->diffForHumans($comment['updated_at'], true);
+            }
+            foreach($comment['replies'] as $reply){
+                $reply['posted'] = $now->diffForHumans($reply['created_at'], true);
+                if(!is_null($reply['updated_at'])){
+                    $reply['reply_update'] = $now->diffForHumans($reply['updated_at'], true);
+                }
+            }
+        }
 
         return $this->respond($post);
     }
