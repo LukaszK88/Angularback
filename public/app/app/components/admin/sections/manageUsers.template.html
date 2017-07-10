@@ -1,0 +1,32 @@
+<br>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover myTable ">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Joined on</th>
+                <th>Current Role</th>
+                <th width="5%">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in adminCtrl.activeUsers">
+                <td>{{ user.username }}</td>
+                <td>{{ user.created_at | limitTo: 16 }}</td>
+                <td>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-select placeholder="Select Role" ng-change="adminCtrl.updateUserRole(user)" ng-model="user.user_role_id" required>
+                            <md-option ng-repeat="role in adminCtrl.userRoles" ng-value="role.id">
+                                {{ role.role }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </td>
+                <td><a ng-click="adminCtrl.deleteUser(user)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>    <!-- /.table-responsive -->
+</div>

@@ -1,0 +1,22 @@
+<section class="no-padding" id="portfolio" ng-controller="myApp.BlogCtrl as blog">
+    <div class="container-fluid">
+        <div class="row no-gutter popup-gallery">
+            <div ng-repeat="header in blog.headers | orderBy: '-created_at' |limitTo: 3" class="col-lg-4 col-sm-6">
+                <a ui-sref="postDetail({postId: header.id})" class="portfolio-box">
+                    <img style="height: 250px" src="{{ header.url }}" class="photo-news text-centre" alt="">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                {{ header.type }}
+                            </div>
+                            <div class="project-name">
+                                {{ header.title }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -15,3 +15,6 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('{all}', function () {
+    return view('index');
+});

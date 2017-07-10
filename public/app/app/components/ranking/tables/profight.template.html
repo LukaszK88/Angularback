@@ -1,0 +1,40 @@
+<div class="row" ng-controller="ModalCtrl">
+    <div class="table-responsive" ng-controller="myApp.ranking.TableAllController as ctrl">
+                <span> <strong>ProLeague format :<font style="font-size: large" color="green">4</font>pts-KO  |  <font style="font-size: large" color="green">3</font>pts-Won  |  <font style="font-size: large" color="green">1</font>pts-Loss <br>
+        First Class format:<font style="font-size: large" color="green">10</font>pts-1st  | <font style="font-size: large" color="green">6</font>pts-2nd  | <font style="font-size: large" color="green">3</font>pts-3rd</strong><br></span>
+        <table class="table table-striped table-bordered table-hover myTable ">
+            <thead>
+            <tr>
+                <th width="5%">Nr</th>
+                <th>Fighter</th>
+                <th width="5%">Fights</th>
+                <th width="5%">Won</th>
+                <th width="5%">Lost</th>
+                <th width="5%">KO</th>
+                <th width="5%">FC I</th>
+                <th width="5%">FC II</th>
+                <th width="5%">FC III</th>
+                <th width="5%">Points</th>
+                <th width="5%">Last Update</th>
+                <th ng-if="admin">edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="fighter in fighters | orderBy:'-profightPoints'">
+                <td>{{$index + 1}}</td>
+                <td><a ui-sref="fighterDetail({fighterId: fighter.id})">{{ fighter.name }}</a></td>
+                <td>{{ fighter.profight | arrayHelper:'fights'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'win'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'loss'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'ko'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'fc_1'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'fc_2'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'fc_3'}}</td>
+                <td>{{ fighter.profight | arrayHelper:'points'}}</td>
+                <td>{{ fighter.profight[0].updated_at | limitTo: 10}}</td>
+                <td ng-if="admin" width="3%" ng-click="showUpdateRecord($event, fighter.id, 'Profight')"><button class="btn btn-success btn-sm">x</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>    <!-- /.table-responsive -->
+</div>

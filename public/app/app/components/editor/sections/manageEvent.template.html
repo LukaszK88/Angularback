@@ -1,0 +1,241 @@
+<div class="row">
+    <div class="col-md-12">
+        <form name="updateEvent">
+            <div ng-show="!editorCtrl.eventEdit" class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover myTable ">
+                        <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                            <th>Going</th>
+                            <th>Added by</th>
+                            <th>Added on</th>
+                            <th width="5%">Edit</th>
+                            <th width="5%">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="event in editorCtrl.events">
+                            <td><a ui-sref="tournament({tournamentId:event.id})">{{ event.title }}</a></td>
+                            <td><flag country="{{event.location}}" size="32"></flag></td>
+                            <td>{{ event.event_type.type }}</td>
+                            <td>{{ event.date | limitTo: 10 }}</td>
+                            <td>{{ event.note.length }}</td>
+                            <td>{{ event.attendance.length }}</td>
+                            <td>{{ event.user.username }}</td>
+                            <td>{{ event.created_at | limitTo: 16 }}</td>
+                            <td><a ng-click="editorCtrl.editEvent(event)" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                            <td><a ng-click="editorCtrl.deleteEvent(event)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>    <!-- /.table-responsive -->
+            </div>
+            <br>
+            <div ng-if="editorCtrl.eventEdit">
+                <!--close event edit-->
+                <div class="row">
+                    <div class="col-md-11">
+                        <a ng-click="editorCtrl.eventEdit=!editorCtrl.eventEdit" class="btn btn-xs btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </div>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Title </label>
+                    <input required="" type="text" name="Name" ng-model='editorCtrl.eventToEdit.title'>
+                </md-input-container>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row text-center">
+                            <h4>Select Type:</h4>
+                        </div>
+                        <br>
+                            <!--<div class="row">-->
+                                <!--<font color="red" ><span ng-show="!editorCtrl.eventToEdit.event_type_id">Select Category required</span> </font>-->
+                            <!--</div>-->
+                            <md-radio-group layout="row" ng-model="editorCtrl.eventToEdit.event_type_id">
+
+                                <md-radio-button ng-repeat="type in editorCtrl.eventTypes"
+                                                 value="{{ type.id }}"
+                                                 class="md-primary">{{ type.type }}
+                                </md-radio-button>
+
+                            </md-radio-group>
+                            <br>
+                        <md-button ng-show="!changeDate" ng-click="changeDate=!changeDate" class="md-raised btn-sm wc-theme">Change date</md-button>
+                        <div ng-if="changeDate">
+                            <h4>Select date</h4>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup ng-model="editorCtrl.eventToEdit.date " is-open="date.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="date()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <md-button ng-show="!changeCategories" ng-click="changeCategories=!changeCategories" class="md-raised btn-sm wc-theme">Change Categories</md-button>
+
+                        <div ng-if="changeCategories" flex="100" flex-gt-sm="50" layout="column">
+                            <div>
+                                <fieldset class="standard" >
+                                    <legend>Select Categories:</legend>
+                                    <div layout="row" layout-wrap flex>
+                                        <div flex="50" ng-repeat="category in categories">
+                                            <md-checkbox
+                                                    ng-model="selected[category.name]"
+                                            >
+                                                {{ category.name }}
+                                            </md-checkbox>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Country </label>
+                        <md-select ng-model="editorCtrl.eventToEdit.location" required>
+                            <md-option ng-repeat="country in countries" ng-value="country.code">
+                                {{ country.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <br>
+                <div class="row text-center">
+                    <h4>Body:</h4>
+                </div>
+                <br>
+                <trix-editor required style="height: 300px" angular-trix ng-model="editorCtrl.eventToEdit.body"></trix-editor>
+                <br>
+                <md-button ng-if="!editorCtrl.showNote" class="wc-theme" ng-click="editorCtrl.showNote=!showNote">
+                    Add More Notes
+                </md-button>
+                <div ng-if="editorCtrl.showNote">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <a ng-click="editorCtrl.showNote=!editorCtrl.showNote" class="btn btn-xs btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <h4>Note (only for attending fighters):</h4>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <trix-editor required style="height: 300px" angular-trix ng-model="editorCtrl.noteEdit.body"></trix-editor>
+                        </div>
+                    </div>
+                    <md-button class="wc-theme" ng-click="editorCtrl.addNote(editorCtrl.noteEdit,editorCtrl.eventToEdit)">
+                        Add Note
+                    </md-button>
+                </div>
+                <br>
+                <md-button ng-if="!editorCtrl.showNotesTable" class="wc-theme pull-right" ng-click="editorCtrl.showNotesTable=!editorCtrl.showNotesTable">
+                    Show Event Notes
+                </md-button>
+                <div ng-if="editorCtrl.showNotesTable">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <a ng-click="editorCtrl.showNotesTable=!editorCtrl.showNotesTable" class="btn btn-xs btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </div>
+                    <br>
+                    <!--existing note table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover myTable ">
+                            <thead>
+                            <tr>
+                                <th>Note</th>
+                                <th>Body</th>
+                                <th>Added by</th>
+                                <th>Added on</th>
+                                <th width="5%">Edit</th>
+                                <th width="5%">Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="note in editorCtrl.eventToEdit.note">
+                                <td>{{$index + 1}}</td>
+                                <td ng-bind-html="note.body">{{ note.body }}</td>
+                                <td>{{ note.user.username }}</td>
+                                <td>{{ note.created_at | limitTo: 16 }}</td>
+                                <td><a ng-click="editorCtrl.editNote(note)" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                <td><a ng-click="editorCtrl.deleteNote(note)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>    <!-- /.table-responsive -->
+                </div>
+                <br>
+                <!--edit existing note-->
+                <div ng-if="editorCtrl.showNoteToEdit">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <a ng-click="editorCtrl.showNoteToEdit=!editorCtrl.showNoteToEdit" class="btn btn-xs btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <h4>Note (only for attending fighters):</h4>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <trix-editor required style="height: 300px" angular-trix ng-model="editorCtrl.noteToEdit.body"></trix-editor>
+                        </div>
+                    </div>
+                    <md-button class="wc-theme" ng-click="editorCtrl.updateNote(editorCtrl.noteToEdit)">
+                        Edit Note
+                    </md-button>
+                </div>
+                <br>
+
+                <div class="row text-center">
+                    <h4>Upload Photo:</h4>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+
+                        <div
+                             ngf-drop
+                             ngf-select
+                             ng-model="photo.header"
+                             name="photo"
+                             class="drop-box"
+                             ngf-drag-over-class="'dragover'"
+                             ngf-allow-dir="true"
+                             accept="image/*"
+                             ngf-pattern="'image/*'">Upload Header photo
+                            <!--<font color="red" ><i ng-show="addPost.photo.$error.required">*required</i></font>-->
+
+                        </div>
+                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+                    </div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <img style="height: 150px;width: 100%" ng-show="addEvent.photo.header.$valid" ngf-thumbnail="photo.header">
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <button ng-disabled="!editorCtrl.eventToEdit.event_type_id || updateEvent.$invalid" ng-click="editorCtrl.updateEvent(editorCtrl.eventToEdit)" class="btn wc-theme">submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

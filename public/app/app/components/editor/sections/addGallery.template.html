@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-12">
+        <form name="addGallery">
+            <br>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Gallery Title </label>
+                <input required="" type="text" name="Name" ng-model='editorCtrl.post.title'
+                >
+            </md-input-container>
+
+            <div ng-if="addGallery" class="row">
+
+                <div class="col-md-8 col-md-offset-2">
+                    <div ngf-drop
+                         ngf-select
+                         ng-model="files.photos"
+                         class="drop-box"
+                         ngf-drag-over-class="'dragover'"
+                         ngf-multiple='true'
+                         accept="image/*"
+                         ngf-pattern="'image/*'">Upload Gallery Photos
+                    </div>
+
+                    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+                </div>
+            </div>
+            <div ng-if="addGallery" class="row">
+                <div class="col-md-2" ng-repeat="photo in files.photos">
+                    <img style="height:100%;width:100%" ngf-thumbnail="photo">
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <button ng-disabled="addGallery.$invalid" ng-click="editorCtrl.submit(editorCtrl.post)" class="btn wc-theme">submit</button>
+            </div>
+        </form>
+    </div>
+</div>

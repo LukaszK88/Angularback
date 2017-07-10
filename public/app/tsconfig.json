@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+
+    "noImplicitAny": true
+
+  },
+  "include": [
+    "app/**/*"
+  ]
+}

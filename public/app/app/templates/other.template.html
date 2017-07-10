@@ -1,0 +1,53 @@
+<section class="bg-pages">
+    <div class="container">
+        <md-card >
+
+            <md-card-content>
+                <uib-accordion close-others="oneAtATime">
+                    <div uib-accordion-group class="panel-default" heading="Rules WMFC: First Class" >
+                        <md-content style="height: 300px;" md-theme="altTheme">
+                            <ng-include src="'app/app/templates/wmfc.rules.html'"></ng-include>
+                        </md-content>
+                    </div>
+                    <div uib-accordion-group class="panel-default" heading="WMFC weapon checker" >
+                        <div class="col-sm-12 col-md-8 col-md-offset-2">
+                            <div class="row">
+                        <md-slider-container>
+                            <span>Weight</span>
+                            <md-slider flex step="0.01" min="1.4" max="2.5" ng-model="tools.weapon.weight" aria-label="red" id="red-slider">
+                            </md-slider>
+                            <md-input-container>
+                                <input flex type="number" ng-model="tools.weapon.weight" aria-label="red" aria-controls="red-slider">Kg
+                            </md-input-container>
+                        </md-slider-container>
+                            <md-slider-container>
+                                <span>Balance</span>
+                                <md-slider flex step="0.01" min="5" max="25" ng-model="tools.weapon.balance" aria-label="red" id="red-slider">
+                                </md-slider>
+                                <md-input-container>
+                                    <input flex type="number" ng-model="tools.weapon.balance" aria-label="red" aria-controls="red-slider">cm
+                                </md-input-container>
+                            </md-slider-container>
+                            </div>
+                            <div class="row text-center">
+                                <div class="row text-center">
+                               <span ng-if="tools.idealBalance">Ideal Balance {{ tools.idealBalance | limitTo:5}}<br></span>
+                               <span ng-if="tools.idealWeight">Ideal Weight {{ tools.idealWeight | limitTo:4}} kg</span>
+                                </div>
+                                <span ng-if="!tools.pass"><i class="fa fa-times fa-3x red" aria-hidden="true"></i></span>
+                                <span ng-if="tools.pass"><i class="fa fa-thumbs-up fa-3x green" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div uib-accordion-group class="panel-default" heading="Botn rules" >
+                       <a target="_blank" href="http://botn.info/en-rules-regulations">Go to rules </a>
+                    </div>
+                </uib-accordion>
+            </md-card-content>
+            <!--<md-card-actions layout="row" layout-align="end center">-->
+                <!--<md-button>Action 1</md-button>-->
+                <!--<md-button>Action 2</md-button>-->
+            <!--</md-card-actions>-->
+        </md-card>
+    </div>
+</section>

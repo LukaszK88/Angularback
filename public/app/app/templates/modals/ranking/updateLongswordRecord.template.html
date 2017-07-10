@@ -1,0 +1,52 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="ModalCtrl">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools wc-theme">
+                <h2>Update Record</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <form name="updateForm" >
+                    <span class="md-body-1">Won</span><br>
+                    <md-slider-container>
+                        <md-slider  flex ng-model="fighter.longsword.win" min="0" max="20" aria-label="blue" id="blue-slider" class="md-primary">
+                        </md-slider>
+                        <md-input-container>
+                            <input flex type="number" ng-model="fighter.longsword.win" aria-label="blue" aria-controls="blue-slider"
+                                   min="0"
+                                   max="20"
+                                   required>
+                        </md-input-container>
+                    </md-slider-container>
+
+                    <span class="md-body-1">Lost</span><br>
+                    <md-slider-container>
+                        <md-slider  flex ng-model="fighter.longsword.loss" min="0" max="20" aria-label="blue" id="blue-slider" class="md-primary">
+                        </md-slider>
+                        <md-input-container>
+                            <input flex type="number" ng-model="fighter.longsword.loss" aria-label="blue" aria-controls="blue-slider"
+                                   min="0"
+                                   max="20"
+                                   required>
+                        </md-input-container>
+                    </md-slider-container>
+
+                </form>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions  layout="row">
+
+            <md-button ng-click="submit(fighter)">
+               Submit
+
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

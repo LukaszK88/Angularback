@@ -1,0 +1,50 @@
+<br>
+<div class="col-md-5">
+    <span class="md-subhead text-center">Awaiting approval</span>
+    <md-card ng-repeat="user in adminCtrl.unUsers" md-theme="default" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-subhead">{{user.username}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+                <div class="md-media-sm card-media">
+                    <img class="md-media-sm card-media" ng-if="user.image && !user.facebook_picture && !user.google_picture" src="{{ user.image}}">
+                    <img class="md-media-sm card-media" ng-if="!user.image && user.facebook_picture && !user.google_picture" src="{{ user.facebook_picture}}">
+                    <img class="md-media-sm card-media" ng-if="!user.image && !user.facebook_picture && user.google_picture" src="{{ user.google_picture}}">
+
+                    <img class="md-media-sm card-media" ng-if="!user.image && !user.facebook_picture && !user.google_picture" src="{{ adminCtrl.placeholder }}">
+                </div>
+            </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="adminCtrl.approveUser(user)">Approve</md-button>
+            <md-button ng-click="adminCtrl.removeUser(user)">Remove</md-button>
+            <md-button ng-click="adminCtrl.blockUser(user)">Block</md-button>
+        </md-card-actions>
+    </md-card>
+
+</div>
+<div class="col-md-2">
+
+</div>
+<div class="col-md-5">
+    <span class="md-subhead text-center">Blocked requests</span>
+    <md-card ng-repeat="user in adminCtrl.blockedUsers" md-theme="default" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-subhead">{{user.username}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+                <div class="md-media-sm card-media">
+                    <img class="md-media-sm card-media" ng-if="user.image" src="{{ user.image}}">
+                    <img class="md-media-sm card-media" ng-if="!user.image" src="{{ placeholder }}">
+                </div>
+            </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="adminCtrl.approveUser(user)">Approve</md-button>
+            <md-button ng-click="adminCtrl.removeUser(user)">Remove</md-button>
+        </md-card-actions>
+    </md-card>
+
+</div>

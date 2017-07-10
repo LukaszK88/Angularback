@@ -1,0 +1,49 @@
+<section class="bg-pages" ng-controller="myApp.BlogCtrl as blog">
+    <div class="container">
+        <div class="col-md-12">
+            <md-card style="padding: 10px">
+
+                <md-card ng-repeat="post in blog.posts">
+                <md-card-title >
+                    <md-card-title-text>
+                        <span class="md-headline text-left"><a ui-sref="postDetail({postId: post.id})">{{ post.title }}</a></span>
+                        <span class="md-subhead">{{ post.created_at | limitTo: 10}}|
+                                                By: {{ post.user.username}}|
+                                                Category: {{ post.type}} |
+                            <a href="#"
+                               socialshare
+                               socialshare-provider="facebook"
+                               socialshare-url="{{shareUrl(post.id)}}">
+                                <md-tooltip md-direction="top">Share on FB</md-tooltip>
+                            <button class="btn wc-theme-reverse">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            Share</button>
+                            </a>
+                        </span>
+                    </md-card-title-text>
+                </md-card-title>
+
+                    <md-card-content >
+                        <div class="col-md-9">
+                        <p >
+                            <text-collapse  data-max-length="200"
+                                            data-text="{{post.body}}"
+                                            data-collapse-label="  show less"
+                                            data-expand-label="  read more">
+
+                        </p>
+
+                    </div>
+                    <div class="col-md-3">
+                        <img ng-if="!post.video_url" class="img-responsive" src="{{ post.url }}" >
+                        <embed-video iframe-id="vimeo1" width=100% api="1" player_id="player" ng-href="{{ post.video_url }}"><a href="{{ post.video_url }}">Watch</a></embed-video>
+                    </div>
+                    </md-card-content>
+                </md-card>
+
+
+            </md-card>
+
+        </div>
+    </div>
+</section>

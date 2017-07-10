@@ -1,0 +1,56 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="myApp.MainCtrl as main">
+        <md-toolbar >
+            <div class="md-toolbar-tools wc-theme ">
+                <h2>Settings</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <form name="settingsForm">
+
+
+                        <md-input-container  class="md-block" flex-gt-sm>
+                            <label>Current Password</label>
+                            <input ng-disabled="!currentUser.password" type="password" name="currentPassword" ng-model='user.currentPassword'
+                                   required
+                                   />
+                            <div ng-messages="settingsForm.currentPassword.$error" ng-show="settingsForm.currentPassword.$touched">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>New Password</label>
+                        <input type="password" name="newPassword" ng-model='user.newPassword'
+                               required >
+                        <div ng-messages="settingsForm.newPassword.$error" ng-show="settingsForm.newPassword.$touched">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+
+                    </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>New Password Repeat</label>
+                <input type="password" name="newPasswordAgain" match="settingsForm.newPassword" ng-model='user.newPasswordAgain'
+                       required >
+                <div ng-messages="settingsForm.newPasswordAgain.$error" ng-show="settingsForm.newPasswordAgain.$touched">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-show="settingsForm.newPasswordAgain.$error.match">Fields do not match!</div>
+                </div>
+
+            </md-input-container>
+                </form>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions  layout="row">
+            <button ng-if="!currentUser.password" ng-click="main.passwordUpdate(user)" ng-disabled="!user.newPassword || !user.newPasswordAgain" class="btn btn-success pull-left" >Update</button>
+
+            <button ng-if="currentUser.password" ng-click="main.passwordUpdate(user)" ng-disabled="settingsForm.$invalid" class="btn btn-success pull-left" >Update</button>
+        </md-dialog-actions>
+</md-dialog>

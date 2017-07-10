@@ -1,0 +1,44 @@
+<md-dialog style="width: 300px" aria-label="Mango (Fruit)" ng-controller="ModalCtrl">
+        <md-toolbar>
+            <div class="md-toolbar-tools wc-theme">
+                <h2>Category</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <form name="categoryForm" >
+                    <div class="col-md-12">
+                        <div flex="300" flex-gt-sm="300" layout="column">
+                            <div>
+                               <span ng-hide="local.event">{{ container = local.user }}</span>
+                                <fieldset class="standard" >
+                                    <legend>Which Categories you will participate in:</legend>
+                                    <div layout="row" layout-wrap flex>
+                                        <div flex="50" ng-repeat="category in local.event">
+                                            <md-checkbox
+                                                    ng-model="container[category.name]">
+                                                {{ category.name }}
+                                            </md-checkbox>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions ng-controller="myApp.EventCtrl as event"  layout="row">
+
+            <md-button ng-click="event.submitAttendanceCategories(container); cancel()">
+               Submit
+            </md-button>
+
+        </md-dialog-actions>
+</md-dialog>

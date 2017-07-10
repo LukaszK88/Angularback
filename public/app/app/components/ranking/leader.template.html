@@ -1,0 +1,25 @@
+<div class="row" ng-controller="ModalCtrl">
+    <div class="table-responsive" ng-controller="myApp.ranking.TableAllController as ctrl">
+        <span> <strong ><font style="font-size: large" color="green">1</font>pts-Won </strong><br></span>
+        <table class="table table-striped table-bordered table-hover myTable ">
+            <thead>
+            <tr>
+                <th width="5%">Nr</th>
+                <th>Category</th>
+                <th width="25%">Fighter</th>
+                <th width="5%">Points</th>
+                <th width="10%">Last Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="(type,record) in ctrl.leaderboard">
+                <td>{{$index + 1}}</td>
+                <td class="text-capitalize">{{ type }}</td>
+                <td>{{ record.name}}</td>
+                <td>{{ record.max_points}}</td>
+                <td>{{ record.created_at | limitTo: 10}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>    <!-- /.table-responsive -->
+</div>

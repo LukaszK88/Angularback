@@ -1,0 +1,71 @@
+<md-dialog aria-label="Mango (Fruit)" ng-controller="ModalCtrl">
+        <md-toolbar>
+            <div class="md-toolbar-tools wc-theme">
+                <h2>Add Achievement</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <form name="achievementForm" >
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Competition Name</label>
+                        <input type="text" name="Name" ng-model='achievement.competition_name'
+                               minlength="3"
+                               md-maxlength="50"
+                               required >
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Country </label>
+                        <md-select ng-model="achievement.location" required>
+                            <md-option ng-repeat="country in countries" ng-value="country.code">
+                                {{ country.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Category </label>
+                        <md-select ng-model="achievement.category" required>
+                            <md-option><em>None</em></md-option>
+                            <md-option ng-repeat="category in categories" ng-value="category.name" >
+                                {{ category.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Place </label>
+                        <md-select ng-model="achievement.place" required>
+                            <md-option><em>None</em></md-option>
+                            <md-option ng-repeat="place in places" ng-value="place.name" >
+                                {{ place.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <div class="md-block" flex-gt-xs >
+                        <md-datepicker ng-required="true" name="date" ng-model="achievement.date" md-current-view="year" md-placeholder="Enter date"></md-datepicker>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions ng-controller="myApp.FighterCtrl as fighterCtrl"  layout="row">
+
+            <md-button  ng-disabled="!(achievement.competition_name &&
+                                       achievement.location &&
+                                       achievement.place &&
+                                       achievement.category &&
+                                       achievement.date
+                                        ) "
+                        ng-click="fighterCtrl.addAchievement(achievement)">
+               Submit
+
+            </md-button>
+
+        </md-dialog-actions>
+</md-dialog>

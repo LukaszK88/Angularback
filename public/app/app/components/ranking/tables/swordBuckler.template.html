@@ -1,0 +1,31 @@
+<div class="row" ng-controller="ModalCtrl">
+    <div class="table-responsive" ng-controller="myApp.ranking.TableAllController as ctrl">
+        <span> <strong ><font style="font-size: large" color="green">1</font>pts-Won </strong><br></span>
+        <table class="table table-striped table-bordered table-hover myTable ">
+            <thead>
+            <tr>
+                <th width="5%">Nr</th>
+                <th>Fighter</th>
+                <th width="5%">Fights</th>
+                <th width="5%">Won</th>
+                <th width="5%">Lost</th>
+                <th width="5%">Points</th>
+                <th width="5%">Last Update</th>
+                <th ng-if="admin">edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="fighter in fighters | orderBy:'-swordBucklerPoints'">
+                <td>{{$index + 1}}</td>
+                <td><a ui-sref="fighterDetail({fighterId: fighter.id})">{{ fighter.name }}</a></td>
+                <td>{{ fighter.sword_buckler | arrayHelper:'fights'}}</td>
+                <td>{{ fighter.sword_buckler | arrayHelper:'win'}}</td>
+                <td>{{ fighter.sword_buckler | arrayHelper:'loss'}}</td>
+                <td>{{ fighter.sword_buckler | arrayHelper:'points'}}</td>
+                <td>{{ fighter.sword_buckler[0].updated_at | limitTo: 10}}</td>
+                <td ng-if="admin" width="3%" ng-click="showUpdateRecord($event, fighter.id, 'SwordBuckler')"><button class="btn btn-success btn-sm">x</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>    <!-- /.table-responsive -->
+</div>

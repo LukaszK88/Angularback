@@ -1,0 +1,40 @@
+<section class="bg-pages">
+    <div class="container">
+        <div class="col-md-12">
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline text-center">Editor Section</span>
+                    <span class="md-subhead"></span>
+                </md-card-title-text>
+            </md-card-title>
+
+            <md-card-content >
+                <uib-tabset active="active">
+                    <uib-tab index="0" heading="Add Post">
+                        <ng-include src="'app/app/components/editor/sections/addPost.template.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="1" heading="Add Gallery">
+                        <ng-include src="'app/app/components/editor/sections/addGallery.template.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="2" heading="Manage Posts">
+                        <ng-include src="'app/app/components/editor/sections/updatePost.template.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="3" heading="Manage Galleries">
+                        <ng-include src="'app/app/components/editor/sections/updateGallery.template.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="4" heading="Add Events">
+                        <ng-include src="'app/app/components/editor/sections/addEvent.template.html'"></ng-include>
+                    </uib-tab>
+                    <uib-tab index="5" heading="Manage Events">
+                        <ng-include src="'app/app/components/editor/sections/manageEvent.template.html'"></ng-include>
+                    </uib-tab>
+                </uib-tabset>
+            </md-card-content>
+
+        </md-card>
+        </div>
+
+
+    </div>
+</section>
