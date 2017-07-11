@@ -2,7 +2,7 @@ var myApp;
 (function (myApp) {
     'use-strict';
     var FighterCtrl = (function () {
-        function FighterCtrl($http, $scope, $location, FighterResource, $stateParams, Upload, Achievement, Toast, EventResource, _, uiCalendarConfig, $compile) {
+        function FighterCtrl($http, $scope, $location, FighterResource, $stateParams, Upload, Achievement, Toast, EventResource, _, uiCalendarConfig, $compile, config) {
             var _this = this;
             this.$http = $http;
             this.$scope = $scope;
@@ -16,6 +16,7 @@ var myApp;
             this._ = _;
             this.uiCalendarConfig = uiCalendarConfig;
             this.$compile = $compile;
+            this.config = config;
             this.achievements = [];
             this.events = [];
             this.eventNotes = [];
@@ -32,10 +33,9 @@ var myApp;
             // };
             //TODO in the future drop down only events which attended only by the user
             $scope.upload = function (photo, name) {
-                console.log(photo);
                 if (photo) {
                     _this.Upload.upload({
-                        url: 'http://127.0.0.1:8000/api/storePhoto/' + _this.$scope.currentUser.id,
+                        url: config.API + 'storePhoto/' + _this.$scope.currentUser.id,
                         data: {
                             file: Upload.dataUrltoBlob(photo, name)
                         }
@@ -141,7 +141,8 @@ var myApp;
         'EventResource',
         '_',
         'uiCalendarConfig',
-        '$compile'
+        '$compile',
+        'config'
     ];
     myApp.FighterCtrl = FighterCtrl;
     angular.module('myApp').controller('myApp.FighterCtrl', FighterCtrl);

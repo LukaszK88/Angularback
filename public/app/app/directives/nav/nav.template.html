@@ -49,10 +49,16 @@
                 </li>
 
                 <li ng-if="!currentUser">
-                    <a ng-click="showLogin($event)" data-toggle="collapse" class="wc-theme" data-target="#bs-example-navbar-collapse-1">Log in</a>
+                    <a ng-click="showLogin($event)" class="visible-xs" data-toggle="collapse"  data-target="#bs-example-navbar-collapse-1">Log in</a>
                 </li>
                 <li ng-if="!currentUser">
-                    <a ng-click="showRegister($event)" data-toggle="collapse" class="wc-theme" data-target="#bs-example-navbar-collapse-1">Register</a>
+                    <a ng-click="showRegister($event)" class="visible-xs" data-toggle="collapse"  data-target="#bs-example-navbar-collapse-1">Register</a>
+                </li>
+                <li ng-if="!currentUser">
+                    <a ng-click="showLogin($event)" class="hidden-xs" >Log in</a>
+                </li>
+                <li ng-if="!currentUser">
+                    <a ng-click="showRegister($event)" class="hidden-xs">Register</a>
                 </li>
                 <li ng-if="currentUser" class="dropdown">
 

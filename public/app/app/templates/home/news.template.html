@@ -2,8 +2,9 @@
     <div class="container-fluid">
         <div class="row no-gutter popup-gallery">
             <div ng-repeat="news in blog.news | orderBy: '-created_at' |limitTo: 3" class="col-lg-4 col-sm-6">
-                <a ui-sref="postDetail({postId: news.id})" class="portfolio-box">
-                    <img data-aos="fade-up" data-aos-once="true" data-aos-duration="1500" src="{{ news.url }}" class="photo-news text-centre" alt="">
+                <a  ui-sref="postDetail({postId: news.id})" class="portfolio-box">
+                    <img ng-if="news.url" data-aos="fade-up" data-aos-once="true" data-aos-duration="1500" src="{{ news.url }}" class="photo-news text-centre" alt="">
+                    <img ng-if="!news.url" data-aos="fade-up" data-aos-once="true" data-aos-duration="1500" src="app/img/news_header_placeholder.jpg" class="photo-news text-centre" alt="">
                     <div class="portfolio-box-caption">
                         <div class="portfolio-box-caption-content">
                             <div class="project-category text-faded">

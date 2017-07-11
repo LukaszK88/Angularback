@@ -18,7 +18,7 @@ var myApp;
             this.blockedUsers = [];
             this.activeUsers = [];
             this.userRoles = [];
-            this.placeholder = this.$location.$$protocol + '://' + this.$location.$$host + '/img/profile_placeholder.png';
+            this.placeholder = this.$location.$$protocol + '://' + this.$location.$$host + '/app/img/profile_placeholder.png';
             $scope.$watch('active', function (newVal) {
                 if (newVal === 1) {
                     _this.activeTab = 1;

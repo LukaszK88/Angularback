@@ -35,7 +35,7 @@ module myApp{
                     protected User:any,
                     protected _:any
         ){
-            this.placeholder = this.$location.$$protocol + '://' + this.$location.$$host + '/img/profile_placeholder.png';
+            this.placeholder = this.$location.$$protocol + '://' + this.$location.$$host + '/app/img/profile_placeholder.png';
 
             $scope.$watch('active',(newVal) => {
                 if(newVal === 1){

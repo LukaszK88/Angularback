@@ -16,7 +16,8 @@ module myApp{
                 'EventResource',
                 '_',
                 'uiCalendarConfig',
-                '$compile'
+                '$compile',
+                'config'
             ];
 
 
@@ -40,7 +41,8 @@ module myApp{
                     protected EventResource:any,
                     protected _:any,
                     protected uiCalendarConfig:any,
-                    protected $compile:any
+                    protected $compile:any,
+                    protected config:any
         ){
             this.fetchAchievements();
             this.getFighterEvents();
@@ -56,10 +58,9 @@ module myApp{
 
 //TODO in the future drop down only events which attended only by the user
             $scope.upload = (photo, name) => {
-                console.log(photo);
                 if(photo) {
                     this.Upload.upload({
-                        url: 'http://127.0.0.1:8000/api/storePhoto/' + this.$scope.currentUser.id,
+                        url: config.API + 'storePhoto/' + this.$scope.currentUser.id,
                         data: {
                             file: Upload.dataUrltoBlob(photo, name)
                         }
