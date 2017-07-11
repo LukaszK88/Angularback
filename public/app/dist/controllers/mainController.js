@@ -53,7 +53,7 @@ var myApp;
                             _this.$scope.image = google;
                         }
                         else {
-                            _this.$scope.image = _this.$location.$$protocol + '://' + _this.$location.$$host + 'app/img/profile_placeholder.png';
+                            _this.$scope.image = _this.$location.$$protocol + '://' + _this.$location.$$host + '/app/img/profile_placeholder.png';
                         }
                     }
                 });

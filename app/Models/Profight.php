@@ -14,6 +14,8 @@ class Profight extends Model{
 
     protected $table = 'profights';
 
+    const COL_EVENT_ID = 'event_id';
+
     protected $fillable=[
         'user_id',
         'fights',
@@ -24,6 +26,7 @@ class Profight extends Model{
         'loss',
         'ko',
         'points',
+        self::COL_EVENT_ID
     ];
     
     public function user(){

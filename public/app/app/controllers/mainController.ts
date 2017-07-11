@@ -75,7 +75,7 @@ module myApp{
                             } else if (google) {
                                 this.$scope.image = google
                             } else {
-                                this.$scope.image = this.$location.$$protocol + '://' + this.$location.$$host + 'app/img/profile_placeholder.png'
+                                this.$scope.image = this.$location.$$protocol + '://' + this.$location.$$host + '/app/img/profile_placeholder.png'
                             }
                         }
 

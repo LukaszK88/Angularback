@@ -1,6 +1,6 @@
 <div class="row" ng-controller="ModalCtrl">
     <div class="table-responsive" ng-controller="myApp.ranking.TableAllController as ctrl">
-                <span> <strong>ProLeague format :<font style="font-size: large" color="green">4</font>pts-KO  |  <font style="font-size: large" color="green">3</font>pts-Won  |  <font style="font-size: large" color="green">1</font>pts-Loss <br>
+                <span style="padding-left: 8px;"> <strong>ProLeague format :<font style="font-size: large" color="green">4</font>pts-KO  |  <font style="font-size: large" color="green">3</font>pts-Won  |  <font style="font-size: large" color="green">1</font>pts-Loss <br>
         First Class format:<font style="font-size: large" color="green">10</font>pts-1st  | <font style="font-size: large" color="green">6</font>pts-2nd  | <font style="font-size: large" color="green">3</font>pts-3rd</strong><br></span>
         <table class="table table-striped table-bordered table-hover myTable ">
             <thead>
@@ -32,7 +32,7 @@
                 <td>{{ fighter.profight | arrayHelper:'fc_3'}}</td>
                 <td>{{ fighter.profight | arrayHelper:'points'}}</td>
                 <td>{{ fighter.profight[0].updated_at | limitTo: 10}}</td>
-                <td ng-if="admin" width="3%" ng-click="showUpdateRecord($event, fighter.id, 'Profight')"><button class="btn btn-success btn-sm">x</button></td>
+                <td ng-if="admin" width="3%" ng-click="showUpdateRecordRanking($event,'ranking/updateProfightRecord',[fighter, ctrl.events])"><button class="btn btn-success btn-sm">x</button></td>
             </tr>
             </tbody>
         </table>

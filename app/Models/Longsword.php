@@ -14,12 +14,15 @@ class Longsword extends Model{
 
     protected $table = 'longswords';
 
+    const COL_EVENT_ID = 'event_id';
+
     protected $fillable=[
         'user_id',
         'fights',
         'win',
         'loss',
         'points',
+        self::COL_EVENT_ID
     ];
     
     public function user(){

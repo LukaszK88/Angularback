@@ -37,13 +37,21 @@
                         </md-input-container>
                     </md-slider-container>
 
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-select placeholder="Select Competition" ng-model="fighter.longsword.event_id" required>
+                            <md-option ng-repeat="event in local[1]" ng-value="event.id">
+                                {{ event.title }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
                 </form>
             </div>
         </md-dialog-content>
 
-        <md-dialog-actions  layout="row">
+        <md-dialog-actions ng-controller="myApp.ranking.TableAllController as ranking" layout="row">
 
-            <md-button ng-click="submit(fighter)">
+            <md-button ng-click="ranking.submitRecord(fighter, local[0].id)">
                Submit
 
             </md-button>
