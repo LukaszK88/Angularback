@@ -40,7 +40,7 @@
                     <md-input-container class="md-block" flex-gt-sm>
                         <md-select placeholder="Select Competition" ng-model="fighter.sword_buckler.event_id" required>
                             <md-option ng-repeat="event in local[1]" ng-value="event.id">
-                                {{ event.title }}
+                                {{ event.title }} {{ event.date | limitTo:4}}
                             </md-option>
                         </md-select>
                     </md-input-container>

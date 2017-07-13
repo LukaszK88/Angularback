@@ -6,7 +6,7 @@
                 <md-content>
                     <md-list flex>
                         <!--<md-subheader class="md-no-sticky">3 line item (with hover)</md-subheader>-->
-                        <md-list-item  data-aos="fade-up" data-aos-once="true" data-aos-duration="1500" class="md-3-line" ng-repeat="tournament in event.tournaments">
+                        <md-list-item  data-aos="fade-up" data-aos-once="true" data-aos-duration="1500" class="md-3-line" ng-repeat="tournament in event.tournaments | orderBy: 'date'">
                             <a ui-sref="tournament({tournamentId:tournament.id})">
                                 <img ng-if="tournament.url" ng-src="{{tournament.url}}?{{$index}}" class="md-avatar" />
                                 <span ng-if="!tournament.url"><i class="fa fa-3x fa-fort-awesome md-avatar"></i></span>

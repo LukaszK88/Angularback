@@ -103,14 +103,15 @@ module myApp{
 
         protected fetchTournaments(){
             this.event.getByType({typeId:1}).$promise.then((response)=>{
-                this.tournaments = response;
+               // this.tournaments = response;
                 let now = new Date().getTime();
-                this._.forEach(this.tournaments,((value, key) => {
-                  //  let countdown = (new Date(value.date).getTime()) - now;
-                        //value.date = Math.floor((countdown % (1000 * 60)) / 1000);
+                this._.forEach(response,((value, key) => {
+                  if((new Date(value.date).getTime()) >= now){
+                      //to do change also to past/ or traininigs
+                      this.tournaments.push(value);
+                  }
                     value.date = ((new Date(value.date).getTime() - now) / 1000);
                 }));
-
             });
         }
     }

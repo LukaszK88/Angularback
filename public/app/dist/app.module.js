@@ -34,8 +34,12 @@ var myApp;
     ])
         .constant('_', window._)
         .constant('config', {
-        API: 'http://whitecompany.com/api/',
-        basePath: 'http://whitecompany.com/'
+        // local
+        // API : 'http://whitecompany.com/api/',
+        // basePath: 'http://whitecompany.com/'
+        // production
+        API: 'http://www.whitecompanymedieval.com/api/',
+        basePath: 'http://www.whitecompanymedieval.com/'
         // editorsDefault : {
         //     categories: {
         //         1 : false,

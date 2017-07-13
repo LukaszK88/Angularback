@@ -75,11 +75,13 @@ var myApp;
         EventCtrl.prototype.fetchTournaments = function () {
             var _this = this;
             this.event.getByType({ typeId: 1 }).$promise.then(function (response) {
-                _this.tournaments = response;
+                // this.tournaments = response;
                 var now = new Date().getTime();
-                _this._.forEach(_this.tournaments, (function (value, key) {
-                    //  let countdown = (new Date(value.date).getTime()) - now;
-                    //value.date = Math.floor((countdown % (1000 * 60)) / 1000);
+                _this._.forEach(response, (function (value, key) {
+                    if ((new Date(value.date).getTime()) >= now) {
+                        //to do change also to past/ or traininigs
+                        _this.tournaments.push(value);
+                    }
                     value.date = ((new Date(value.date).getTime() - now) / 1000);
                 }));
             });

@@ -8,7 +8,7 @@ var myApp;
         return function (category, type) {
             var sum = 0;
             for (var x in category) {
-                sum += category[x][type];
+                sum += parseInt(category[x][type]);
             }
             return sum;
         };

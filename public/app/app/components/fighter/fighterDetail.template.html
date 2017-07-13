@@ -140,7 +140,7 @@
                             <md-input-container class="md-block" flex-gt-sm>
                                 <md-select placeholder="Select Competition" ng-change="eventSelected = true" ng-model="achievement.event_id" required>
                                     <md-option ng-repeat="event in fighterCtrl.eventSelect" ng-value="event.id">
-                                        {{ event.title }} <flag country="{{event.location}}" size="16"></flag>
+                                        {{ event.title }} {{ event.date | limitTo:4}} <flag country="{{event.location}}" size="16"></flag>
                                     </md-option>
                                 </md-select>
                             </md-input-container>

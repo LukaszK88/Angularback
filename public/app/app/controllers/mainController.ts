@@ -58,10 +58,10 @@ module myApp{
 
                         }
 
-                        if(data.data.user_role_id === 3){
+                        if(data.data.user_role_id == 3){
                             this.$scope.admin = true;
                         }
-                        if(data.data.user_role_id === 2){
+                        if(data.data.user_role_id == 2){
                             this.$scope.editor = true;
                         }
 
