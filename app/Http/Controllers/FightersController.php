@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bohurt;
 use App\Mail\Registration;
 use App\Models\User;
-
+use App\Mail\PasswordRecovery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -68,6 +68,30 @@ class FightersController extends ApiController
 
     }
 
+    public function passwordRecovery(Request $request)
+    {
+
+        $user = User::where('username',$request->input('username'))->first();
+
+        if($user){
+
+            $password = md5($request->input('username'));
+
+            $user->update([
+                'password' => bcrypt($password),
+                'temp_password' => $password
+            ]);
+
+            //sent email
+            Mail::to($user->username)->send(new PasswordRecovery($password));
+            return $this->responseCreated('Recovery email sent!');
+
+            //return $this->responseCreated('Recovery email sent!');
+        }
+
+        return $this->responseNotFound('User does not exist in our records');
+    }
+
 
 
     /**
@@ -100,7 +124,7 @@ class FightersController extends ApiController
                                                  use your Google account to log in');
                 }
 
-                $token = JWTAuth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')]);
+                $token = JWTAuth::attempt(['username'=>$email, 'password' => $password]);
 
                 if ($token) {
                     return $this->tokenCreated($token, 'You are logged in!');

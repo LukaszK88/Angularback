@@ -8,9 +8,11 @@ var myApp;
             this.Toast = Toast;
             this.$timeout = $timeout;
             this.$window = $window;
+            this.loading = false;
         }
         SignupCtrl.prototype.signup = function (user) {
             var _this = this;
+            this.loading = true;
             this.$auth.signup(user)
                 .then(function (response) {
                 //this.$auth.setToken(response.data.token);
@@ -18,10 +20,11 @@ var myApp;
                 _this.$timeout(function () {
                     _this.$location.path('/');
                     _this.$window.location.reload();
-                }, 3000);
+                }, 2000);
                 _this.Toast.makeToast('success', response.data.message);
             })["catch"](function (response) {
                 _this.Toast.makeToast('error', response.data.error.email[0]);
+                _this.loading = false;
             });
         };
         return SignupCtrl;

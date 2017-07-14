@@ -41,10 +41,17 @@
 
         <md-dialog-actions  layout="row">
 
-            <button ng-click="main.login(user)" ng-disabled="loginForm.$invalid" class="btn btn-success pull-left" >Log in</button>
+            <button ng-click="main.login(user)" ng-disabled="loginForm.$invalid" class="btn btn-success pull-left" >
+                {{ main.loading ? 'be patient' : ' Login'}}
+                <i ng-if="main.loading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+            </button>
 
-            <md-button class="md-raised md-primary" ng-click="main.authenticate('facebook')"><i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook</md-button>
-            <md-button class="md-raised md-warn" ng-click="main.authenticate('google')"><i class="fa fa-google" aria-hidden="true"></i> Google</md-button>
+            <md-button class="md-raised md-primary" ng-click="main.authenticate('facebook')"><i class="fa fa-facebook-official" aria-hidden="true"></i>
+               Facebook
+            </md-button>
+            <md-button class="md-raised md-warn" ng-click="main.authenticate('google')"><i class="fa fa-google" aria-hidden="true"></i>
+                Google
+            </md-button>
         </md-dialog-actions>
     <md-dialog-actions layout="row">
         <a ui-sref="recovery" ng-click="cancel()" style="font-size: small">Forgot your password?</a>

@@ -17,6 +17,7 @@ module myApp{
                 'config'
         ];
 
+            loading = false;
         constructor(public $scope:any,
                     public $location:any,
                     public $auth:any,
@@ -107,6 +108,7 @@ module myApp{
         }
 
         public login(user){
+            this.loading = true;
             this.$auth.login(user)
                         .then((data) => {
                             this.$timeout(() => {
@@ -116,6 +118,7 @@ module myApp{
                             this.Toast.makeToast('success', data.data.message);
                         })
                         .catch((error) => {
+                            this.loading = false;
                             this.Toast.makeToast('error', error.data.error);
                         });
         }
@@ -127,12 +130,14 @@ module myApp{
                             this.$window.location.reload();
                         },2000);
                  this.Toast.makeToast('success',response.data.message);
+
                     }).catch((response) => {
                  this.Toast.makeToast('error', response.data.error);
                     });
         }
 
         public recover(user){
+            this.loading = true;
             this.User.user.recover(user).$promise
                 .then((data) => {
                     this.$timeout(() => {
@@ -142,7 +147,8 @@ module myApp{
                     this.Toast.makeToast('success', data.message);
                 })
                 .catch((data) => {
-                    this.Toast.makeToast('error', data.error);
+                    this.loading = false;
+                    this.Toast.makeToast('error', data.data.error);
                 });
         }
 

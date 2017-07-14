@@ -41,9 +41,16 @@
 
         <md-dialog-actions  layout="row" ng-controller="myApp.MainCtrl as main">
 
-            <button ng-click="signupCtrl.signup(user)" ng-disabled="signupForm.$invalid" class="btn btn-success pull-left" >Sign up</button>
+            <button ng-click="signupCtrl.signup(user)" ng-disabled="signupForm.$invalid" class="btn btn-success pull-left" >
+                {{ signupCtrl.loading ? 'be patient' : 'Sign up'}}
+                <i ng-if="signupCtrl.loading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+            </button>
 
-            <md-button class="md-raised md-primary" ng-click="main.authenticate('facebook')"><i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook</md-button>
-            <md-button class="md-raised md-warn" ng-click="main.authenticate('google')"><i class="fa fa-google" aria-hidden="true"></i> Google</md-button>
+            <md-button class="md-raised md-primary" ng-click="main.authenticate('facebook')"><i class="fa fa-facebook-official" aria-hidden="true"></i>
+               Facebook
+            </md-button>
+            <md-button class="md-raised md-warn" ng-click="main.authenticate('google')"><i class="fa fa-google" aria-hidden="true"></i>
+               Google
+            </md-button>
         </md-dialog-actions>
 </md-dialog>

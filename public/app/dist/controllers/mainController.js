@@ -15,6 +15,7 @@ var myApp;
             this.User = User;
             this.$anchorScroll = $anchorScroll;
             this.config = config;
+            this.loading = false;
             this.checkIfLoggedIn();
         }
         MainCtrl.prototype.upload = function (file) {
@@ -84,6 +85,7 @@ var myApp;
         };
         MainCtrl.prototype.login = function (user) {
             var _this = this;
+            this.loading = true;
             this.$auth.login(user)
                 .then(function (data) {
                 _this.$timeout(function () {
@@ -92,6 +94,7 @@ var myApp;
                 }, 2000);
                 _this.Toast.makeToast('success', data.data.message);
             })["catch"](function (error) {
+                _this.loading = false;
                 _this.Toast.makeToast('error', error.data.error);
             });
         };
@@ -109,6 +112,7 @@ var myApp;
         };
         MainCtrl.prototype.recover = function (user) {
             var _this = this;
+            this.loading = true;
             this.User.user.recover(user).$promise
                 .then(function (data) {
                 _this.$timeout(function () {
@@ -117,7 +121,8 @@ var myApp;
                 }, 2000);
                 _this.Toast.makeToast('success', data.message);
             })["catch"](function (data) {
-                _this.Toast.makeToast('error', data.error);
+                _this.loading = false;
+                _this.Toast.makeToast('error', data.data.error);
             });
         };
         return MainCtrl;

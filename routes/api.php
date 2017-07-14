@@ -19,7 +19,7 @@ Route::get('/fighter',[
     'uses' => 'FightersController@user'
 ] )->middleware('jwt.auth');
 
-Route::post('/user/recover','UsersController@passwordRecovery');
+Route::post('/user/recover','FightersController@passwordRecovery');
 Route::resource('/user','UsersController');
 Route::get('/user-roles','UsersController@getUserRoles');
 

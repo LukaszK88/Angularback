@@ -28,7 +28,10 @@
 
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="main.recover(user)" class="wc-theme">Submit</md-button>
+                    <md-button ng-click="main.recover(user)" class="wc-theme">
+                        {{ main.loading ? 'be patient' : ' Submit'}}
+                        <i ng-if="main.loading" class="fa fa-spinner fa-spin fa-1x fa-fw"></i>
+                    </md-button>
                 </md-card-actions>
                 </form>
             </md-card>
