@@ -12,6 +12,7 @@ angular.module('myApp')
         if($auth.isAuthenticated()){
             auth.currentUser().then(function (data) {
                 $scope.user = data.data;
+                $scope.user.weight = parseInt($scope.user.weight);
             });
         }
 

@@ -9,6 +9,7 @@ use App\Models\EventCategories;
 use App\Models\EventType;
 use App\Models\Image;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventsController extends ApiController
@@ -44,6 +45,11 @@ class EventsController extends ApiController
             ->with('category')
             ->get();
 
+        foreach ($events as $event){
+            $event['countdown'] = ((Carbon::parse($event['date'])->timestamp) - Carbon::now()->timestamp);
+            (Carbon::parse($event['date']) >= Carbon::now()) ? $event['future'] = true : $event['future'] = false;
+
+        }
         return $this->respond($events);
     }
 
@@ -90,14 +96,12 @@ class EventsController extends ApiController
             'event_type_id' => $data['event_type_id'],
         ]);
 
-
-           foreach ($data['categories'] as $category => $key){
-
-               EventCategories::create([
-                   'event_id' => $event->id,
-                   'name' => $category
-               ]);
-           }
+        foreach ($data['categories'] as $category => $key){
+            EventCategories::create([
+                'event_id' => $event->id,
+                'name' => $category
+            ]);
+        }
 
         return $this->respond($event);
     }
