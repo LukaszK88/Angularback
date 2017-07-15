@@ -11,6 +11,7 @@ use App\Models\SwordBuckler;
 use App\Models\SwordShield;
 use App\Models\Triathlon;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +37,6 @@ class RankingController extends ApiController
                 ->with('swordBuckler')
                 ->with('polearm')
                 ->with('triathlon')
-
                 ->where('name', '!=', '')
                 ->get();
 
@@ -60,6 +60,8 @@ class RankingController extends ApiController
                 ->with('triathlon')
                 ->where('id', $id)
                 ->first();
+
+            $fighters['age'] = Carbon::parse($fighters['age'])->diffInYears(Carbon::now('Europe/London'));
 
         }
         $response = [

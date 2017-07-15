@@ -46,10 +46,12 @@ var myApp;
                     });
                 }
             };
-            this.FighterResource.get({ fighterId: this.$stateParams['fighterId'] }).$promise
-                .then(function (response) {
-                $scope.fighter = response.fighters;
-            });
+            if (this.$stateParams['fighterId']) {
+                this.FighterResource.get({ fighterId: this.$stateParams['fighterId'] }).$promise
+                    .then(function (response) {
+                    $scope.fighter = response.fighters;
+                });
+            }
         }
         FighterCtrl.prototype.getEvents = function () {
             var _this = this;
@@ -74,13 +76,13 @@ var myApp;
                 .then(function (response) {
                 _this.events = response;
                 _this.eventAttendingCount = response.length;
+                //TODO change scope to AS
                 var calendarEvents = [];
                 var array = [];
                 _this._.forEach(_this.events, function (value, key) {
                     array.push({ title: value['title'], start: value['date'] });
                 });
                 _this.$scope.eventSources = [array];
-                console.log(_this.$scope.eventSources);
             });
         };
         FighterCtrl.prototype.hideForm = function () {

@@ -1,4 +1,3 @@
-
 module myApp{
 
     'use-strict';
@@ -21,21 +20,20 @@ module myApp{
             ];
 
 
-        public achievements:any = [];
+        achievements:any = [];
         events:any = [];
         eventAttendingCount:number;
         eventNotes:any = [];
         peopleAttending:number;
-
         eventSelect:any = [];
         photoUploaded:boolean = false;
 
         constructor(public $http:ng.IHttpService,
-                        public $scope:ng.IScope,
-                        public $location:any,
-                        protected FighterResource:any,
-                        protected $stateParams:any,
-                        public Upload:any,
+                    public $scope:ng.IScope,
+                    public $location:any,
+                    protected FighterResource:any,
+                    protected $stateParams:any,
+                    public Upload:any,
                     protected Achievement:any,
                     protected Toast:any,
                     protected EventResource:any,
@@ -73,12 +71,12 @@ module myApp{
                 }
             };
 
-
-            this.FighterResource.get({fighterId:this.$stateParams['fighterId']}).$promise
-                .then((response:any) => {
-                    $scope.fighter = response.fighters;
-                });
-
+            if(this.$stateParams['fighterId']) {
+                this.FighterResource.get({fighterId: this.$stateParams['fighterId']}).$promise
+                    .then((response: any) => {
+                        $scope.fighter = response.fighters;
+                    });
+            }
         }
 
         public getEvents(){
@@ -103,6 +101,7 @@ module myApp{
                 .then((response:any) => {
                    this.events = response;
                    this.eventAttendingCount = response.length;
+                   //TODO change scope to AS
                    let calendarEvents:any = [];
                     let array:any = [];
 
@@ -110,7 +109,6 @@ module myApp{
                         array.push({title:value['title'],start:value['date']})
                     });
                     this.$scope.eventSources = [array];
-                    console.log(this.$scope.eventSources);
                 });
         }
 

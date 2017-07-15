@@ -18,16 +18,6 @@ var myApp;
             this.loading = false;
             this.checkIfLoggedIn();
         }
-        MainCtrl.prototype.upload = function (file) {
-            this.Upload.upload({
-                url: this.config.API + 'storePhoto/' + this.$scope.currentUser.id,
-                data: {
-                    file: file
-                }
-            }).then(function (response) {
-                console.log(response);
-            });
-        };
         MainCtrl.prototype.checkIfLoggedIn = function () {
             var _this = this;
             if (this.$auth.isAuthenticated()) {
@@ -54,7 +44,7 @@ var myApp;
                             _this.$scope.image = google;
                         }
                         else {
-                            _this.$scope.image = _this.$location.$$protocol + '://' + _this.$location.$$host + '/app/img/profile_placeholder.png';
+                            _this.$scope.image = _this.config.basePath + 'app/img/profile_placeholder.png';
                         }
                     }
                 });
@@ -86,8 +76,7 @@ var myApp;
         MainCtrl.prototype.login = function (user) {
             var _this = this;
             this.loading = true;
-            this.$auth.login(user)
-                .then(function (data) {
+            this.$auth.login(user).then(function (data) {
                 _this.$timeout(function () {
                     _this.$location.path('/');
                     _this.$window.location.reload();
@@ -113,8 +102,7 @@ var myApp;
         MainCtrl.prototype.recover = function (user) {
             var _this = this;
             this.loading = true;
-            this.User.user.recover(user).$promise
-                .then(function (data) {
+            this.User.user.recover(user).$promise.then(function (data) {
                 _this.$timeout(function () {
                     _this.$location.path('/');
                     _this.$window.location.reload();
@@ -123,6 +111,12 @@ var myApp;
             })["catch"](function (data) {
                 _this.loading = false;
                 _this.Toast.makeToast('error', data.data.error);
+            });
+        };
+        MainCtrl.prototype.submit = function (user) {
+            var _this = this;
+            this.Auth.updateUser(user).then(function (response) {
+                _this.Toast.makeToast('success', response.data.message);
             });
         };
         return MainCtrl;

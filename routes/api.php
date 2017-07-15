@@ -82,9 +82,7 @@ Route::post('/fighters/store',['uses' => 'FightersController@store'] );
 
 Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassword'
 ] );
-Route::put('/fighters/update',[
-    'uses' => 'FightersController@update'
-] );
+Route::put('/fighters/update','FightersController@update');
 
 Route::post('/send', 'EmailController@send');
 

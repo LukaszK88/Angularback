@@ -4,13 +4,7 @@ angular.module('myApp')
         auth,
         $location,
         $auth,
-        $mdDialog,
-        toastService,
-        $stateParams,
-        FighterResource,
-        AchievementResource,
-        $q
-
+        $mdDialog
     ) {
 
         var finalData = [];
@@ -21,15 +15,7 @@ angular.module('myApp')
             });
         }
 
-
-
         $scope.user = {};
-
-        var range = [];
-        for(var i=16;i<=60;i++) {
-            range.push(i);
-        }
-        $scope.ageArray = range;
 
         $scope.showCategoryAttendance = function (ev, template, local) {
             openModal(ev,template,local);
@@ -107,59 +93,18 @@ angular.module('myApp')
                 fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
             })
                 .then(function (data) {
-                    console.log(data);
+
                 }, function () {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
-        $scope.showEditProfile = function (ev) {
-
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: 'app/app/templates/modals/editprofile.template.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-            })
-                .then(function (data) {
-                    auth.updateUser(data).then(function (response){
-                        toastService.makeToast('success', response.data.message);
-                    });
-                }, function () {
-                    $scope.status = 'You cancelled the dialog.';
-                });
+        $scope.showEditProfile = function (ev, template, local) {
+            openModal(ev,template,local);
         };
 
         $scope.showUpdateRecordRanking = function (ev, template, local) {
             openModal(ev,template,local);
-        };
-
-        $scope.showUpdateRecord = function (ev, id, type) {
-
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: 'app/app/templates/modals/ranking/update'+ type +'Record.template.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-            })
-                .then(function(data) {
-                    finalData = data;
-                    finalData.fighterId = id;
-                    var keys = [];
-                    keys = Object.keys(finalData);
-
-                    FighterResource.saveUpdate({type: keys[0]},finalData).$promise.then(function (response) {
-                        toastService.makeToast('success', response.message);
-                    });
-
-        }, function(){
-                $scope.status = 'You cancelled the dialog.';
-
-            });
         };
 
         function DialogController2($scope, $mdDialog, local) {
@@ -199,7 +144,7 @@ angular.module('myApp')
             {"value": "<font color='silver'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>", "name": "2nd"},
             {"value": "<font color='#a52a2a'><i class='fa fa-trophy fa-2x' aria-hidden='true'></i></font>", "name": "3rd"}
         ];
-
+//TODO move to config?
         $scope.categories = [
             {"name": "5v5"},
             {"name": "10v10"},

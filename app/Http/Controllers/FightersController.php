@@ -219,9 +219,7 @@ class FightersController extends ApiController
     public function update(Request $request)
     {
         $token = JWTAuth::getToken();
-
         $user = JWTAuth::toUser($token);
-
 
         $user->update($request->all());
 

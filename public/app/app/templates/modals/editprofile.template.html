@@ -5,7 +5,7 @@
                 <h2>Edit profile info</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                    <i class="fa fa-times" aria-hidden="true"></i>
                 </md-button>
             </div>
         </md-toolbar>
@@ -25,32 +25,23 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Age</label>
-                        <md-select type="number" ng-model="user.age"
-                                    min="18"
-                                    max="60">
-                            <md-option ng-repeat="age in ageArray" value="{{age}}">
-                                {{age}}
-                            </md-option>
-                        </md-select>
-
+                        <md-datepicker ng-model="user.age" md-current-view="year" md-placeholder="dd/mm/yyyy"></md-datepicker>
                     </md-input-container>
                 </div>
-
-                <md-slider-container>
-                    <span class="md-body-1">Weight</span>
-                    <md-slider  flex ng-model="user.weight" min="45" max="130" aria-label="blue" id="blue-slider" class="md-primary"
-
-                    >
-                    </md-slider>
-                    <md-input-container>
-                        <input flex type="number" ng-model="user.weight" aria-label="blue" aria-controls="blue-slider"
-                               min="40"
-                               max="130"
-                               required>
-                    </md-input-container>
-                    kg
-                </md-slider-container>
-
+                    <div class="row">
+                        <md-slider-container>
+                            <span class="md-body-1">Weight</span>
+                            <md-slider  flex ng-model="user.weight" min="45" max="130" aria-label="blue" id="blue-slider" class="md-primary">
+                            </md-slider>
+                            <md-input-container>
+                                <input flex type="number" ng-model="user.weight" aria-label="blue" aria-controls="blue-slider"
+                                       min="40"
+                                       max="130"
+                                       required>
+                            </md-input-container>
+                            kg
+                        </md-slider-container>
+                    </div>
                 <md-input-container class="md-block">
                     <label>Favourite quote</label>
                     <textarea ng-model="user.quote" md-maxlength="64" rows="2" md-select-on-focus></textarea>
@@ -66,9 +57,9 @@
             </div>
         </md-dialog-content>
 
-        <md-dialog-actions  layout="row">
+        <md-dialog-actions ng-controller="myApp.MainCtrl as main" layout="row">
 
-            <md-button ng-disabled="!user.name || !user.weight" ng-click="submit(user)">
+            <md-button ng-disabled="!user.name || !user.weight" ng-click="main.submit(user); cancel()">
                Submit
 
             </md-button>

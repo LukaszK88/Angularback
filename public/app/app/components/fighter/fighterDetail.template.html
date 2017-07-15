@@ -8,7 +8,7 @@
                     <span class="md-subhead"></span>
                 </md-card-title-text>
             </md-card-title>
-            <md-card-content>
+            <md-card-content class="text-center" >
 
                 <div ng-show="fighterCtrl.fighterLoggedIn()">
                     <div ngf-drop
@@ -39,6 +39,10 @@
                         <md-button class="wc-theme" ng-click="upload(croppedImg, file.name)">Upload</md-button>
                     </div>
                 </div>
+                <span  ng-if="!fighterCtrl.fighterLoggedIn()">
+                    <img ng-show="fighter.image" class="photo-news" src="{{fighter.image}}">
+                    <img ng-show="!fighter.image" class="photo-news" src="app/img/profile_placeholder.png">
+                </span>
 
             </md-card-content>
         </md-card>
@@ -144,14 +148,6 @@
                                     </md-option>
                                 </md-select>
                             </md-input-container>
-                            <!--<md-input-container class="md-block" flex-gt-sm>-->
-                                <!--<label>Country </label>-->
-                                <!--<md-select ng-model="achievement.location" required>-->
-                                    <!--<md-option ng-repeat="country in countries" ng-value="country.code">-->
-                                        <!--{{ country.name }}-->
-                                    <!--</md-option>-->
-                                <!--</md-select>-->
-                            <!--</md-input-container>-->
                             <div ng-show="eventSelected">
                                 <md-input-container>
                                     <label>Category </label>

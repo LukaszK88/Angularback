@@ -15,8 +15,6 @@ var myApp;
             this.loading = true;
             this.$auth.signup(user)
                 .then(function (response) {
-                //this.$auth.setToken(response.data.token);
-                //this.$auth.login(user);
                 _this.$timeout(function () {
                     _this.$location.path('/');
                     _this.$window.location.reload();
