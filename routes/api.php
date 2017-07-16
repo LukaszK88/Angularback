@@ -13,27 +13,32 @@ use Illuminate\Http\Request;
 |
 */
 
-
 //USER
-Route::get('/fighter',[
-    'uses' => 'FightersController@user'
-] )->middleware('jwt.auth');
-
-Route::post('/user/recover','FightersController@passwordRecovery');
+Route::get('/user-current','UsersController@getCurrentUser')->middleware('jwt.auth');
+Route::put('/user/update','UsersController@updateUser');
+Route::put('/user/updatePassword','UsersController@updatePassword');
+Route::post('/user/recover','UsersController@passwordRecovery');
 Route::resource('/user','UsersController');
 Route::get('/user-roles','UsersController@getUserRoles');
+Route::post('/storePhoto/{id}', 'UsersController@storeUserPhoto');
+Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserEventInfo');
 
+//AUTH
+Route::post('/user/store','AuthController@store');
+Route::post('/user/authenticate','AuthController@authenticate');
+Route::post('/login/facebook','AuthController@facebook');
+Route::post('/login/google', 'AuthController@google');
 
-
-Route::get('/fighters/{id?}',['uses' => 'RankingController@index']);
-Route::get('/fighters-leaderboard',['uses' => 'RankingController@getTableData']);
-Route::post('/fighters/bohurt',['uses' => 'RankingController@saveBohurt'] );
-Route::post('/fighters/profight',['uses' => 'RankingController@saveProfight'] );
-Route::post('/fighters/sword_shield',['uses' => 'RankingController@saveSwordShield'] );
-Route::post('/fighters/longsword',['uses' => 'RankingController@saveLongsword'] );
-Route::post('/fighters/sword_buckler',['uses' => 'RankingController@saveSwordBuckler'] );
-Route::post('/fighters/polearm',['uses' => 'RankingController@savePolearm'] );
-Route::post('/fighters/triathlon',['uses' => 'RankingController@saveTriathlon'] );
+//RANKING
+Route::get('/ranking/{id?}','RankingController@getFighters');
+Route::get('/ranking-leaderboard','RankingController@getTableData');
+Route::post('/ranking/bohurt','RankingController@saveBohurt');
+Route::post('/ranking/profight','RankingController@saveProfight');
+Route::post('/ranking/sword_shield','RankingController@saveSwordShield');
+Route::post('/ranking/longsword','RankingController@saveLongsword');
+Route::post('/ranking/sword_buckler','RankingController@saveSwordBuckler');
+Route::post('/ranking/polearm','RankingController@savePolearm');
+Route::post('/ranking/triathlon','RankingController@saveTriathlon');
 
 //TODO work on REST
 Route::get('/achievement/{userId}','AchievementController@index');
@@ -45,8 +50,7 @@ Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementControl
 ////admin
 Route::get('/admin/{type}','UsersController@showUsers');
 Route::post('/admin/{userId}/{action}','UsersController@adminAction');
-//FIGHTER INFO
-Route::get('/fighter/event-info/{eventAttendId}/{userId}','FightersController@getUserEventInfo');
+
 //EVENTS
 Route::resource('/event','EventsController');
 Route::resource('/event/notes','EventNotesController');
@@ -77,27 +81,5 @@ Route::resource('/video','VideoController');
 Route::get('/images/gallery/{postId}','ImagesController@showGalleryById');
 Route::post('/images/gallery/delete/{postId}','ImagesController@deleteGallery');
 
-
-Route::post('/fighters/store',['uses' => 'FightersController@store'] );
-
-Route::put('/fighters/updatePassword',['uses' => 'FightersController@updatePassword'
-] );
-Route::put('/fighters/update','FightersController@update');
-
+//Email
 Route::post('/send', 'EmailController@send');
-
-Route::post('/fighters/authenticate',[
-    'uses' => 'FightersController@authenticate'
-] );
-
-Route::post('/login/facebook', [
-    'uses' => 'FightersController@facebook'
-]);
-
-Route::post('/login/google', [
-    'uses' => 'FightersController@google'
-]);
-
-Route::post('/storePhoto/{id}', [
-    'uses' => 'FightersController@storePhoto'
-]);

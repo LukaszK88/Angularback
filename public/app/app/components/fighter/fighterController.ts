@@ -7,7 +7,7 @@ module myApp{
                 '$http',
                 '$scope',
                 '$location',
-                'FighterResource',
+                'RankingResource',
                 '$stateParams',
                 'Upload',
                 'AchievementResource',
@@ -31,7 +31,7 @@ module myApp{
         constructor(public $http:ng.IHttpService,
                     public $scope:ng.IScope,
                     public $location:any,
-                    protected FighterResource:any,
+                    protected RankingResource:any,
                     protected $stateParams:any,
                     public Upload:any,
                     protected Achievement:any,
@@ -72,9 +72,9 @@ module myApp{
             };
 
             if(this.$stateParams['fighterId']) {
-                this.FighterResource.get({fighterId: this.$stateParams['fighterId']}).$promise
+                this.RankingResource.get({fighterId: this.$stateParams['fighterId']}).$promise
                     .then((response: any) => {
-                        $scope.fighter = response.fighters;
+                        $scope.fighter = response;
                     });
             }
         }
@@ -89,7 +89,7 @@ module myApp{
             this.EventResource.attendees({eventId:event.id}).$promise
                 .then((response:any) => {
                     event.users = response;
-                    this.FighterResource.getFighterEventInfo({eventAttendId:event.eventAttendId,userId:this.$stateParams['fighterId']}).$promise
+                    this.RankingResource.getFighterEventInfo({eventAttendId:event.eventAttendId,userId:this.$stateParams['fighterId']}).$promise
                         .then((response:any) => {
                             event.attending_categories = response.event_attend_category;
                         });

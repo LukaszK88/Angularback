@@ -26,7 +26,7 @@ class RankingController extends ApiController
      * @return \Illuminate\Http\Response
      */
 
-    public function index($id = null, User $user)
+    public function getFighters($id = null, User $user)
     {
         if(!$id) {
             $fighters = User::
@@ -50,7 +50,7 @@ class RankingController extends ApiController
                 $fighter['triathlonPoints'] = $fighter->triathlon->sum('points');
             }
         }
-        elseif ($id){
+        elseif ($id) {
             $fighters = User::with('bohurt')
                 ->with('profight')
                 ->with('swordShield')
@@ -62,18 +62,13 @@ class RankingController extends ApiController
                 ->first();
 
             $fighters['age'] = Carbon::parse($fighters['age'])->diffInYears(Carbon::now('Europe/London'));
-
         }
-        $response = [
-            'fighters' => $fighters
-        ];
 
-        return response()->json($response, 200);
-
+        return $this->respond($fighters);
     }
 
-    public function getTableData(){
-
+    public function getTableData()
+    {
         $data = [];
         $leaderBoardTables = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
         foreach ($leaderBoardTables as $leaderBoardTable){
@@ -220,18 +215,6 @@ class RankingController extends ApiController
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
 
     /**
      * Remove the specified resource from storage.

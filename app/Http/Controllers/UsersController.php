@@ -8,6 +8,10 @@ use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 /**
  * Class UsersController
@@ -29,11 +33,79 @@ class UsersController extends ApiController
         return $this->respond($users);
     }
 
+    public function getCurrentUser()
+    {
+        $token = JWTAuth::getToken();
+
+        $user = JWTAuth::toUser($token);
+
+        return response()->json($user);
+
+    }
+
+    public function updateUser(Request $request)
+    {
+        $token = JWTAuth::getToken();
+        $user = JWTAuth::toUser($token);
+
+        $user->update($request->all());
+
+
+        return $this->responseCreated('Profile updated');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $token = JWTAuth::getToken();
+        $user = JWTAuth::toUser($token);
+
+        if($user->password){
+            $valid = Auth::attempt(['username' => $user->username, 'password' => $request->input('currentPassword')]);
+            if(!$valid){
+                return $this->responseNotFound('Current Password do not match our record');
+            }
+        }
+        $user->update([
+            'password' => bcrypt($request->input('newPassword'))
+        ]);
+
+        return $this->responseCreated('Password updated');
+    }
+
+    public function storePhoto(Request $request, $id, User $user)
+    {
+        $file = $request->file('file');
+
+        $name = $file->getClientOriginalName();
+
+        Storage::disk('local')->put('public/'.$id.'/'.$name , file_get_contents($file->getRealPath()));
+
+        $imageUrl = config('app.url').'/storage/'.$id.'/'.$name;
+
+        $user->updateOrCreate(['id'=> $id]
+            ,['image' => $imageUrl]);
+
+        $response = [
+            'message' => 'Photo Uploaded',
+            'imageUrl' => $imageUrl
+        ];
+
+        return response()->json($response, 200);
+
+    }
+
     public function getUserRoles()
     {
         $userRoles = UserRole::all();
 
         return $this->respond($userRoles);
+    }
+
+    public function getUserEventInfo($eventAttendId, $userId, User $user){
+
+        $userEventInfo = $user->getUserWithCategoriesHeAttendsOnEvent($eventAttendId, $userId);
+
+        return $this->respond($userEventInfo);
     }
 
     /**
@@ -104,17 +176,19 @@ class UsersController extends ApiController
         $user = User::where('username',$request->input('username'))->first();
 
         if($user){
+
             $password = md5($request->input('username'));
 
             $user->update([
-                'password' => '',
+                'password' => bcrypt($password),
                 'temp_password' => $password
             ]);
 
-
             //sent email
-           Mail::to($user->username)->send(new PasswordRecovery($password));
+            Mail::to($user->username)->send(new PasswordRecovery($password));
             return $this->responseCreated('Recovery email sent!');
+
+            //return $this->responseCreated('Recovery email sent!');
         }
 
         return $this->responseNotFound('User does not exist in our records');

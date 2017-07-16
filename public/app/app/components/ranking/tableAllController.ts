@@ -1,4 +1,3 @@
-
 module myApp.ranking{
 
     'use-strict';
@@ -8,10 +7,10 @@ module myApp.ranking{
                 '$http',
                 '$scope',
                 '$location',
-                'FighterResource',
                 '$stateParams',
                 'EventResource',
-                'toastService'
+                'toastService',
+                'FighterResource'
             ];
 
             public path:string;
@@ -22,10 +21,10 @@ module myApp.ranking{
         constructor(public $http:ng.IHttpService,
                         public $scope:ng.IScope,
                         public $location:any,
-                        protected FighterResource:any,
                         protected $stateParams:any,
                         protected event:any,
-                    protected toastService:any
+                        protected toastService:any,
+                    protected FighterResource:any
             ){
 
                 $scope.selectedIndex = 0;
@@ -63,7 +62,7 @@ module myApp.ranking{
 
             this.FighterResource.get().$promise
                 .then((response:any) => {
-                    $scope.fighters = response.fighters;
+                    $scope.fighters = response;
                 });
 
             }

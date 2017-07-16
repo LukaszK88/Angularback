@@ -21,31 +21,29 @@ module myApp {
         ) {
 
         }
-        public currentUser =  () => {
+        public currentUser = () => {
         if(this.$auth.getToken()){
-            return this.$http.get(this.config.API + 'fighter');
+            return this.$http.get(this.config.API + 'user-current');
         }else {
             this.$q.reject({ message: 'User has no Token'});
         }
         };
 
-        public updateUser =  (data) => {
+        public updateUser = (data) => {
         if(this.$auth.getToken()){
-            return this.$http.put(this.config.API + 'fighters/update', data);
+            return this.$http.put(this.config.API + 'user/update', data);
         }else {
             this.$q.reject({ message: 'User has no Token'});
         }
         };
 
-        public updateUserPassword =  (data) => {
+        public updateUserPassword = (data) => {
             if(this.$auth.getToken()){
-                console.log(data);
-                return this.$http.put(this.config.API + 'fighters/updatePassword', data);
+                return this.$http.put(this.config.API + 'user/updatePassword', data);
             }else {
                 this.$q.reject({ message: 'User has no Token'});
             }
         };
-
 
     }
     angular.module('myApp').service('auth', Auth);

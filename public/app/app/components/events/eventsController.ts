@@ -53,17 +53,13 @@ module myApp{
 
         }
         public fetchAttendees(){
-
             this.event.attendees({eventId:this.$stateParams['tournamentId']}).$promise.then((response) => {
                 this.attendees = response;
-               // console.log(this.attendees);
             });
         }
 
         public fetchTournament(){
-            console.log(this.$stateParams['tournamentId']);
             this.event.get({eventId:this.$stateParams['tournamentId']}).$promise.then((response) => {
-                console.log(response);
                 this.tournament = response;
                 this.attendingCount = response.attendance.length;
             });

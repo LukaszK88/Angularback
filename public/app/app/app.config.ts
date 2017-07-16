@@ -17,16 +17,15 @@ angular.module('myApp')
                 clientId: '230761834733-cn34419a1ftkee8lgha90ija7nvckks6.apps.googleusercontent.com'
             });
 
-
             $authProvider.baseUrl = '/';
-            $authProvider.loginUrl = config.API +'fighters/authenticate';
-            $authProvider.signupUrl = config.API +'fighters/store';
+            $authProvider.loginUrl = config.API +'user/authenticate';
+            $authProvider.signupUrl = config.API +'user/store';
             $authProvider.tokenPrefix = '';
             $authProvider.tokenName = 'token';
             $authProvider.storageType = 'localStorage';
 
 
-// Facebook
+            // Facebook
             $authProvider.facebook({
                 name: 'facebook',
                 url: config.API +'login/facebook',
@@ -131,12 +130,6 @@ angular.module('myApp')
                 controller: 'myApp.EditorCtrl',
                 controllerAs: 'editorCtrl'
             })
-            // .state("bohurt", <any>{
-            //     url: "/ranking/bohurt",
-            //     templateUrl:'app/components/ranking/ranking.html',
-            //     controller: 'myApp.ranking.TableAllController',
-            //     controllerAs: 'ranking'
-            // })
             .state("register", {
                 url: "/register",
                 templateUrl:'app/app/templates/register.template.html',
