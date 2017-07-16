@@ -30,15 +30,15 @@ Route::post('/login/facebook','AuthController@facebook');
 Route::post('/login/google', 'AuthController@google');
 
 //RANKING
-Route::get('/ranking/{id?}','RankingController@getFighters');
-Route::get('/ranking-leaderboard','RankingController@getTableData');
-Route::post('/ranking/bohurt','RankingController@saveBohurt');
-Route::post('/ranking/profight','RankingController@saveProfight');
-Route::post('/ranking/sword_shield','RankingController@saveSwordShield');
-Route::post('/ranking/longsword','RankingController@saveLongsword');
-Route::post('/ranking/sword_buckler','RankingController@saveSwordBuckler');
-Route::post('/ranking/polearm','RankingController@savePolearm');
-Route::post('/ranking/triathlon','RankingController@saveTriathlon');
+Route::get('/fighters/{id?}','RankingController@getFighters');
+Route::get('/fighters-leaderboard','RankingController@getTableData');
+Route::post('/fighters/bohurt','RankingController@saveBohurt');
+Route::post('/fighters/profight','RankingController@saveProfight');
+Route::post('/fighters/sword_shield','RankingController@saveSwordShield');
+Route::post('/fighters/longsword','RankingController@saveLongsword');
+Route::post('/fighters/sword_buckler','RankingController@saveSwordBuckler');
+Route::post('/fighters/polearm','RankingController@savePolearm');
+Route::post('/fighters/triathlon','RankingController@saveTriathlon');
 
 //TODO work on REST
 Route::get('/achievement/{userId}','AchievementController@index');

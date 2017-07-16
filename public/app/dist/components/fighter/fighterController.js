@@ -2,12 +2,12 @@ var myApp;
 (function (myApp) {
     'use-strict';
     var FighterCtrl = (function () {
-        function FighterCtrl($http, $scope, $location, RankingResource, $stateParams, Upload, Achievement, Toast, EventResource, _, uiCalendarConfig, $compile, config) {
+        function FighterCtrl($http, $scope, $location, FighterResource, $stateParams, Upload, Achievement, Toast, EventResource, _, uiCalendarConfig, $compile, config) {
             var _this = this;
             this.$http = $http;
             this.$scope = $scope;
             this.$location = $location;
-            this.RankingResource = RankingResource;
+            this.FighterResource = FighterResource;
             this.$stateParams = $stateParams;
             this.Upload = Upload;
             this.Achievement = Achievement;
@@ -135,7 +135,7 @@ var myApp;
         '$http',
         '$scope',
         '$location',
-        'RankingResource',
+        'FighterResource',
         '$stateParams',
         'Upload',
         'AchievementResource',

@@ -1,7 +1,7 @@
 /**
  * Created by lukas on 20/05/17.
  */
-module myApp {
+module myApp.ranking {
 
     'use strict';
 
@@ -16,15 +16,19 @@ module myApp {
     ){
 
         return $resource(
-            config.API + 'ranking/:fighterId',
+            config.API + 'fighters/:fighterId',
             {
                 fighterId: '@fighterId'
             },
-            {
+            {    get: {
+                method: 'GET',
+                isArray: true
+                },
+
                 getFighterEventInfo: {
                     method: 'GET',
-                    //isArray: true,
-                    url: config.API + 'user/event-info/:eventAttendId/:userId',
+                    isArray: true,
+                    url: config.API + 'fighter/event-info/:eventAttendId/:userId',
                     params: {
                         eventAttendId: '@eventAttendId',
                         userId: '@userId'
@@ -33,15 +37,15 @@ module myApp {
                 getLeaderboardData:{
                     method: 'GET',
                     //isArray: true,
-                    url: config.API + 'ranking-leaderboard',
+                    url: config.API + 'fighters-leaderboard',
                 },
                 getFighterData: {
                     method: 'GET',
-                    url:  config.API + 'ranking/tableData'
+                    url:  config.API + 'fighters/tableData'
                 },
                 saveUpdate: {
                     method: 'POST',
-                    url: config.API + 'ranking/:type',
+                    url: config.API + 'fighters/:type',
                     params: {
                         type: '@type'
                     }
@@ -53,7 +57,7 @@ module myApp {
             });
     }
 
-    angular.module('myApp')
+    angular.module('myApp.ranking')
         .factory('FighterResource', FighterResource);
 
 }
