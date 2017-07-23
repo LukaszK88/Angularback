@@ -27,6 +27,8 @@ Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserE
 Route::post('/user/store','AuthController@store');
 Route::post('/user/authenticate','AuthController@authenticate');
 Route::post('/login/facebook','AuthController@facebook');
+Route::post('/login-facebook','AuthController@facebook2');
+Route::post('/login-google','AuthController@google2');
 Route::post('/login/google', 'AuthController@google');
 
 //RANKING

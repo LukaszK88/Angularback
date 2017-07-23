@@ -20,6 +20,12 @@ use Illuminate\Support\Facades\DB;
 class RankingController extends ApiController
 {
 
+    protected $rankingTransformer;
+
+    public function __construct(RankingTransformer $rankingTransformer)
+    {
+        $this->rankingTransformer = $rankingTransformer;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +35,7 @@ class RankingController extends ApiController
     public function getFighters($id = null, User $user)
     {
         if(!$id) {
-            $fighters = User::
+            $rawFightersData = User::
                 with('bohurt')
                 ->with('profight')
                 ->with('swordShield')
@@ -40,15 +46,10 @@ class RankingController extends ApiController
                 ->where('name', '!=', '')
                 ->get();
 
-            foreach ($fighters as $key => $fighter){
-                $fighter['bohurtPoints'] = $fighter->bohurt->sum('points');
-                $fighter['profightPoints'] = $fighter->profight->sum('points');
-                $fighter['swordShieldPoints'] = $fighter->swordShield->sum('points');
-                $fighter['longswordPoints'] = $fighter->longsword->sum('points');
-                $fighter['swordBucklerPoints'] = $fighter->swordBuckler->sum('points');
-                $fighter['polearmPoints'] = $fighter->polearm->sum('points');
-                $fighter['triathlonPoints'] = $fighter->triathlon->sum('points');
-            }
+            $data = $this->prepareFightersDataForRanking($rawFightersData);
+
+            $fighters = $this->rankingTransformer->transformCollection($data);
+
         }
         elseif ($id) {
             $fighters = User::with('bohurt')
@@ -67,13 +68,74 @@ class RankingController extends ApiController
         return $this->respond($fighters);
     }
 
+    private function prepareFightersDataForRanking($fighters)
+    {
+        foreach ($fighters as $key => $fighter){
+            $fighter['bohurtTable'] = [
+                'lastMan' => $fighter->bohurt->sum('last'),
+                'fights' => $fighter->bohurt->sum('fights'),
+                'won' => $fighter->bohurt->sum('won'),
+                'suicide' => $fighter->bohurt->sum('suicide'),
+                'points' => $fighter->bohurt->sum('points'),
+                'down' => $fighter->bohurt->sum('down')
+            ];
+            $fighter['profightTable'] = [
+                'loss' => $fighter->profight->sum('loss'),
+                'fights' => $fighter->profight->sum('fights'),
+                'win' => $fighter->profight->sum('win'),
+                'ko' => $fighter->profight->sum('ko'),
+                'fc1' => $fighter->profight->sum('fc_1'),
+                'fc2' => $fighter->profight->sum('fc_2'),
+                'fc3' => $fighter->profight->sum('fc_3'),
+                'points' => $fighter->profight->sum('points')
+            ];
+            $fighter['swordShieldTable'] = $this->standardTableData($fighter,'swordShield');
+            $fighter['swordBucklerTable'] = $this->standardTableData($fighter,'swordBuckler');
+            $fighter['longswordTable'] = $this->standardTableData($fighter,'longsword');
+            $fighter['polearmTable'] = $this->standardTableData($fighter,'polearm');
+            $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
+
+//            $fighter['bohurtPoints'] = $fighter->bohurt->sum('points');
+//            $fighter['profightPoints'] = $fighter->profight->sum('points');
+//            $fighter['swordShieldPoints'] = $fighter->swordShield->sum('points');
+//            $fighter['longswordPoints'] = $fighter->longsword->sum('points');
+//            $fighter['swordBucklerPoints'] = $fighter->swordBuckler->sum('points');
+//            $fighter['polearmPoints'] = $fighter->polearm->sum('points');
+//            $fighter['triathlonPoints'] = $fighter->triathlon->sum('points');
+        }
+
+        return $fighters;
+    }
+
+    private function standardTableData($fighter,$table)
+    {
+        $columns=['loss','fights','win','points'];
+        foreach ($columns as $key => $col){
+            $columns[$col] = $fighter[$table]->sum($col);
+            if(is_numeric($key)) unset($columns[$key]);
+        }
+        return $columns;
+    }
+
+    //leaderboard
     public function getTableData()
     {
         $data = [];
         $leaderBoardTables = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
-        foreach ($leaderBoardTables as $leaderBoardTable){
+        foreach ($leaderBoardTables as $key => $leaderBoardTable){
             $data[$leaderBoardTable] = $this->getMaxPointsPerRankingTable($leaderBoardTable);
+            $data[$leaderBoardTable]->category = $leaderBoardTable;
         }
+
+        $data = array_map(function($data){
+            return[
+                'created_at' => $data->created_at,
+                'name' => $data->name,
+                'max_points' => $data->max_points,
+                'category' => ucfirst(str_replace('_',' ',$data->category))
+            ];
+        },$data);
+
         $data['The Rock'] = DB::table('bohurts')
             ->join('users','users.id','=','bohurts.user_id')
             ->select(DB::raw('(abs(((sum(suicide) + sum(down)) / sum(fights) *100)-100)) as max_points'),'bohurts.created_at','users.name')
@@ -81,6 +143,7 @@ class RankingController extends ApiController
             ->orderBy('max_points','desc')
             ->first();
         $data['The Rock']->max_points = substr($data['The Rock']->max_points,0,2).' %';
+        $data['The Rock']->category = 'The Rock';
 
         return $this->respond($data);
     }

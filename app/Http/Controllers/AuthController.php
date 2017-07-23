@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Mail\Registration;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 
 class AuthController extends ApiController
@@ -31,7 +32,7 @@ class AuthController extends ApiController
             'password' => bcrypt($request->input('password'))
         ]);
         Mail::to($user->username)->send(new Registration($user));
-        return $this->tokenCreated(JWTAuth::fromUser($user),'Registration succesful, you will hear back from us once your account is activated');
+        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
     }
 
     public function authenticate(Request $request)
@@ -69,6 +70,46 @@ class AuthController extends ApiController
                     return $this->responseNotFound('Wrong combination');
                 }
             }
+        }
+    }
+
+    public function facebook2(Request $request)
+    {
+        $data = $request->all();
+
+        $user = User::where(User::COL_USERNAME,$data['email'])->first();
+        if($user){
+            return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook!');
+        }else{
+
+            $user = User::create([
+                'username' => $data['email'],
+                'facebook' => $data['uid'],
+                'facebook_picture' => $data['image'],
+                'name' => $data['name']
+            ]);
+            Mail::to($user->username)->send(new Registration($user));
+            return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
+        }
+    }
+
+    public function google2(Request $request)
+    {
+        $data = $request->all();
+
+        $user = User::where(User::COL_USERNAME,$data['email'])->first();
+        if($user){
+            return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with google!');
+        }else{
+
+            $user = User::create([
+                'username' => $data['email'],
+                'google' => $data['uid'],
+                'google_picture' => $data['image'],
+                'name' => $data['name']
+            ]);
+            Mail::to($user->username)->send(new Registration($user));
+            return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
         }
     }
 
