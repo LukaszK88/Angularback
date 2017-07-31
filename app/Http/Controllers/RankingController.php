@@ -52,7 +52,7 @@ class RankingController extends ApiController
 
         }
         elseif ($id) {
-            $fighters = User::with('bohurt')
+            $fighter = User::with('bohurt')
                 ->with('profight')
                 ->with('swordShield')
                 ->with('longsword')
@@ -61,6 +61,33 @@ class RankingController extends ApiController
                 ->with('triathlon')
                 ->where('id', $id)
                 ->first();
+
+            $fighter['bohurtTable'] = [
+                'lastMan' => $fighter->bohurt->sum('last'),
+                'fights' => $fighter->bohurt->sum('fights'),
+                'won' => $fighter->bohurt->sum('won'),
+                'suicide' => $fighter->bohurt->sum('suicide'),
+                'points' => $fighter->bohurt->sum('points'),
+                'down' => $fighter->bohurt->sum('down')
+            ];
+            $fighter['profightTable'] = [
+                'loss' => $fighter->profight->sum('loss'),
+                'fights' => $fighter->profight->sum('fights'),
+                'win' => $fighter->profight->sum('win'),
+                'ko' => $fighter->profight->sum('ko'),
+                'fc1' => $fighter->profight->sum('fc_1'),
+                'fc2' => $fighter->profight->sum('fc_2'),
+                'fc3' => $fighter->profight->sum('fc_3'),
+                'points' => $fighter->profight->sum('points')
+            ];
+            $fighter['swordShieldTable'] = $this->standardTableData($fighter,'swordShield');
+            $fighter['swordBucklerTable'] = $this->standardTableData($fighter,'swordBuckler');
+            $fighter['longswordTable'] = $this->standardTableData($fighter,'longsword');
+            $fighter['polearmTable'] = $this->standardTableData($fighter,'polearm');
+            $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
+
+            $fighters = $fighter;
+
 
             $fighters['age'] = Carbon::parse($fighters['age'])->diffInYears(Carbon::now('Europe/London'));
         }
@@ -95,13 +122,6 @@ class RankingController extends ApiController
             $fighter['polearmTable'] = $this->standardTableData($fighter,'polearm');
             $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
 
-//            $fighter['bohurtPoints'] = $fighter->bohurt->sum('points');
-//            $fighter['profightPoints'] = $fighter->profight->sum('points');
-//            $fighter['swordShieldPoints'] = $fighter->swordShield->sum('points');
-//            $fighter['longswordPoints'] = $fighter->longsword->sum('points');
-//            $fighter['swordBucklerPoints'] = $fighter->swordBuckler->sum('points');
-//            $fighter['polearmPoints'] = $fighter->polearm->sum('points');
-//            $fighter['triathlonPoints'] = $fighter->triathlon->sum('points');
         }
 
         return $fighters;
@@ -158,7 +178,7 @@ class RankingController extends ApiController
                 'points' => ((($record->won * 2) + $record->last) - ($record->suicide * 3))
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -175,7 +195,7 @@ class RankingController extends ApiController
                 'points' => (($record->win * 3) + ($record->ko * 4) + ($record->loss) + ($record->fc_1 * 10) + ($record->fc_2 * 6) + ($record->fc_3 * 3))
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -192,7 +212,7 @@ class RankingController extends ApiController
                 'points' => $record->win
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -209,7 +229,7 @@ class RankingController extends ApiController
                 'points' => $record->win
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -226,7 +246,7 @@ class RankingController extends ApiController
                 'points' => $record->win
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -243,7 +263,7 @@ class RankingController extends ApiController
                 'points' => $record->win
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -260,7 +280,7 @@ class RankingController extends ApiController
                 'points' => $record->win
             ]);
 
-            $this->addTotalPoints($request->input('fighterId'), $record->points);
+            $this->addTotalPoints($record->user_id, $record->points);
         }
 
         return $this->responseCreated('Fighter record updated');
@@ -292,16 +312,7 @@ class RankingController extends ApiController
 
     private function saveTypeRecord($request, $class){
 
-        foreach ($request->all() as $record => $value){
-            $records[] = $record;
-            $values[] = $value;
-        }
-
-        $fighterId = ['user_id' => $request->input($records[1])];
-
-        $data = array_merge($values[0],$fighterId);
-
-        $savedRecord = $class->create($data);
+        $savedRecord = $class->create($request->all());
 
         return $savedRecord;
     }

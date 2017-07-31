@@ -7,18 +7,28 @@ use Illuminate\Http\Request;
 
 class AchievementController extends ApiController
 {
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($userId)
+    public function index($userId = null)
     {
+        if(!$userId){
+            $userId = $this->request->query('id');
+        }
         if($userId){
             $achievements = Achievement::with('event')->where('user_id',$userId)->get();
             $countires = Achievement::
                 with(['event' =>function($query) {
-                    $query->select('id','location');
+                    $query->select('id','location');!
                     $query->groupBy('location');
                 }])
                 ->where('user_id',$userId)
@@ -37,7 +47,7 @@ class AchievementController extends ApiController
 
                 ]
             ];
-            return response()->json($response, 200);
+            return $this->respond($response);
         }
     }
 
@@ -83,10 +93,10 @@ class AchievementController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($userid, $achievementId)
+    public function show($achievementId)
     {
-       $achievement = Achievement::where('user_id',$userid)
-           ->where('id',$achievementId)
+       $achievement = Achievement::
+           where('id',$achievementId)
            ->first();
        return $this->respond($achievement);
     }
@@ -132,14 +142,13 @@ class AchievementController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteAchievement($userId, $achievementId)
+    public function deleteAchievement($achievementId)
     {
        $achievement = Achievement::find($achievementId);
 
        if($achievementId){
            $achievement->delete();
 
-          // return $this->respond($achievement);
            return $this->responseDeleted('Achievement Deleted');
        }
     }

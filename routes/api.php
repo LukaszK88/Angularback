@@ -43,20 +43,21 @@ Route::post('/fighters/polearm','RankingController@savePolearm');
 Route::post('/fighters/triathlon','RankingController@saveTriathlon');
 
 //TODO work on REST
-Route::get('/achievement/{userId}','AchievementController@index');
+Route::get('/achievement/{userId?}','AchievementController@index');
 Route::post('/achievement','AchievementController@store');
 Route::put('/achievement/{achievementId}','AchievementController@update');
-Route::get('/achievement/{userId}/{achievementId}','AchievementController@show');
-Route::post('/achievement/{userId?}/{achievementId?}/delete','AchievementController@deleteAchievement');
+Route::get('/achievement/{achievementId}','AchievementController@show');
+Route::delete('/achievement/{achievementId?}','AchievementController@deleteAchievement');
 
 ////admin
-Route::get('/admin/{type}','UsersController@showUsers');
-Route::post('/admin/{userId}/{action}','UsersController@adminAction');
+Route::get('/admin','UsersController@showUsers');
+Route::get('/admin/{userId}/{action}','UsersController@adminAction');
 
 //EVENTS
 Route::resource('/event','EventsController');
 Route::resource('/event/notes','EventNotesController');
 
+Route::get('/event-type/{type}','EventsController@getEventsByType2');
 Route::get('/events/{type}','EventsController@getEventsByType');
 Route::get('/event-types','EventsController@getEventTypes');
 Route::post('/event-attend/{eventId}/{userId}','EventsController@attendEvent');

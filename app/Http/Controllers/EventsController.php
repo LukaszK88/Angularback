@@ -32,6 +32,14 @@ class EventsController extends ApiController
 
     }
 
+    //TODO use for admin panel
+    public function getEventsByType2($type)
+    {
+        $events = Event::where(Event::COL_EVENT_TYPE_ID,$type)->get();
+
+        return $this->respond($events);
+    }
+
     public function getEventsByType($type)
     {
         $events = Event::leftJoin(Image::TABLE, function ($join) {

@@ -72,9 +72,9 @@ class UsersController extends ApiController
         return $this->responseCreated('Password updated');
     }
 
-    public function storePhoto(Request $request, $id, User $user)
+    public function storeUserPhoto(Request $request, $id, User $user)
     {
-        $file = $request->file('file');
+        $file = $request->file('image');
 
         $name = $file->getClientOriginalName();
 
@@ -134,16 +134,26 @@ class UsersController extends ApiController
 
     }
 
-    public function showUsers($type)
+    public function showUsers()
     {
-        if($type == 'blocked'){
-            $users = User::where('status',2)->get();
-        }
-        if($type == 'unauthorized'){
-            $users = User::where('status',0)->get();
-        }
+        $data = User::all();
 
-        return $this->respond($users);
+        foreach ($data as $user){
+            if($user['status'] == 0){
+               $unauthorised[] = $user;
+            }elseif ($user['status'] == 2){
+                $blocked[] = $user;
+            }
+        }
+        if(isset($unauthorised)){
+            $users['unauthorised'] = $unauthorised;
+        }
+        if(isset($blocked)){
+            $users['blocked'] = $blocked;
+        }
+        if(isset($users)){
+            return $this->respond($users);
+        }
     }
 
     public function adminAction($userId, $action)
