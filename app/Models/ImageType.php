@@ -11,7 +11,7 @@ class ImageType extends Model
     const TABLE = 'image_types';
 
     const   COL_ID = 'id',
-        COL_TYPE = 'type';
+            COL_TYPE = 'type';
 
     const   TCOL_TYPE = self::TABLE.'.'.self::COL_TYPE;
 
@@ -19,9 +19,8 @@ class ImageType extends Model
         self::COL_TYPE
     ];
 
-    public function image(){
-
+    public function image()
+    {
         return $this->belongsToMany(Image::class);
-
     }
 }

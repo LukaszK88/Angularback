@@ -21,18 +21,15 @@ class AuthController extends ApiController
             'email' => 'required|unique:users,username',
         ]);
 
-        if ($validator->fails()) {
-
-            return $this->responseNotFound($validator->errors());
-
-        }
+        if ($validator->fails()) return $this->responseNotFound($validator->errors());
 
         $user = User::create([
             'username' => $request->input('email'),
             'password' => bcrypt($request->input('password'))
         ]);
+
         Mail::to($user->username)->send(new Registration($user));
-        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
+        return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
     }
 
     public function authenticate(Request $request)
@@ -156,11 +153,7 @@ class AuthController extends ApiController
             'facebook_picture' => $profile['picture']['data']['url'],
         ]);
 
-
         return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
-
-
-
     }
 
     /**
@@ -207,7 +200,6 @@ class AuthController extends ApiController
             'google_picture' => $profile['picture'],
         ]);
         return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
-
 
     }
 }

@@ -11,7 +11,8 @@ namespace App\Http\Transformers;
 abstract class Transformers
 {
 
-    public function transformCollection($items){
+    public function transformCollection($items)
+    {
         return array_map([$this, 'transform'],$items->toArray());
     }
 

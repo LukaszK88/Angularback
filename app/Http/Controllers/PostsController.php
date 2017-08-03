@@ -33,8 +33,7 @@ class PostsController extends ApiController
 
     public function getPostsOfType($type)
     {
-        $posts =
-            Post::leftJoin(Image::TABLE, function ($join) {
+        $posts = Post::leftJoin(Image::TABLE, function ($join) {
                     $join->on(Post::TCOL_ID,'=',Image::TCOL_POST_ID)
                         ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
                 ->leftJoin(Video::TABLE, function ($join) {
@@ -45,7 +44,6 @@ class PostsController extends ApiController
 
                 ->select('post.*',PostType::TCOL_TYPE, Image::TCOL_URL, Video::TCOL_URL.' AS video_url')
                // ->where(Post::TCOL_POST_TYPE,$type)
-
                 ->where(PostType::TCOL_SLUG,$type)
                 ->whereNotNull(Post::TCOL_BODY)
                 ->groupBy(Post::TCOL_ID)
@@ -110,7 +108,6 @@ class PostsController extends ApiController
             ->find($id);
 
         $now = Carbon::now();
-        //$nowCarbon = Carbon::parse($now->now);
 
         foreach ($post['comments'] as $comment){
             //TODO function

@@ -11,13 +11,13 @@ class EventAttendence extends Model
     const TABLE = 'event_attend';
 
     const   COL_ID = 'id',
-        COL_USER_ID = 'user_id',
-        COL_GOING = 'going',
-        COL_EVENT_ID = 'event_id';
+            COL_USER_ID = 'user_id',
+            COL_GOING = 'going',
+            COL_EVENT_ID = 'event_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
-        TCOL_USER_ID = self::TABLE.'.'.self::COL_USER_ID,
-        TCOL_EVENT_ID = self::TABLE.'.'.self::COL_EVENT_ID;
+            TCOL_USER_ID = self::TABLE.'.'.self::COL_USER_ID,
+            TCOL_EVENT_ID = self::TABLE.'.'.self::COL_EVENT_ID;
 
     protected $fillable=[
         self::COL_USER_ID,
@@ -34,20 +34,18 @@ class EventAttendence extends Model
             ->get();
     }
 
-    public function user(){
-
+    public function user()
+    {
         return $this->belongsTo(User::class);
-
     }
 
     public function eventAttendCategory()
     {
-        return $this->hasMany(EventAttendCategory::class, 'event_attend_id', 'id');
+        return $this->hasMany(EventAttendCategory::class, EventAttendCategory::COL_EVENT_ATTEND_ID, 'id');
     }
 
-    public function event(){
-
+    public function event()
+    {
         return $this->belongsTo(Event::class);
-
     }
 }

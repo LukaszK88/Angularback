@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class UsersController extends ApiController
 {
+    //TODO split into AdminCtrl
     /**
      * Display a listing of the resource.
      *
@@ -182,26 +183,20 @@ class UsersController extends ApiController
 
     public function passwordRecovery(Request $request)
     {
-
         $user = User::where('username',$request->input('username'))->first();
 
-        if($user){
+        if(!$user) return $this->responseNotFound('User does not exist in our records');
 
-            $password = md5($request->input('username'));
+        $password = md5($request->input('username'));
 
-            $user->update([
-                'password' => bcrypt($password),
-                'temp_password' => $password
-            ]);
+        $user->update([
+            User::COL_PASSWORD => bcrypt($password),
+            User::COL_TEMP_PASSWORD => $password
+        ]);
 
-            //sent email
-            Mail::to($user->username)->send(new PasswordRecovery($password));
-            return $this->responseCreated('Recovery email sent!');
-
-            //return $this->responseCreated('Recovery email sent!');
-        }
-
-        return $this->responseNotFound('User does not exist in our records');
+        //sent email
+        Mail::to($user->username)->send(new PasswordRecovery($password));
+        return $this->responseCreated('Recovery email sent!');
     }
 
 

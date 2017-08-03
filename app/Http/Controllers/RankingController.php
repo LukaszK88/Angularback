@@ -35,8 +35,7 @@ class RankingController extends ApiController
     public function getFighters($id = null, User $user)
     {
         if(!$id) {
-            $rawFightersData = User::
-                with('bohurt')
+            $rawFightersData = User::with('bohurt')
                 ->with('profight')
                 ->with('swordShield')
                 ->with('longsword')
@@ -49,7 +48,6 @@ class RankingController extends ApiController
             $data = $this->prepareFightersDataForRanking($rawFightersData);
 
             $fighters = $this->rankingTransformer->transformCollection($data);
-
         }
         elseif ($id) {
             $fighter = User::with('bohurt')
@@ -327,12 +325,12 @@ class RankingController extends ApiController
 
     private function getMaxPointsPerRankingTable($table)
     {
-      return  DB::table($table)
-            ->join('users','users.id','=',''.$table.'.user_id')
-            ->select(''.$table.'.created_at','users.name',DB::raw('sum(points) as max_points'))
-            ->groupBy(''.$table.'.user_id')
-            ->orderBy('max_points','desc')
-            ->first();
+        return DB::table($table)
+                ->join('users','users.id','=',''.$table.'.user_id')
+                ->select(''.$table.'.created_at','users.name',DB::raw('sum(points) as max_points'))
+                ->groupBy(''.$table.'.user_id')
+                ->orderBy('max_points','desc')
+                ->first();
     }
 
 }

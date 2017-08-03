@@ -16,8 +16,7 @@ class Cors
      */
 
         public function handle($request, Closure $next)
-    {
-
+        {
             return $next($request)
                 ->header('Cache-Control' , 'public')
                 ->header('Access-Control-Allow-Origin', '*')

@@ -11,8 +11,8 @@ namespace App\Http\Transformers;
 class UserTransformer extends Transformers
 {
 
-    public function transform($user){
-
+    public function transform($user)
+    {
         return [
             'id' => $user['id'],
             'name' => $user['name'],

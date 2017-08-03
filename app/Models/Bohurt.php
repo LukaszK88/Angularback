@@ -15,28 +15,34 @@ class Bohurt extends Model{
 
     protected $table = 'bohurts';
 
-    const COL_EVENT_ID = 'event_id';
+    const   COL_EVENT_ID = 'event_id',
+            COL_USER_ID = 'user_id',
+            COL_FIGHTS = 'fights',
+            COL_WON = 'won',
+            COL_LAST = 'last',
+            COL_DOWN = 'down',
+            COL_SUICIDE = 'suicide',
+            COL_POINTS = 'points';
+
 
     protected $fillable=[
-        'user_id',
-        'fights',
-        'won',
-        'last',
-        'down',
-        'suicide',
+        self::COL_USER_ID,
+        self::COL_FIGHTS,
+        self::COL_WON,
+        self::COL_LAST,
+        self::COL_DOWN,
+        self::COL_SUICIDE,
         self::COL_EVENT_ID,
-        'points'
+        self::COL_POINTS
     ];
 
-    public function event(){
-
+    public function event()
+    {
         return $this->belongsTo(Event::class);
-
     }
     
-    public function user(){
-
+    public function user()
+    {
         return $this->belongsToMany(User::class);
-
     }
 }

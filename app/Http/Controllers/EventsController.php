@@ -20,12 +20,12 @@ class EventsController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {  //TODO transform
        $events = Event::with('user')
             ->with('eventType')
             ->with('category')
-           ->with('attendance')
-           ->with(['note','note.user'])
+            ->with('attendance')
+            ->with(['note','note.user'])
             ->get();
 
         return $this->respond($events);
@@ -39,7 +39,7 @@ class EventsController extends ApiController
 
         return $this->respond($events);
     }
-
+    //TODO event list
     public function getEventsByType($type)
     {
         $events = Event::leftJoin(Image::TABLE, function ($join) {
@@ -96,18 +96,18 @@ class EventsController extends ApiController
         $data = $request->all();
 
         $event = Event::create([
-            'user_id' => $data['user_id'],
-            'title' => $data['title'],
-            'body' => $data['body'],
-            'location' => $data['location'],
-            'date' => $data['date'],
-            'event_type_id' => $data['event_type_id'],
+            Event::COL_USER_ID => $data['user_id'],
+            Event::COL_TITLE => $data['title'],
+            Event::COL_BODY => $data['body'],
+            Event::COL_LOCATION => $data['location'],
+            Event::COL_DATE => $data['date'],
+            Event::COL_EVENT_TYPE_ID => $data['event_type_id']
         ]);
 
         foreach ($data['categories'] as $category => $key){
             EventCategories::create([
-                'event_id' => $event->id,
-                'name' => $category
+                EventCategories::COL_EVENT_ID => $event->id,
+                EventCategories::COL_NAME => $category
             ]);
         }
 
@@ -132,8 +132,8 @@ class EventsController extends ApiController
         return $this->respond($event);
     }
 
-    public function getEventAttendees($eventId, EventAttendence $eventAttendence){
-
+    public function getEventAttendees($eventId, EventAttendence $eventAttendence)
+    {
         $eventAttendees = $eventAttendence->getEventAttendees($eventId);
 
         return $this->respond($eventAttendees);
@@ -163,24 +163,23 @@ class EventsController extends ApiController
         $data = $request->all();
         if($event){
             $event->update([
-                'user_id' => $data['user_id'],
-                'title' => $data['title'],
-                'body' => $data['body'],
-                'location' => $data['location'],
-                'date' => $data['date'],
-                'event_type_id' => $data['event_type_id'],
+                Event::COL_USER_ID => $data['user_id'],
+                Event::COL_TITLE => $data['title'],
+                Event::COL_BODY => $data['body'],
+                Event::COL_LOCATION => $data['location'],
+                Event::COL_DATE => $data['date'],
+                Event::COL_EVENT_TYPE_ID => $data['event_type_id']
             ]);
 //TODO delete on false
-            foreach ($data['categories'] as $category => $key){
+        foreach ($data['categories'] as $category => $key){
 
-                EventCategories::updateOrCreate(['event_id' => $id,'name' => $category],[
-                    'event_id' => $id,
-                    'name' => $category
+            EventCategories::updateOrCreate([EventCategories::COL_EVENT_ID => $id,EventCategories::COL_NAME => $category],
+                [
+                    EventCategories::COL_EVENT_ID => $event->id,
+                    EventCategories::COL_NAME => $category
                 ]);
-
-
-            }
-            return $this->respond($data);
+        }
+        return $this->respond($data);
         }
     }
 
@@ -197,8 +196,8 @@ class EventsController extends ApiController
         return $this->responseDeleted('Event Deleted');
     }
 
-    public function attendEvent($eventId, $userId, Request $request){
-
+    public function attendEvent($eventId, $userId, Request $request)
+    {
         $attendance  =EventAttendence::updateOrCreate([
             EventAttendence::COL_EVENT_ID => $eventId,
             EventAttendence::COL_USER_ID => $userId
@@ -209,8 +208,8 @@ class EventsController extends ApiController
         return $this->respond($attendance);
     }
 
-    public function storeEventAttendedCategories($eventAttendId,Request $request){
-
+    public function storeEventAttendedCategories($eventAttendId,Request $request)
+    {
         foreach ($request->all() as $category => $key){
             if($key === true) {
                 EventAttendCategory::updateOrCreate([

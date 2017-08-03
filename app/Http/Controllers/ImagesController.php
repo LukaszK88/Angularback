@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends ApiController
 {
+    //TODO split to 2 controllers image / gallery + image service
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +48,6 @@ class ImagesController extends ApiController
 
     public function storePostImages(Request $request, $postId, $type)
     {
-
         if($type == '2'){
             $file = $request->file('file');
 
@@ -85,24 +85,21 @@ class ImagesController extends ApiController
 
     public function storeEventImages(Request $request, $eventId, $type)
     {
+        $file = $request->file('file');
 
+        $name = $file['header']->getClientOriginalName();
 
-            $file = $request->file('file');
+        Storage::disk('local')->put('public/event-' . $eventId . '/' . $name, file_get_contents($file['header']->getRealPath()));
 
-            $name = $file['header']->getClientOriginalName();
+        $imageUrl = config('app.url') . '/storage/event-' . $eventId . '/' . $name;
 
-            Storage::disk('local')->put('public/event-' . $eventId . '/' . $name, file_get_contents($file['header']->getRealPath()));
+        Image::create([
+            'image_type_id' => $type,
+            'url' => $imageUrl,
+            'event_id' => $eventId
+        ]);
 
-            $imageUrl = config('app.url') . '/storage/event-' . $eventId . '/' . $name;
-
-            Image::create([
-                'image_type_id' => $type,
-                'url' => $imageUrl,
-                'event_id' => $eventId
-            ]);
-
-            return $this->responseCreated('Header added');
-
+        return $this->responseCreated('Header added');
     }
 
     /**
@@ -122,6 +119,10 @@ class ImagesController extends ApiController
         return $this->respond($postImages);
     }
 
+    /**
+     * @param $postId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function showGalleryById($postId)
     {
         $galleryImages = Image::where('post_id',$postId)
@@ -167,18 +168,21 @@ class ImagesController extends ApiController
         $this->responseDeleted('Image Deleted');
     }
 
+    /**
+     * @param $postId
+     */
     public function deleteGallery($postId)
     {
         Image::where(Image::COL_POST_ID,$postId)->delete();
 
         $post = Post::find($postId);
+
         if($post->body === null){
             $post->delete();
-        }elseif ($post->body){
-            $post->update([
-                Post::COL_GALLERY => 0
-            ]);
         }
+        $post->update([
+            Post::COL_GALLERY => 0
+        ]);
 
         $this->responseDeleted('Gallery Deleted');
     }

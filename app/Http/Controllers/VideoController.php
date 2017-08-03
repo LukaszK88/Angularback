@@ -36,17 +36,11 @@ class VideoController extends ApiController
     public function store(Request $request)
     {
         $data = $request->all();
-        if($data['video_type_id'] === 1){
-            Video::updateOrCreate([
-               Video::COL_POST_ID => $data['post_id'],
-               Video::COL_VIDEO_TYPE_ID => $data['video_type_id']
-            ],[
-              Video::COL_USER_ID => $data['user_id'],
-                Video::COL_URL => $data['url']
-            ]);
-        }else {
-            $video = Video::create($request->all());
-        }
+
+        $video = Video::create($data);
+
+        if (!$video) return $this->respondWithError('Couldn\'t add the video');
+
         return $this->responseCreated('Video Added');
     }
 
@@ -81,7 +75,7 @@ class VideoController extends ApiController
      */
     public function update(Request $request, $id)
     {
-
+        //TODO update method as only saving atm
     }
 
     /**

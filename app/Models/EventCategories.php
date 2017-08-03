@@ -11,8 +11,8 @@ class EventCategories extends Model
     const TABLE = 'event_categories';
 
     const   COL_ID = 'id',
-        COL_NAME = 'name',
-        COL_EVENT_ID = 'event_id';
+            COL_NAME = 'name',
+            COL_EVENT_ID = 'event_id';
 
     const   TCOL_NAME = self::TABLE.'.'.self::COL_NAME;
 
@@ -21,9 +21,8 @@ class EventCategories extends Model
         self::COL_EVENT_ID
     ];
 
-    public function event(){
-
+    public function event()
+    {
         return $this->belongsToMany(Event::class);
-
     }
 }

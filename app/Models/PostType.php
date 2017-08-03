@@ -14,17 +14,16 @@ class PostType extends Model
             COL_SLUG = 'slug',
             COL_TYPE = 'type';
 
-    const TCOL_SLUG = self::TABLE.'.'.self::COL_SLUG,
-        TCOL_TYPE = self::TABLE.'.'.self::COL_TYPE;
+    const   TCOL_SLUG = self::TABLE.'.'.self::COL_SLUG,
+            TCOL_TYPE = self::TABLE.'.'.self::COL_TYPE;
 
     protected $fillable=[
         self::COL_SLUG,
-        'type'
+        self::COL_TYPE
     ];
 
-    public function post(){
-
+    public function post()
+    {
         return $this->belongsToMany(Post::class);
-
     }
 }

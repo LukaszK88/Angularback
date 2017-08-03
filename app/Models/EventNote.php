@@ -11,13 +11,13 @@ class EventNote extends Model
     const TABLE = 'event_notes';
 
     const   COL_ID = 'id',
-        COL_USER_ID = 'user_id',
-        COL_BODY = 'body',
-        COL_EVENT_ID = 'event_id';
+            COL_USER_ID = 'user_id',
+            COL_BODY = 'body',
+            COL_EVENT_ID = 'event_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
-        TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
-        TCOL_EVENT_TYPE_ID = self::TABLE.'.'.self::COL_EVENT_ID;
+            TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
+            TCOL_EVENT_TYPE_ID = self::TABLE.'.'.self::COL_EVENT_ID;
 
     protected $fillable=[
         self::COL_USER_ID,
@@ -27,7 +27,7 @@ class EventNote extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', self::COL_USER_ID);
     }
 
     public function event()

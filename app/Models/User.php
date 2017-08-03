@@ -12,40 +12,49 @@ class User extends Authenticatable
 
     const TABLE = 'users';
 
-    const COL_USER_ROLE_ID = 'user_role_id',
-        COL_NAME = 'name',
-        COL_FACEBOOK_IMG = 'facebook_picture',
-        COL_GOOGLE_IMG = 'google_picture',
-        COL_IMG = 'image',
-        COL_USERNAME = 'username',
-        COL_ID = 'id';
+    const   COL_USER_ROLE_ID = 'user_role_id',
+            COL_NAME = 'name',
+            COL_TEMP_PASSWORD = 'temp_password',
+            COL_STATUS = 'status',
+            COL_AGE = 'age',
+            COL_ABOUT = 'about',
+            COL_QUOTE = 'quote',
+            COL_PASSWORD = 'password',
+            COL_FACEBOOK = 'facebook',
+            COL_GOOGLE = 'google',
+            COL_WEIGHT = 'weight',
+            COL_TOTAL_POINTS = 'total_points',
+            COL_FACEBOOK_IMG = 'facebook_picture',
+            COL_GOOGLE_IMG = 'google_picture',
+            COL_IMG = 'image',
+            COL_USERNAME = 'username',
+            COL_ID = 'id';
 
-    const TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
-        TCOL_NAME = self::TABLE.'.'.self::COL_NAME,
-        TCOL_FACEBOOK_IMG = self::TABLE.'.'.self::COL_FACEBOOK_IMG,
-        TCOL_GOOGLE_IMG = self::TABLE.'.'.self::COL_GOOGLE_IMG,
-        TCOL_IMG = self::TABLE.'.'.self::COL_IMG,
-        TCOL_USERNAME = self::TABLE.'.'.self::COL_USERNAME,
-        TCOL_ID = self::TABLE.'.'.self::COL_ID;
+    const   TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
+            TCOL_NAME = self::TABLE.'.'.self::COL_NAME,
+            TCOL_FACEBOOK_IMG = self::TABLE.'.'.self::COL_FACEBOOK_IMG,
+            TCOL_GOOGLE_IMG = self::TABLE.'.'.self::COL_GOOGLE_IMG,
+            TCOL_IMG = self::TABLE.'.'.self::COL_IMG,
+            TCOL_USERNAME = self::TABLE.'.'.self::COL_USERNAME,
+            TCOL_ID = self::TABLE.'.'.self::COL_ID;
 
     protected $fillable=[
-        'name',
-        'username',
-        'temp_password',
-        'salt',
-        'status',
-        'age',
-        'about',
-        'quote',
-        'password',
-        'facebook',
-        'facebook_picture',
-        'google',
-        'google_picture',
+        self::COL_NAME,
+        self::COL_USERNAME,
         self::COL_USER_ROLE_ID,
-        'weight',
-        'image',
-        'total_points',
+        self::COL_STATUS,
+        self::COL_AGE,
+        self::COL_ABOUT,
+        self::COL_QUOTE,
+        self::COL_PASSWORD,
+        self::COL_TEMP_PASSWORD,
+        self::COL_FACEBOOK,
+        self::COL_GOOGLE,
+        self::COL_FACEBOOK_IMG,
+        self::COL_GOOGLE_IMG,
+        self::COL_WEIGHT,
+        self::COL_TOTAL_POINTS,
+        self::COL_IMG
     ];
 
     public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)
@@ -64,58 +73,58 @@ class User extends Authenticatable
         return $this->belongsTo(EventNote::class, 'user_id', 'id');
     }
 
-    public function bohurt(){
-
+    public function bohurt()
+    {
         return $this->hasMany(Bohurt::class);
     }
 
-    public function post(){
-
+    public function post()
+    {
         return $this->hasMany(Post::class);
     }
 
-    public function triathlon(){
-
+    public function triathlon()
+    {
         return $this->hasMany(Triathlon::class);
     }
 
-    public function swordShield(){
-
+    public function swordShield()
+    {
         return $this->hasMany(SwordShield::class);
     }
 
-    public function longsword(){
-
+    public function longsword()
+    {
         return $this->hasMany(Longsword::class);
     }
 
-    public function polearm(){
-
+    public function polearm()
+    {
         return $this->hasMany(Polearm::class);
     }
 
-    public function profight(){
-
+    public function profight()
+    {
         return $this->hasMany(Profight::class);
     }
 
-    public function swordBuckler(){
-
+    public function swordBuckler()
+    {
         return $this->hasMany(SwordBuckler::class);
     }
 
-    public function achievement(){
-
+    public function achievement()
+    {
         return $this->hasMany(Achievement::class);
     }
 
-    public function event(){
-
+    public function event()
+    {
         return $this->hasMany(Event::class);
     }
 
-    public function role(){
-
+    public function role()
+    {
         return $this->hasOne(UserRole::class);
     }
 
@@ -128,8 +137,8 @@ class User extends Authenticatable
         );
     }
 
-    public function attendence(){
-
+    public function attendence()
+    {
         return $this->hasOne(EventAttendence::class, 'id', 'user_id');
     }
 }

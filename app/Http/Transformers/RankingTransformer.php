@@ -11,8 +11,8 @@ namespace App\Http\Transformers;
 class RankingTransformer extends Transformers
 {
 
-    public function transform($fighter){
-
+    public function transform($fighter)
+    {
         return [
             'id' => $fighter['id'],
             'name' => $fighter['name'],

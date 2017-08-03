@@ -11,13 +11,13 @@ class Comment extends Model
     const TABLE = 'comments';
 
     const   COL_ID = 'id',
-        COL_USER_ID = 'user_id',
-        COL_BODY = 'body',
-        COL_POST_ID = 'post_id';
+            COL_USER_ID = 'user_id',
+            COL_BODY = 'body',
+            COL_POST_ID = 'post_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
-        TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
-        TCOL_POST_ID = self::TABLE.'.'.self::COL_POST_ID;
+            TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
+            TCOL_POST_ID = self::TABLE.'.'.self::COL_POST_ID;
 
     protected $fillable=[
         self::COL_USER_ID,
@@ -32,11 +32,11 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->hasOne(Post::class, 'id', 'post_id');
+        return $this->hasOne(Post::class, 'id', self::COL_POST_ID);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', self::COL_USER_ID);
     }
 }
