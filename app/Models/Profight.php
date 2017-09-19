@@ -17,13 +17,18 @@ class Profight extends BaseRanking {
     const   COL_FC_1_ID = 'fc_1',
             COL_FC_2_ID = 'fc_2',
             COL_FC_3_ID = 'fc_3',
+        COL_EVENT_ID = 'event_id',
+        COL_USER_ID = 'user_id',
             COL_KO = 'ko';
 
 
     protected $fillable=[
+        self::COL_USER_ID,
+        self::COL_EVENT_ID,
         self::COL_FC_1_ID,
         self::COL_FC_2_ID,
         self::COL_FC_3_ID,
+        self::COL_POINTS,
         self::COL_KO
     ];
     

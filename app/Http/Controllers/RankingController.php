@@ -179,7 +179,7 @@ class RankingController extends ApiController
             $this->addTotalPoints($record->user_id, $record->points);
         }
 
-        return $this->responseCreated('Fighter record updated');
+        return $this->respondWithMessageAndData('Record Updated',$record);
 
     }
 

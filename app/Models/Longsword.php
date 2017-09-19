@@ -12,6 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 class Longsword extends BaseRanking {
 
     protected $table = 'longswords';
+
+    protected $fillable = [
+        self::COL_USER_ID,
+        self::COL_EVENT_ID,
+        self::COL_WIN,
+        self::COL_POINTS,
+        self::COL_LOSS
+    ];
     
     public function user()
     {

@@ -34,8 +34,9 @@ class UsersController extends ApiController
         return $this->respond($users);
     }
 
-    public function getCurrentUser()
+    public function getCurrentUser(Request $request)
     {
+        JWTAuth::setRequest($request);
         $token = JWTAuth::getToken();
 
         $user = JWTAuth::toUser($token);
@@ -49,10 +50,11 @@ class UsersController extends ApiController
         $token = JWTAuth::getToken();
         $user = JWTAuth::toUser($token);
 
-        $user->update($request->all());
+        $newRecord = $user->update($request->all());
 
+        if($newRecord) $updatedUser = $request->all();
 
-        return $this->responseCreated('Profile updated');
+        return $this->respondWithMessageAndData('Profile updated', $updatedUser);
     }
 
     public function updatePassword(Request $request)
@@ -75,7 +77,7 @@ class UsersController extends ApiController
 
     public function storeUserPhoto(Request $request, $id, User $user)
     {
-        $file = $request->file('image');
+        $file = $request->file('file');
 
         $name = $file->getClientOriginalName();
 

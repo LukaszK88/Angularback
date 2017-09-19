@@ -81,11 +81,11 @@ class AuthController extends ApiController
 
             $user = User::create([
                 'username' => $data['email'],
-                'facebook' => $data['uid'],
-                'facebook_picture' => $data['image'],
+                'facebook' => $data['id'],
+                'facebook_picture' => $data['picture']['data']['url'],
                 'name' => $data['name']
             ]);
-            Mail::to($user->username)->send(new Registration($user));
+            //Mail::to($user->username)->send(new Registration($user));
             return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
         }
     }

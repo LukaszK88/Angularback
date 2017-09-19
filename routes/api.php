@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 //USER
 Route::get('/user-current','UsersController@getCurrentUser')->middleware('jwt.auth');
-Route::put('/user/update','UsersController@updateUser');
+Route::put('/user-update','UsersController@updateUser');
 Route::put('/user/updatePassword','UsersController@updatePassword');
 Route::post('/user/recover','UsersController@passwordRecovery');
 Route::resource('/user','UsersController');
@@ -24,7 +24,7 @@ Route::post('/storePhoto/{id}', 'UsersController@storeUserPhoto');
 Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserEventInfo');
 
 //AUTH
-Route::post('/user/store','AuthController@store');
+Route::post('/user-store','AuthController@store');
 Route::post('/user/authenticate','AuthController@authenticate');
 Route::post('/login/facebook','AuthController@facebook');
 Route::post('/login-facebook','AuthController@facebook2');

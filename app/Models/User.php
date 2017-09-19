@@ -28,6 +28,7 @@ class User extends Authenticatable
             COL_GOOGLE_IMG = 'google_picture',
             COL_IMG = 'image',
             COL_USERNAME = 'username',
+            COL_CLUB = 'club',
             COL_ID = 'id';
 
     const   TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
@@ -54,7 +55,8 @@ class User extends Authenticatable
         self::COL_GOOGLE_IMG,
         self::COL_WEIGHT,
         self::COL_TOTAL_POINTS,
-        self::COL_IMG
+        self::COL_IMG,
+        self::COL_CLUB
     ];
 
     public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)

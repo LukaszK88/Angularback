@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Achievement;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class AchievementController extends ApiController
@@ -30,10 +31,10 @@ class AchievementController extends ApiController
 
             $countires = Achievement::
                 with(['event' =>function($query) {
-                    $query->select('id',Achievement::COL_LOCATION);
-                    $query->groupBy(Achievement::COL_LOCATION);
+                    $query->select('id',Event::COL_LOCATION);
                 }])
                 ->where(Achievement::COL_USER_ID,$userId)
+                ->groupBy(Achievement::COL_EVENT_ID)
                 ->get();
 
             $response = [
@@ -74,7 +75,7 @@ class AchievementController extends ApiController
 
         if(!$data) return $this->respondWithError('Achievement Save failed');
 
-       $data[Achievement::COL_CUP] = $this->prepareCup($data);
+        $data[Achievement::COL_CUP] = $this->prepareCup($data);
 
         $achievement = Achievement::create($data);
 
