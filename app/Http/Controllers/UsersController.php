@@ -41,6 +41,8 @@ class UsersController extends ApiController
 
         $user = JWTAuth::toUser($token);
 
+        $user = User::with('club')->where(User::COL_ID,$user->id)->first();
+
         return response()->json($user);
 
     }
@@ -77,6 +79,7 @@ class UsersController extends ApiController
 
     public function storeUserPhoto(Request $request, $id, User $user)
     {
+
         $file = $request->file('file');
 
         $name = $file->getClientOriginalName();

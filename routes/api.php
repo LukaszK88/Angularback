@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 //USER
 Route::get('/user-current','UsersController@getCurrentUser')->middleware('jwt.auth');
 Route::put('/user-update','UsersController@updateUser');
-Route::put('/user/updatePassword','UsersController@updatePassword');
-Route::post('/user/recover','UsersController@passwordRecovery');
+Route::put('/user-updatePassword','UsersController@updatePassword');
+Route::post('/user-recover','UsersController@passwordRecovery');
 Route::resource('/user','UsersController');
 Route::get('/user-roles','UsersController@getUserRoles');
 Route::post('/storePhoto/{id}', 'UsersController@storeUserPhoto');
@@ -64,6 +64,9 @@ Route::post('/event-attend/{eventId}/{userId}','EventsController@attendEvent');
 Route::post('/event-attend-categories/{eventAttendId}','EventsController@storeEventAttendedCategories');
 Route::get('/event-attendees/{eventId}','EventsController@getEventAttendees');
 Route::get('/event-attending/{userId}','EventsController@getEventsAttendedByUser');
+
+//Clubs
+Route::resource('/club','ClubsController');
 
 //BLOG
 Route::resource('/post','PostsController');

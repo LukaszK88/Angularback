@@ -28,7 +28,8 @@ class User extends Authenticatable
             COL_GOOGLE_IMG = 'google_picture',
             COL_IMG = 'image',
             COL_USERNAME = 'username',
-            COL_CLUB = 'club',
+            COL_CLUB_ID = 'club_id',
+            COL_CLUB_ADMIN_ID = 'club_admin_id',
             COL_ID = 'id';
 
     const   TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
@@ -37,6 +38,7 @@ class User extends Authenticatable
             TCOL_GOOGLE_IMG = self::TABLE.'.'.self::COL_GOOGLE_IMG,
             TCOL_IMG = self::TABLE.'.'.self::COL_IMG,
             TCOL_USERNAME = self::TABLE.'.'.self::COL_USERNAME,
+            TCOL_CLUB = self::TABLE.'.'.self::COL_CLUB_ID,
             TCOL_ID = self::TABLE.'.'.self::COL_ID;
 
     protected $fillable=[
@@ -56,7 +58,8 @@ class User extends Authenticatable
         self::COL_WEIGHT,
         self::COL_TOTAL_POINTS,
         self::COL_IMG,
-        self::COL_CLUB
+        self::COL_CLUB_ID,
+        self::COL_CLUB_ADMIN_ID
     ];
 
     public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)
@@ -142,5 +145,10 @@ class User extends Authenticatable
     public function attendence()
     {
         return $this->hasOne(EventAttendence::class, 'id', 'user_id');
+    }
+
+    public function club()
+    {
+        return $this->hasOne(Club::class, 'id', 'club_id');
     }
 }

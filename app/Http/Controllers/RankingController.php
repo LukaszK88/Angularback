@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bohurt;
 use App\Http\Transformers\RankingTransformer;
+use App\Models\Club;
 use App\Models\Longsword;
 use App\Models\Polearm;
 use App\Models\Profight;
@@ -42,7 +43,9 @@ class RankingController extends ApiController
                 ->with('swordBuckler')
                 ->with('polearm')
                 ->with('triathlon')
+                ->with('club')
                 ->where('name', '!=', '')
+                ->whereNotNull(User::COL_CLUB_ID)
                 ->get();
 
             $data = $this->prepareFightersDataForRanking($rawFightersData);
@@ -56,6 +59,7 @@ class RankingController extends ApiController
                 ->with('longsword')
                 ->with('swordBuckler')
                 ->with('polearm')
+                ->with('club')
                 ->with('triathlon')
                 ->where('id', $id)
                 ->first();
@@ -85,7 +89,6 @@ class RankingController extends ApiController
             $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
 
             $fighters = $fighter;
-
 
             $fighters['age'] = Carbon::parse($fighters['age'])->diffInYears(Carbon::now('Europe/London'));
         }
@@ -147,6 +150,11 @@ class RankingController extends ApiController
 
         $data = array_map(function($data){
             return[
+                'id' => $data->id,
+                'club' => $data->club,
+                'image' => $data->image,
+                'fb_image' => $data->facebook_picture,
+                'g_image' => $data->google_picture,
                 'created_at' => $data->created_at,
                 'name' => $data->name,
                 'max_points' => $data->max_points,
@@ -156,10 +164,22 @@ class RankingController extends ApiController
 
         $data['The Rock'] = DB::table('bohurts')
             ->join('users','users.id','=','bohurts.user_id')
-            ->select(DB::raw('(abs(((sum(suicide) + sum(down)) / sum(fights) *100)-100)) as max_points'),'bohurts.created_at','users.name')
+            ->join('clubs','clubs.id','=','users.club_id')
+            ->select(DB::raw('(abs(((sum(suicide) + sum(down)) / sum(fights) *100)-100)) as max_points'),
+                'bohurts.created_at',
+                'users.name',
+                User::TCOL_ID,
+                User::TCOL_FACEBOOK_IMG,
+                User::TCOL_GOOGLE_IMG,
+                User::TCOL_IMG,
+                Club::TCOL_NAME.' as club'
+            )
             ->groupBy('bohurts.user_id')
             ->orderBy('max_points','desc')
             ->first();
+        $data['The Rock']->fb_picture = $data['The Rock']->facebook_picture;
+        $data['The Rock']->g_picture = $data['The Rock']->google_picture;
+        unset($data['The Rock']->facebook_picture, $data['The Rock']->google_picture);
         $data['The Rock']->max_points = substr($data['The Rock']->max_points,0,2).' %';
         $data['The Rock']->category = 'The Rock';
 
@@ -179,7 +199,7 @@ class RankingController extends ApiController
             $this->addTotalPoints($record->user_id, $record->points);
         }
 
-        return $this->respondWithMessageAndData('Record Updated',$record);
+        return $this->responseCreated('Fighter record updated');
 
     }
 
@@ -327,7 +347,16 @@ class RankingController extends ApiController
     {
         return DB::table($table)
                 ->join('users','users.id','=',''.$table.'.user_id')
-                ->select(''.$table.'.created_at','users.name',DB::raw('sum(points) as max_points'))
+                ->join('clubs','clubs.id','=','users.club_id')
+                ->select(
+                    ''.$table.'.created_at',
+                    User::TCOL_NAME,
+                    User::TCOL_ID,
+                    User::TCOL_FACEBOOK_IMG,
+                    User::TCOL_GOOGLE_IMG,
+                    User::TCOL_IMG,
+                    Club::TCOL_NAME.' as club',
+                    DB::raw('sum(points) as max_points'))
                 ->groupBy(''.$table.'.user_id')
                 ->orderBy('max_points','desc')
                 ->first();
