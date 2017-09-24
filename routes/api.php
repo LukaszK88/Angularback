@@ -32,7 +32,8 @@ Route::post('/login-google','AuthController@google2');
 Route::post('/login/google', 'AuthController@google');
 
 //RANKING
-Route::get('/fighters/{id?}','RankingController@getFighters');
+Route::get('/fighters/{clubId}/{date?}','RankingController@getFighters');
+Route::get('/fighter/{id}','RankingController@getFighter');
 Route::get('/fighters-leaderboard','RankingController@getTableData');
 Route::post('/fighters/bohurt','RankingController@saveBohurt');
 Route::post('/fighters/profight','RankingController@saveProfight');

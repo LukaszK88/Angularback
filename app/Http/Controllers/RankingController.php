@@ -33,67 +33,76 @@ class RankingController extends ApiController
      * @return \Illuminate\Http\Response
      */
 
-    public function getFighters($id = null, User $user)
+    public function getFighters($clubId, $date = null)
     {
-        if(!$id) {
-            $rawFightersData = User::with('bohurt')
-                ->with('profight')
-                ->with('swordShield')
-                ->with('longsword')
-                ->with('swordBuckler')
-                ->with('polearm')
-                ->with('triathlon')
-                ->with('club')
-                ->where('name', '!=', '')
-                ->whereNotNull(User::COL_CLUB_ID)
-                ->get();
+        $rawFighters = User::with('bohurt')
+            ->with('profight')
+            ->with('swordShield')
+            ->with('longsword')
+            ->with('swordBuckler')
+            ->with('polearm')
+            ->with('triathlon')
+            ->with('club')
+            ->where('name', '!=', '')
+            ->whereNotNull(User::COL_CLUB_ID);
 
-            $data = $this->prepareFightersDataForRanking($rawFightersData);
-
-            $fighters = $this->rankingTransformer->transformCollection($data);
-        }
-        elseif ($id) {
-            $fighter = User::with('bohurt')
-                ->with('profight')
-                ->with('swordShield')
-                ->with('longsword')
-                ->with('swordBuckler')
-                ->with('polearm')
-                ->with('club')
-                ->with('triathlon')
-                ->where('id', $id)
-                ->first();
-
-            $fighter['bohurtTable'] = [
-                'lastMan' => $fighter->bohurt->sum('last'),
-                'fights' => $fighter->bohurt->sum('fights'),
-                'won' => $fighter->bohurt->sum('won'),
-                'suicide' => $fighter->bohurt->sum('suicide'),
-                'points' => $fighter->bohurt->sum('points'),
-                'down' => $fighter->bohurt->sum('down')
-            ];
-            $fighter['profightTable'] = [
-                'loss' => $fighter->profight->sum('loss'),
-                'fights' => $fighter->profight->sum('fights'),
-                'win' => $fighter->profight->sum('win'),
-                'ko' => $fighter->profight->sum('ko'),
-                'fc1' => $fighter->profight->sum('fc_1'),
-                'fc2' => $fighter->profight->sum('fc_2'),
-                'fc3' => $fighter->profight->sum('fc_3'),
-                'points' => $fighter->profight->sum('points')
-            ];
-            $fighter['swordShieldTable'] = $this->standardTableData($fighter,'swordShield');
-            $fighter['swordBucklerTable'] = $this->standardTableData($fighter,'swordBuckler');
-            $fighter['longswordTable'] = $this->standardTableData($fighter,'longsword');
-            $fighter['polearmTable'] = $this->standardTableData($fighter,'polearm');
-            $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
-
-            $fighters = $fighter;
-
-            $fighters['age'] = Carbon::parse($fighters['age'])->diffInYears(Carbon::now('Europe/London'));
+        if($date === '2017'){
+            //start date range in 2018
         }
 
-        return $this->respond($fighters);
+        if(empty($clubId)){
+            $rawFightersData = $rawFighters->paginate(8);
+        }else{
+            $rawFightersData = $rawFighters->where('club_id',$clubId)->paginate(8);
+        }
+
+        $data = $this->prepareFightersDataForRanking($rawFightersData);
+        //return $this->respond($data);
+        //$fighters = $this->rankingTransformer->transformCollection($data);
+
+        return $this->respond($data);
+    }
+
+    public function getFighter($id, User $user)
+    {
+        $fighter = User::with('bohurt')
+            ->with('profight')
+            ->with('swordShield')
+            ->with('longsword')
+            ->with('swordBuckler')
+            ->with('polearm')
+            ->with('club')
+            ->with('triathlon')
+            ->where('id', $id)
+            ->first();
+
+        $fighter['bohurtTable'] = [
+            'lastMan' => $fighter->bohurt->sum('last'),
+            'fights' => $fighter->bohurt->sum('fights'),
+            'won' => $fighter->bohurt->sum('won'),
+            'suicide' => $fighter->bohurt->sum('suicide'),
+            'points' => $fighter->bohurt->sum('points'),
+            'down' => $fighter->bohurt->sum('down')
+        ];
+        $fighter['profightTable'] = [
+            'loss' => $fighter->profight->sum('loss'),
+            'fights' => $fighter->profight->sum('fights'),
+            'win' => $fighter->profight->sum('win'),
+            'ko' => $fighter->profight->sum('ko'),
+            'fc1' => $fighter->profight->sum('fc_1'),
+            'fc2' => $fighter->profight->sum('fc_2'),
+            'fc3' => $fighter->profight->sum('fc_3'),
+            'points' => $fighter->profight->sum('points')
+        ];
+        $fighter['swordShieldTable'] = $this->standardTableData($fighter,'swordShield');
+        $fighter['swordBucklerTable'] = $this->standardTableData($fighter,'swordBuckler');
+        $fighter['longswordTable'] = $this->standardTableData($fighter,'longsword');
+        $fighter['polearmTable'] = $this->standardTableData($fighter,'polearm');
+        $fighter['triathlonTable'] = $this->standardTableData($fighter,'triathlon');
+
+        $fighter['age'] = Carbon::parse($fighter['age'])->diffInYears(Carbon::now('Europe/London'));
+
+        return $this->respond($fighter);
     }
 
     private function prepareFightersDataForRanking($fighters)
