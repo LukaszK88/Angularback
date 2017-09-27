@@ -95,21 +95,14 @@ class EventsController extends ApiController
     {
         $data = $request->all();
 
-        $event = Event::create([
-            Event::COL_USER_ID => $data['user_id'],
-            Event::COL_TITLE => $data['title'],
-            Event::COL_BODY => $data['body'],
-            Event::COL_LOCATION => $data['location'],
-            Event::COL_DATE => $data['date'],
-            Event::COL_EVENT_TYPE_ID => $data['event_type_id']
-        ]);
+        $event = Event::create($data);
 
-        foreach ($data['categories'] as $category => $key){
-            EventCategories::create([
-                EventCategories::COL_EVENT_ID => $event->id,
-                EventCategories::COL_NAME => $category
-            ]);
-        }
+//        foreach ($data['categories'] as $category => $key){
+//            EventCategories::create([
+//                EventCategories::COL_EVENT_ID => $event->id,
+//                EventCategories::COL_NAME => $category
+//            ]);
+//        }
 
         return $this->respond($event);
     }
@@ -162,23 +155,16 @@ class EventsController extends ApiController
         $event = Event::where(Event::COL_ID,$id);
         $data = $request->all();
         if($event){
-            $event->update([
-                Event::COL_USER_ID => $data['user_id'],
-                Event::COL_TITLE => $data['title'],
-                Event::COL_BODY => $data['body'],
-                Event::COL_LOCATION => $data['location'],
-                Event::COL_DATE => $data['date'],
-                Event::COL_EVENT_TYPE_ID => $data['event_type_id']
-            ]);
+            $event->update($data);
 //TODO delete on false
-        foreach ($data['categories'] as $category => $key){
-
-            EventCategories::updateOrCreate([EventCategories::COL_EVENT_ID => $id,EventCategories::COL_NAME => $category],
-                [
-                    EventCategories::COL_EVENT_ID => $event->id,
-                    EventCategories::COL_NAME => $category
-                ]);
-        }
+//        foreach ($data['categories'] as $category => $key){
+//
+//            EventCategories::updateOrCreate([EventCategories::COL_EVENT_ID => $id,EventCategories::COL_NAME => $category],
+//                [
+//                    EventCategories::COL_EVENT_ID => $event->id,
+//                    EventCategories::COL_NAME => $category
+//                ]);
+//        }
         return $this->respond($data);
         }
     }

@@ -130,7 +130,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne(UserRole::class);
+        return $this->hasOne(UserRole::class,'id','user_role_id');
     }
 
     public function eventAttendCategory()

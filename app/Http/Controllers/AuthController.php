@@ -74,16 +74,16 @@ class AuthController extends ApiController
     {
         $data = $request->all();
 
-        $user = User::where(User::COL_USERNAME,$data['email'])->first();
+        $user = User::where(User::COL_USERNAME,$data['profile']['email'])->first();
         if($user){
             return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook!');
         }else{
 
             $user = User::create([
-                'username' => $data['email'],
-                'facebook' => $data['id'],
-                'facebook_picture' => $data['picture']['data']['url'],
-                'name' => $data['name']
+                'username' => $data['profile']['email'],
+                'facebook' => $data['profile']['id'],
+                //'facebook_picture' => $data['picture']['data']['url'],
+                'name' => $data['profile']['name']
             ]);
             //Mail::to($user->username)->send(new Registration($user));
             return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');

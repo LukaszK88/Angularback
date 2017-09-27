@@ -27,7 +27,8 @@ class UsersController extends ApiController
      */
     public function index()
     {
-        $users = User::where('status',1)
+        $users = User::with('club','role')
+        ->where('status',1)
             //->join(UserRole::TABLE,User::TCOL_USER_ROLE_ID,'=',UserRole::TCOL_ID)
             ->get();
 
