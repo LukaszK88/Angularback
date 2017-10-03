@@ -16,6 +16,7 @@ class Event extends Model
             COL_BODY = 'body',
             COL_LOCATION = 'location',
             COL_DATE = 'date',
+            COL_CLUB_ID = 'club_id',
             COL_EVENT_TYPE_ID = 'event_type_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
@@ -30,7 +31,8 @@ class Event extends Model
         self::COL_BODY,
         self::COL_LOCATION,
         self::COL_DATE,
-        self::COL_EVENT_TYPE_ID
+        self::COL_EVENT_TYPE_ID,
+        self::COL_CLUB_ID
     ];
 
 
@@ -46,6 +48,10 @@ class Event extends Model
             ->get();
     }
 
+    public function club()
+    {
+        return $this->belongsTo(Club::class, 'id', self::COL_CLUB_ID);
+    }
 
     public function eventType()
     {
