@@ -50,7 +50,7 @@ class Event extends Model
 
     public function club()
     {
-        return $this->belongsTo(Club::class, 'id', self::COL_CLUB_ID);
+        return $this->belongsTo(Club::class, self::COL_CLUB_ID,'id');
     }
 
     public function eventType()

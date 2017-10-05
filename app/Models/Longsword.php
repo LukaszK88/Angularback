@@ -18,6 +18,7 @@ class Longsword extends BaseRanking {
         self::COL_EVENT_ID,
         self::COL_WIN,
         self::COL_POINTS,
+        self::COL_FIGHTS,
         self::COL_LOSS
     ];
     

@@ -29,6 +29,7 @@ class Profight extends BaseRanking {
         self::COL_FC_2_ID,
         self::COL_FC_3_ID,
         self::COL_POINTS,
+        self::COL_FIGHTS,
         self::COL_KO
     ];
     

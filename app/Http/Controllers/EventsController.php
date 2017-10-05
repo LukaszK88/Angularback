@@ -25,7 +25,7 @@ class EventsController extends ApiController
             ->with('eventType')
             ->with('category')
             ->with('attendance')
-            ->with(['note','note.user'])
+            ->with(['note','note.user','club'])
             ->get();
 
         return $this->respond($events);

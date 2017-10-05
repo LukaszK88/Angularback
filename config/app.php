@@ -24,7 +24,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'White Company',
+    'name' => 'BattleBook',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'whitecompany'),
+    'url' => env('MIX_APP_URL', 'whitecompany'),
 
     /*
     |--------------------------------------------------------------------------

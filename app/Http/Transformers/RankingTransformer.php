@@ -19,7 +19,6 @@ class RankingTransformer extends Transformers
             'club'  => $fighter['club'],
             'image' => $fighter['image'],
             'fb_image' => $fighter['facebook_picture'],
-            'g_image' => $fighter['google_picture'],
             'weight' => $fighter['weight'],
             'total_points' => $fighter['total_points'],
             'bohurtTable' => $fighter['bohurtTable'],

@@ -18,6 +18,7 @@ class CreateClubTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('country')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,5 @@
 @component('mail::message')
-# Welcome to White Company {{ $user->username }}
+# Welcome to Ranking {{ $user->username }}
 
 Very soon you will hear back from us once your account is active.
 

@@ -28,7 +28,7 @@ class AuthController extends ApiController
             'password' => bcrypt($request->input('password'))
         ]);
 
-        //Mail::to($user->username)->send(new Registration($user));
+        Mail::to($user->username)->send(new Registration($user));
         return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
     }
 

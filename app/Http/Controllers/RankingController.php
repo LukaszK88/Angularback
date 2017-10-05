@@ -43,7 +43,7 @@ class RankingController extends ApiController
             ->with('polearm')
             ->with('triathlon')
             ->with('club')
-            ->where('name', '!=', '')
+            ->whereNotNull('name')
             ->whereNotNull(User::COL_CLUB_ID);
 
         if($date === '2017'){
@@ -152,22 +152,21 @@ class RankingController extends ApiController
     {
         $data = [];
         $leaderBoardTables = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
-        foreach ($leaderBoardTables as $key => $leaderBoardTable){
-            $data[$leaderBoardTable] = $this->getMaxPointsPerRankingTable($leaderBoardTable);
-            $data[$leaderBoardTable]->category = $leaderBoardTable;
+        foreach ($leaderBoardTables as $leaderBoardTable){
+            $data[$leaderBoardTable] = (array)$this->getMaxPointsPerRankingTable($leaderBoardTable);
+            $data[$leaderBoardTable]['category'] = $leaderBoardTable;
         }
 
         $data = array_map(function($data){
             return[
-                'id' => $data->id,
-                'club' => $data->club,
-                'image' => $data->image,
-                'fb_image' => $data->facebook_picture,
-                'g_image' => $data->google_picture,
-                'created_at' => $data->created_at,
-                'name' => $data->name,
-                'max_points' => $data->max_points,
-                'category' => ucfirst(str_replace('_',' ',$data->category))
+                'id' => $data['id'],
+                //'club' => $data['club'],
+                'image' => $data['image'],
+                'fb_image' => $data['facebook_picture'],
+                'created_at' => $data['created_at'],
+                'name' => $data['name'],
+                'max_points' => $data['max_points'],
+                'category' => ucfirst(str_replace('_',' ',$data['category']))
             ];
         },$data);
 
@@ -179,7 +178,6 @@ class RankingController extends ApiController
                 'users.name',
                 User::TCOL_ID,
                 User::TCOL_FACEBOOK_IMG,
-                User::TCOL_GOOGLE_IMG,
                 User::TCOL_IMG,
                 Club::TCOL_NAME.' as club'
             )
@@ -187,8 +185,7 @@ class RankingController extends ApiController
             ->orderBy('max_points','desc')
             ->first();
         $data['The Rock']->fb_picture = $data['The Rock']->facebook_picture;
-        $data['The Rock']->g_picture = $data['The Rock']->google_picture;
-        unset($data['The Rock']->facebook_picture, $data['The Rock']->google_picture);
+        unset($data['The Rock']->facebook_picture);
         $data['The Rock']->max_points = substr($data['The Rock']->max_points,0,2).' %';
         $data['The Rock']->category = 'The Rock';
 
@@ -362,7 +359,6 @@ class RankingController extends ApiController
                     User::TCOL_NAME,
                     User::TCOL_ID,
                     User::TCOL_FACEBOOK_IMG,
-                    User::TCOL_GOOGLE_IMG,
                     User::TCOL_IMG,
                     Club::TCOL_NAME.' as club',
                     DB::raw('sum(points) as max_points'))
