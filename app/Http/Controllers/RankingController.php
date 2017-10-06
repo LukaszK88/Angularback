@@ -51,9 +51,9 @@ class RankingController extends ApiController
         }
 
         if(empty($clubId)){
-            $rawFightersData = $rawFighters->paginate(8);
+            $rawFightersData = $rawFighters->get();
         }else{
-            $rawFightersData = $rawFighters->where('club_id',$clubId)->paginate(8);
+            $rawFightersData = $rawFighters->where('club_id',$clubId)->get();
         }
 
         $data = $this->prepareFightersDataForRanking($rawFightersData);
@@ -116,6 +116,7 @@ class RankingController extends ApiController
                 'points' => $fighter->bohurt->sum('points'),
                 'down' => $fighter->bohurt->sum('down')
             ];
+
             $fighter['profightTable'] = [
                 'loss' => $fighter->profight->sum('loss'),
                 'fights' => $fighter->profight->sum('fights'),
@@ -160,7 +161,7 @@ class RankingController extends ApiController
         $data = array_map(function($data){
             return[
                 'id' => $data['id'],
-                //'club' => $data['club'],
+                'club' => $data['club'],
                 'image' => $data['image'],
                 'fb_image' => $data['facebook_picture'],
                 'created_at' => $data['created_at'],

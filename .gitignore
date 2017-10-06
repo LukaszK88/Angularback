@@ -7,5 +7,3 @@
 Homestead.json
 Homestead.yaml
 .env
-/assets/node_modules
-/assets/bower_components
