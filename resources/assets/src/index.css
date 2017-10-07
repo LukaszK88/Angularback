@@ -1,0 +1,221 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+}
+
+.bg {
+  position: relative;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./img/wcbg.png');
+  text-align: center;
+  color: white;
+
+  padding: 200px 15px 200px;
+}
+
+.wc-bg{
+  position: relative;
+  min-height: 500px;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./img/background.png');
+}
+
+.ukfed-bg{
+  position: relative;
+  min-height: 500px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./img/ukfed.png');
+}
+
+.table-responsive-custom{
+  overflow-x: auto!important;
+  display: block!important;
+}
+
+.ui.secondary.pointing.menu {
+  overflow-x: auto;
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 2px solid rgba(34,36,38,.15);
+}
+
+.top-section{
+  margin-top: 50px;
+}
+
+.black-background{
+  background-color: black;
+  color: white;
+}
+
+.ui.modal>.header:not(.ui){
+  background-color: black;
+  color: white;
+}
+@media (max-width: 752px){
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link{
+    text-align: right;
+
+  }
+}
+
+@media (min-width: 992px){
+  .navbar-toggleable-md .navbar-nav{
+    margin-left: auto;
+  }
+
+  ul.navbar-nav.mr-auto{
+    margin-right: 0px!important;
+    margin-left: auto!important;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link{
+    font-size: large;
+    cursor: pointer;
+    transition: linear 0.1s;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:hover{
+    color: black;
+    margin-top: -3px;
+    border-bottom: 2px solid black;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:active{
+    color: white;
+    background-color: black;
+    margin-top: -3px;
+    border-radius: 25px;
+
+  }
+
+}
+
+.ui.segment{
+  padding:0px!important;
+}
+
+table a {
+  text-decoration: none;
+  color: black;
+}
+.category-points{
+  margin-top: 3px!important;
+  margin-bottom: 2px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.text-green{
+  color: green;
+}
+
+.text-red{
+  color:red;
+}
+.ui.secondary.pointing.menu {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.ui.secondary.pointing.menu .item {
+  font-weight: 600;
+  transition: linear 0.5s;
+}
+
+.ui.secondary.pointing.menu .active.item {
+  border-bottom: 4px solid;
+}
+
+.toggle-help{
+  display: flex;
+}
+.table-cell-icon{
+  display: flex;
+}
+.profile{
+  padding-top: 20px;
+}
+
+.profile-card{
+  margin-bottom: 15px!important;
+}
+.flags-display{
+  margin-bottom: 10px;
+  margin-top: -15px!important;
+}
+
+.top-row{
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
+.ui.selection.dropdown{
+  border: 1px solid #1b1c1d!important;
+}
+
+.input-range__label-container{
+  color:black!important;
+}
+
+
+@media (max-width: 752px){
+  .club-dropdown{
+    min-width: 150px!important;
+  }
+}
+.page-item.active .page-link {
+  color: white!important;
+  background-color: black!important;
+  border-color: black!important;
+}
+.page-link{
+  color: black!important;
+}
+
+.navbar-brand{
+  transition: linear 1s;
+}
+
+.navbar-brand:hover{
+  -webkit-transform: rotateY(360deg);     /* Chrome and other webkit browsers */
+  -moz-transform: rotateY(360deg);        /* FF */
+  -o-transform: rotateY(360deg);          /* Opera */
+  -ms-transform: rotateY(360deg);         /* IE9 */
+  transform: rotateY(360deg);
+}
+
+.fake-link{
+  text-decoration: underline;
+}
+.fake-link:hover{
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.icon-md-margin-right{
+  float: right!important;
+  font-size: 1.9em!important;
+}
+.icon-md-margin-left{
+  float: left!important;
+  font-size: 1.9em!important;
+}
