@@ -6,6 +6,7 @@ use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
 use App\Models\User;
 use App\Models\UserRole;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;

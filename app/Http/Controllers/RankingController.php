@@ -44,7 +44,7 @@ class RankingController extends ApiController
             ->with('triathlon')
             ->with('club')
             ->whereNotNull('name')
-            ->whereNotNull(User::COL_CLUB_ID);
+            ->where(User::COL_CLUB_ID,'!=',0);
 
         if($date === '2017'){
             //start date range in 2018
@@ -108,6 +108,7 @@ class RankingController extends ApiController
     private function prepareFightersDataForRanking($fighters)
     {
         foreach ($fighters as $key => $fighter){
+            $fighter['total_points'] = intval($fighter->total_points);
             $fighter['bohurtTable'] = [
                 'lastMan' => $fighter->bohurt->sum('last'),
                 'fights' => $fighter->bohurt->sum('fights'),

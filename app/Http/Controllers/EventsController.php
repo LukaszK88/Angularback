@@ -97,13 +97,6 @@ class EventsController extends ApiController
 
         $event = Event::create($data);
 
-//        foreach ($data['categories'] as $category => $key){
-//            EventCategories::create([
-//                EventCategories::COL_EVENT_ID => $event->id,
-//                EventCategories::COL_NAME => $category
-//            ]);
-//        }
-
         return $this->respond($event);
     }
 

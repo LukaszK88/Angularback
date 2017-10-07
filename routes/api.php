@@ -58,6 +58,9 @@ Route::get('/admin/{userId}/{action}','UsersController@adminAction');
 Route::resource('/event','EventsController');
 Route::resource('/event/notes','EventNotesController');
 
+//EVENTS CAEGORIES
+Route::resource('/event-categories','EventCategoriesController');
+
 Route::get('/event-type/{type}','EventsController@getEventsByType2');
 Route::get('/events/{type}','EventsController@getEventsByType');
 Route::get('/event-types','EventsController@getEventTypes');
