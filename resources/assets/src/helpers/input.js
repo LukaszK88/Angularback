@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Select, Radio,Checkbox } from 'semantic-ui-react';
+import { Select, Checkbox, Dropdown } from 'semantic-ui-react';
 import InputRange from 'react-input-range';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
@@ -9,7 +9,7 @@ export const input ={
         const error = !!(field.meta.touched && field.meta.error);
         return(
             <div>
-                <Select error={error} className={field.className} { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
+                <Select  error={error} className={field.className} { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
                 <div style={{color:'red'}} className="text-help">
                     { field.meta.touched ? field.meta.error : '' }
                 </div>

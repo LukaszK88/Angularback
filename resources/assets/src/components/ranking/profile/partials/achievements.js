@@ -5,12 +5,10 @@ import { Card, Icon, List, Flag } from 'semantic-ui-react'
 import _ from 'lodash';
 import { stringHelper } from '../../../../helpers/string';
 import UpdateAchievement from './../updateAchievement';
-import { fetchAchievements, deleteAchievement } from '../../../../actions/ranking';
+import { fetchAchievements } from '../../../../actions/ranking';
+import DeleteConfirmation from './deleteAchievement';
 
 class Achievements extends Component {
-    deleteAch(achievement,e){
-        this.props.deleteAchievement(achievement);
-    }
 
     isCurrentlyLoggedInUser(){
         const {profile, currentUser} = this.props;
@@ -26,7 +24,7 @@ class Achievements extends Component {
 
     renderAchievements(){
         const {profile} = this.props;
-        if(profile.achievements){
+        if(profile.achievements && profile.events){
             return _.map(profile.achievements.data.data, (achievement) => {
 
                 return (
@@ -39,10 +37,10 @@ class Achievements extends Component {
                             </List.Description>
                         </List.Content>
                         { this.isCurrentlyLoggedInUser() &&
-                        <List.Icon onClick={this.deleteAch.bind(this, achievement)} size="large" name="delete"/>
+                        <DeleteConfirmation achievement={achievement}></DeleteConfirmation>
                         }
                         { this.isCurrentlyLoggedInUser() &&
-                        <UpdateAchievement events={this.props.events} achievement={achievement}/>
+                        <UpdateAchievement events={this.props.profile.events} achievement={achievement}/>
                         }
                     </List.Item>
                 )
@@ -57,7 +55,7 @@ class Achievements extends Component {
                     <Card.Header>
                         Achievements
                         {this.isCurrentlyLoggedInUser() &&
-                        <AddAchievement events={this.props.events}/>
+                        <AddAchievement events={this.props.profile.events}/>
                         }
                         <Card.Meta>
                             <div className="row">
@@ -101,4 +99,4 @@ class Achievements extends Component {
   }
 }
 
-export default connect(null,{fetchAchievements,deleteAchievement})(Achievements);
+export default connect(null,{fetchAchievements})(Achievements);

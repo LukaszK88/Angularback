@@ -118,6 +118,19 @@ class EventsController extends ApiController
         return $this->respond($event);
     }
 
+    public function showUserEvents($userClubId)
+    {
+        $events = Event::where(User::COL_CLUB_ID,$userClubId)
+            ->orWhere(Event::COL_GLOBAL,'=',true)
+            ->with('user')
+            ->with('eventType')
+            ->with('category')
+            ->has('category')
+            ->get();
+
+        return $this->respond($events);
+    }
+
     public function getEventAttendees($eventId, EventAttendence $eventAttendence)
     {
         $eventAttendees = $eventAttendence->getEventAttendees($eventId);

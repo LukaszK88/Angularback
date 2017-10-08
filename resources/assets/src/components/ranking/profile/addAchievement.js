@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal,Select } from 'semantic-ui-react';
+import { Button, Modal,Select,Dropdown } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {addAchievement} from '../../../actions/ranking';
 import _ from 'lodash';
@@ -34,7 +34,7 @@ class AddAchievement extends Component{
         const error = !!(field.meta.touched && field.meta.error);
         return(
             <div>
-                <Select error={error} className={field.className} { ...field.input } selection onChange={(param,data) => {field.input.onChange(data.value);this.selectEvent(data.value)}} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
+                <Dropdown search error={error} className={field.className} { ...field.input } selection onChange={(param,data) => {field.input.onChange(data.value);this.selectEvent(data.value)}} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
                 <div style={{color:'red'}} className="text-help">
                     { field.meta.touched ? field.meta.error : '' }
                 </div>
@@ -66,19 +66,17 @@ class AddAchievement extends Component{
         const places = config.select.places;
         const categories = this.renderCategories();
 
-        const countryOptions = _.map(this.props.events.events,event => {
+        const events = _.map(this.props.events,event => {
 
-            if(user.club_id != 0 && (event.club_id == user.club_id) && event.category.length != 0) {
-                return {
-                    key: event.location,
-                    value: event,
-                    flag: event.location,
-                    text: `${event.title} ${event.date.substring(0, 4)}`
-                };
-            }
+            return {
+                key: event.location,
+                value: event,
+                flag: event.location,
+                text: `${event.title} ${event.date.substring(0, 4)}`
+            };
+
         });
 
-        const events = _.filter(countryOptions, function(o) { return o != undefined });
         return(
             <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button disabled={events.length == 0 ? true : false} color={'black'}  onClick={this.handleOpen} className="float-right">{events.length == 0 ? 'No events':'Add'}</Button>}>
                 <Modal.Header>Add Achievement</Modal.Header>

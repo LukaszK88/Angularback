@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API } from './index';
-import { FETCH_EVENTS, FETCH_EVENT_TYPES,DELETE_EVENT,ADD_EVENT } from './types';
+import { FETCH_EVENTS, FETCH_EVENT_TYPES,DELETE_EVENT,ADD_EVENT,FETCH_USER_EVENTS } from './types';
 import {addFlashMessage} from './flashMessages';
 
 export function fetchEvents() {
@@ -48,6 +48,15 @@ export function getEventTypes() {
 
     return {
         type:FETCH_EVENT_TYPES,
+        payload:request
+    }
+}
+
+export function fetchUserEvents(userClubId) {
+    const request = axios.get(`${API}event-user/${userClubId}`);
+
+    return {
+        type:FETCH_USER_EVENTS,
         payload:request
     }
 }

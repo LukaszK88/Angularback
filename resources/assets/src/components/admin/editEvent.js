@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, List } from 'semantic-ui-react';
+import { Button, Modal, List, Radio } from 'semantic-ui-react';
 import { Field, reduxForm, change } from 'redux-form';
 import {updateEvent} from '../../actions/events';
 import _ from 'lodash';
@@ -30,16 +30,48 @@ class EditEvent extends Component{
     onSubmit(values){
         values.user_id = this.props.currentUser.user.id;
         values.id = this.props.event.id;
+        if(values.radioGroup == 'club_id') {
+            values.club_id = this.props.currentUser.user.club_id;
+            values.global = false;
+        }else if (values.radioGroup == 'global'){
+            values.global = true;
+            values.club_id = null;
+        }
+        delete values.radioGroup;
         this.props.updateEvent(values);
         this.setState({ showDatePicker: false });
         this.handleClose();
     }
 
+    radioGroupValue(){
+      return this.props.event.global ? 'global' : 'club_id';
+    }
+
     handleOpen = () => {
         this.props.dispatch(change('editEventForm','title',this.props.event.title));
         this.props.dispatch(change('editEventForm','location',this.props.event.location));
+        this.props.dispatch(change('editEventForm','radioGroup',this.radioGroupValue()));
+
         this.setState({ modalOpen: true });
     };
+
+    renderRadio(field){
+        return(
+            <div>
+                <Radio slider
+                       {...field.input}
+                       label={field.label}
+                       value={field.radioValue}
+                       checked={field.input.value === field.radioValue}
+                       onChange={(e, { value }) => field.input.onChange(value)}
+
+                />
+                <div style={{color:'red'}} className="text-help">
+                    { field.meta.touched ? field.meta.error : '' }
+                </div>
+            </div>
+        )
+    }
 
     handleClose = () => {
         this.setState({ modalOpen: false });
@@ -67,6 +99,25 @@ class EditEvent extends Component{
                                 type="text"
                                 component={input.renderField}
                             />
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <Field
+                                        label="Global Event"
+                                        name="radioGroup"
+                                        radioValue="global"
+                                        component={this.renderRadio}
+                                    />
+                                </div>
+                                <div className="col-sm-6">
+                                    <Field
+                                        label="Club only"
+                                        name="radioGroup"
+                                        radioValue="club_id"
+                                        component={this.renderRadio}
+                                    />
+                                </div>
+                            </div>
                             <br/>
                             <p>{this.props.event.event_type.type}</p>
                             <br/>
@@ -114,6 +165,9 @@ function validate(values) {
     }
     if(!values.date){
         errors.date = "Event date is mandatory";
+    }
+    if(!values.radioGroup){
+        errors.radioGroup = "Select one option";
     }
 
     return errors;

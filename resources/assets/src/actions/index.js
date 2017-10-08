@@ -55,13 +55,18 @@ export function updateUser(data) {
 
 }
 
-export function fetchUser(userId) {
-    const request = axios.get(`${API}fighter/${userId}`);
+export function fetchUser(userId, callback) {
+    return axios.get(`${API}fighter/${userId}`).then((response) => {
+        callback(response);
+        return (dispatch) => {
+            //dispatch(addFlashMessage('success', response.data.message));
+            dispatch({
+                type:FETCH_USER,
+                payload:response
+            });
+        }
+    });
 
-    return {
-        type:FETCH_USER,
-        payload:request
-    }
 }
 
 export function uploadProfileImage(userId,images) {

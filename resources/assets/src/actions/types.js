@@ -19,3 +19,4 @@ export const DELETE_USER = 'DELETE_USER';
 export const FETCH_USER_ROLES = 'FETCH_USER_ROLES';
 export const UPDATE_USER_ROLE = 'UPDATE_USER_ROLE';
 export const ADD_LOADING = 'ADD_LOADING';
+export const FETCH_USER_EVENTS = 'FETCH_USER_EVENTS';

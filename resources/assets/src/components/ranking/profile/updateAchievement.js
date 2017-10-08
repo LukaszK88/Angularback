@@ -31,16 +31,19 @@ class UpdateAchievement extends Component{
     handleClose = () => this.setState({ modalOpen: false });
 
     findEvent(){
-        return _.find(this.props.events.events,(event) => {
+        return _.find(this.props.events,(event) => {
            return event.id == this.props.achievement.event_id;
         });
     }
 
     render(){
 
+        const filterEmptyOut = _.filter(this.findEvent(),(event)=> {
+            return event != undefined;
+        });
         const handleSubmit = this.props.handleSubmit;
 
-        const categories = _.map(this.findEvent().category,category => {
+        const categories = _.map(filterEmptyOut.category,category => {
             return {
                 key: category.id,
                 value: category.name,

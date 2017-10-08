@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal,Radio } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {addEvent} from '../../actions/events';
 import _ from 'lodash';
@@ -13,6 +13,7 @@ class AddEvent extends Component{
         super(props);
 
         this.state = {
+            radioValue:'',
             modalOpen: false,
             tooltipOpen: false,
             value: 50
@@ -27,7 +28,12 @@ class AddEvent extends Component{
 
     onSubmit(values){
         values.user_id = this.props.currentUser.user.id;
-        values.club_id = this.props.currentUser.user.club_id;
+        if(values.radioGroup == 'club_id') {
+            values.club_id = this.props.currentUser.user.club_id;
+        }else if (values.radioGroup == 'global'){
+            values.global = true;
+        }
+
         this.props.addEvent(values);
         this.handleClose();
     }
@@ -35,6 +41,25 @@ class AddEvent extends Component{
     handleOpen = () => this.setState({ modalOpen: true });
 
     handleClose = () => this.setState({ modalOpen: false });
+
+
+    renderRadio(field){
+        return(
+            <div>
+        <Radio slider
+               {...field.input}
+            label={field.label}
+            value={field.radioValue}
+            checked={field.input.value === field.radioValue}
+            onChange={(e, { value }) => field.input.onChange(value)}
+
+        />
+        <div style={{color:'red'}} className="text-help">
+        { field.meta.touched ? field.meta.error : '' }
+        </div>
+            </div>
+        )
+    }
 
     render(){
 
@@ -62,6 +87,25 @@ class AddEvent extends Component{
                                 type="text"
                                 component={input.renderField}
                             />
+                            <br/>
+                            <div className="row">
+                                <div className="col-sm-6">
+                            <Field
+                                label="Global Event"
+                                name="radioGroup"
+                                radioValue="global"
+                                component={this.renderRadio}
+                            />
+                                </div>
+                                <div className="col-sm-6">
+                            <Field
+                                label="Club only"
+                                name="radioGroup"
+                                radioValue="club_id"
+                                component={this.renderRadio}
+                            />
+                                </div>
+                            </div>
                             <br/>
                             <Field
                                 label="Event Type"
@@ -109,7 +153,9 @@ function validate(values) {
     if(!values.date){
         errors.date = "Event date is mandatory";
     }
-
+    if(!values.radioGroup){
+        errors.radioGroup = "Select one option";
+    }
     return errors;
 }
 

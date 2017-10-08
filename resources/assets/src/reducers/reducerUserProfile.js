@@ -1,10 +1,12 @@
-import { FETCH_USER,FETCH_ACHIEVEMENTS, DELETE_ACHIEVEMENT } from '../actions/types';
+import { FETCH_USER,FETCH_ACHIEVEMENTS, DELETE_ACHIEVEMENT,FETCH_USER_EVENTS } from '../actions/types';
 import _ from 'lodash';
 
 
 
 export default function (state=null,action) {
     switch (action.type){
+        case FETCH_USER_EVENTS:
+            return {...state,['events']:action.payload.data};
         case DELETE_ACHIEVEMENT:
             const newState = {...state};
 

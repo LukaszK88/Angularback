@@ -10,7 +10,7 @@ import { Field, reduxForm, Fields, FieldArray} from 'redux-form';
 import { input } from '../../../helpers/input';
 import { Tooltip } from 'reactstrap';
 import {fetchClubs} from '../../../actions/clubs';
-
+import DeleteConfirmation from './deleteUser';
 class AdminUsers extends Component{
     constructor(){
         super();
@@ -98,10 +98,7 @@ class AdminUsers extends Component{
         }
     }
 
-    deleteUser(user){
-        //todo some type of modal confirmation before
-        this.props.deleteUser(user);
-    }
+
 
     onSubmit(values){
         let data = {};
@@ -186,7 +183,7 @@ class AdminUsers extends Component{
                             }
                         </Table.Cell>
                         <Table.Cell>
-                            <Icon onClick={() => this.deleteUser(user)} name="user delete" size="large" color="red"/>
+                            <DeleteConfirmation user={user}/>
                         </Table.Cell>
                 </Table.Row>
             )

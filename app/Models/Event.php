@@ -17,6 +17,7 @@ class Event extends Model
             COL_LOCATION = 'location',
             COL_DATE = 'date',
             COL_CLUB_ID = 'club_id',
+            COL_GLOBAL = 'global',
             COL_EVENT_TYPE_ID = 'event_type_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
@@ -32,7 +33,8 @@ class Event extends Model
         self::COL_LOCATION,
         self::COL_DATE,
         self::COL_EVENT_TYPE_ID,
-        self::COL_CLUB_ID
+        self::COL_CLUB_ID,
+        self::COL_GLOBAL
     ];
 
 

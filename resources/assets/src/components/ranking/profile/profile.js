@@ -5,7 +5,7 @@ import { fetchUser } from '../../../actions';
 import { fetchAchievements } from '../../../actions/ranking';
 import { baseUrl } from '../../../index';
 import FlashMessages from '../../helpers/message';
-import { fetchEvents } from '../../../actions/events'
+import { fetchEvents,fetchUserEvents } from '../../../actions/events'
 import UserImage from './partials/userImage';
 import ProfileInfo from './partials/profileInfo';
 import Achievements from './partials/achievements';
@@ -20,8 +20,10 @@ class Profile extends Component{
     }
 
     componentDidMount(){
-        this.props.fetchEvents();
-        this.props.fetchUser(this.props.match.params.userId);
+
+        this.props.fetchUser(this.props.match.params.userId, (response) => {
+            this.props.fetchUserEvents(response.data.club_id);
+        });
         this.props.fetchAchievements(this.props.match.params.userId);
     }
 
@@ -42,7 +44,7 @@ class Profile extends Component{
                     <div className="row">
                         <UserImage profile={profile} currentUser={this.props.currentUser}/>
                         <ProfileInfo profile={profile} />
-                        <Achievements profile={profile} currentUser={this.props.currentUser} events={this.props.events}/>
+                        <Achievements profile={profile} currentUser={this.props.currentUser} />
                     </div>
                 </div>
                 </div>}
@@ -60,4 +62,4 @@ function mapStateToProps(state) {
 
 
 
-export default connect(mapStateToProps,{fetchUser,fetchAchievements,fetchEvents})(Profile);
+export default connect(mapStateToProps,{fetchUser,fetchAchievements,fetchEvents,fetchUserEvents})(Profile);

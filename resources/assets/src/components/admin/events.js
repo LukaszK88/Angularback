@@ -4,21 +4,18 @@ import FlashMessages from './../helpers/message';
 import NavbarComp from '../home/partials/navbar';
 import { List, Card, Flag, Button, Icon } from 'semantic-ui-react'
 import AddEvent from './addEvent';
-import {getEventTypes,fetchEvents, deleteEvent} from '../../actions/events';
+import {getEventTypes,fetchEvents} from '../../actions/events';
 import _ from 'lodash';
 import { stringHelper } from '../../helpers/string';
 import EditEvent from './editEvent';
 import AddCategories from './addCatgories';
+import DeleteConfirmation from './deleteEvent';
 
 class Events extends Component{
     componentDidMount(){
         this.props.getEventTypes();
         this.props.fetchEvents();
 
-    }
-
-    deleteEvent(event){
-        this.props.deleteEvent(event);
     }
 
     renderEventList(){
@@ -30,15 +27,13 @@ class Events extends Component{
                         <List.Content floated='right'>
                             <List.Icon><AddCategories event={event}/></List.Icon>
                             <EditEvent event={event}/>
-                            {this.props.currentUser.admin &&
-                            <List.Icon onClick={() => this.deleteEvent(event)} size="large" name="delete"/>
-                            }
+                           <DeleteConfirmation event={event} />
                         </List.Content>
                         <List.Icon><Flag name={event.location}/></List.Icon>
                         <List.Content>
                             <List.Header><a>{event.title} {stringHelper.limitTo(event.date, 10)}</a></List.Header>
-                            <List.Description>Added by: <a><b>{event.user.username} </b></a>
-                                on: {stringHelper.limitTo(event.created_at, 10)} club:{event.club.name}</List.Description>
+                            <List.Description>Added by: <a><b>{event.user_id ? event.user.username : 'unknown'} </b></a>
+                                on: {stringHelper.limitTo(event.created_at, 10)} club:{event.club_id ? event.club.name : 'Global'}</List.Description>
                         </List.Content>
                     </List.Item>
                 )
@@ -87,4 +82,4 @@ function mapStateToProps(state) {
 
 
 
-export default connect(mapStateToProps,{getEventTypes,fetchEvents,deleteEvent})(Events);
+export default connect(mapStateToProps,{getEventTypes,fetchEvents})(Events);
