@@ -21,7 +21,7 @@ class Events extends Component{
     renderEventList(){
 
         return _.map(this.props.events.events,(event) => {
-            if((event.club_id == this.props.currentUser.user.club_id || this.props.currentUser.admin)) {
+            if((event.club_id == this.props.currentUser.user.club_id || this.props.currentUser.admin || event.global)) {
                 return (
                     <List.Item>
                         <List.Content floated='right'>
@@ -32,7 +32,7 @@ class Events extends Component{
                         <List.Icon><Flag name={event.location}/></List.Icon>
                         <List.Content>
                             <List.Header><a>{event.title} {stringHelper.limitTo(event.date, 10)}</a></List.Header>
-                            <List.Description>Added by: <a><b>{event.user_id ? event.user.username : 'unknown'} </b></a>
+                            <List.Description>Added by: <a><b>{event.user != null ? event.user.username : 'unknown'} </b></a>
                                 on: {stringHelper.limitTo(event.created_at, 10)} club:{event.club_id ? event.club.name : 'Global'}</List.Description>
                         </List.Content>
                     </List.Item>

@@ -9,7 +9,7 @@ export const input ={
         const error = !!(field.meta.touched && field.meta.error);
         return(
             <div>
-                <Select  error={error} className={field.className} { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
+                <Dropdown search error={error} className={field.className} { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
                 <div style={{color:'red'}} className="text-help">
                     { field.meta.touched ? field.meta.error : '' }
                 </div>

@@ -8,7 +8,7 @@ class FlashMessages extends Component{
     componentWillUpdate(){
         window.setTimeout(() => {
             this.props.removeFlashMessage()
-        }, 2500);
+        }, 3000);
     }
 
     render(){
@@ -17,7 +17,7 @@ class FlashMessages extends Component{
             return null;
         }
         return(
-            <div style={
+            <div className="flash-message-mobile" style={
                 {'zIndex': '10000','position':'fixed','right':'0'}
             }>
 

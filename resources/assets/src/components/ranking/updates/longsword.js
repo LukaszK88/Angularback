@@ -30,7 +30,7 @@ class UpdateLongsword extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         const countryOptions = _.map(this.props.events.events,event => {
-            if(this.props.fighter.club_id != 0 && (event.club_id == this.props.fighter.club.id)) {
+            if(this.props.fighter.club_id != 0 && ((event.club_id == this.props.fighter.club.id) || event.global)) {
                 return {
                     key: event.location,
                     value: event.id,

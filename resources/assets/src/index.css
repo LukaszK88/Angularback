@@ -219,3 +219,10 @@ table a {
   float: left!important;
   font-size: 1.9em!important;
 }
+@media (max-width: 752px) {
+  .flash-message-mobile {
+    width:100%;
+  }
+
+
+}
