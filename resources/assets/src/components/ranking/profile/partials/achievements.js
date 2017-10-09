@@ -25,7 +25,9 @@ class Achievements extends Component {
     renderAchievements(){
         const {profile} = this.props;
         if(profile.achievements && profile.events){
-            return _.map(profile.achievements.data.data, (achievement) => {
+            let achievement = _.orderBy(profile.achievements.data.data,['event.date'],['desc']);
+
+            return _.map(achievement, (achievement) => {
 
                 return (
                     <List.Item>

@@ -41,7 +41,7 @@ class DropZone extends Component {
             {(currentUser.user && currentUser.user.id == profile.user.id) &&
 
            <Dropzone id="upload" name="file" style={{width: 'max-width'}} onDrop={this.onDrop.bind(this)}>
-                      <Tooltip placement="right" isOpen={this.state.tooltipOpen} target="upload"
+                      <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="upload"
                                toggle={this.toggle.bind(this)}>
                           Click or drop image to upload
                       </Tooltip>
@@ -58,6 +58,13 @@ class DropZone extends Component {
               <div>
                   <Image src={userHelper.getImage(profile.user)}/>
               </div>
+            }
+
+            {(currentUser.isLoggedIn && currentUser.user.id != profile.user.id) &&
+
+            <div>
+                <Image src={userHelper.getImage(profile.user)}/>
+            </div>
             }
 
         </div>

@@ -19,15 +19,20 @@ class Events extends Component{
     }
 
     renderEventList(){
+        let events = _.orderBy(this.props.events.events,['created_at'],['desc']);
 
-        return _.map(this.props.events.events,(event) => {
-            if((event.club_id == this.props.currentUser.user.club_id || this.props.currentUser.admin || event.global)) {
+        return _.map(events,(event) => {
+            if(event.global || event.club_id == this.props.currentUser.user.club_id) {
                 return (
                     <List.Item>
                         <List.Content floated='right'>
-                            <List.Icon><AddCategories event={event}/></List.Icon>
-                            <EditEvent event={event}/>
-                           <DeleteConfirmation event={event} />
+                            { (event.club_id == this.props.currentUser.user.club_id || this.props.currentUser.admin) &&
+                                <span>
+                                <List.Icon><AddCategories event={event}/></List.Icon>
+                                < EditEvent event={event}/>
+                                <DeleteConfirmation event={event} />
+                                </span>
+                            }
                         </List.Content>
                         <List.Icon><Flag name={event.location}/></List.Icon>
                         <List.Content>

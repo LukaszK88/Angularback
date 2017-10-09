@@ -48,6 +48,8 @@ class EditEvent extends Component{
     }
 
     handleOpen = () => {
+        this.props.reset();
+
         this.props.dispatch(change('editEventForm','title',this.props.event.title));
         this.props.dispatch(change('editEventForm','location',this.props.event.location));
         this.props.dispatch(change('editEventForm','radioGroup',this.radioGroupValue()));

@@ -30,7 +30,9 @@ class AddEvent extends Component{
         values.user_id = this.props.currentUser.user.id;
         if(values.radioGroup == 'club_id') {
             values.club_id = this.props.currentUser.user.club_id;
+            values.global = null
         }else if (values.radioGroup == 'global'){
+            values.club_id = null;
             values.global = true;
         }
 
@@ -38,7 +40,10 @@ class AddEvent extends Component{
         this.handleClose();
     }
 
-    handleOpen = () => this.setState({ modalOpen: true });
+    handleOpen = () => {
+        this.props.reset();
+        this.setState({modalOpen: true});
+    }
 
     handleClose = () => this.setState({ modalOpen: false });
 
