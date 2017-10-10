@@ -23,6 +23,8 @@ class Profight extends BaseRanking {
 
 
     protected $fillable=[
+        self::COL_WIN,
+        self::COL_LOSS,
         self::COL_USER_ID,
         self::COL_EVENT_ID,
         self::COL_FC_1_ID,

@@ -49,7 +49,7 @@ class UpdateProfight extends Component{
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
                                 label="Win"
-                                name="won"
+                                name="win"
                                 value={this.state.value}
                                 max={1}
                                 min={0}

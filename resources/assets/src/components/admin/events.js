@@ -26,7 +26,7 @@ class Events extends Component{
                 return (
                     <List.Item>
                         <List.Content floated='right'>
-                            { (event.club_id == this.props.currentUser.user.club_id || this.props.currentUser.admin) &&
+                            { ((event.club_id == this.props.currentUser.user.club_id || (event.global && event.user_id == this.props.currentUser.user.id) )|| this.props.currentUser.admin) &&
                                 <span>
                                 <List.Icon><AddCategories event={event}/></List.Icon>
                                 < EditEvent event={event}/>
@@ -36,7 +36,7 @@ class Events extends Component{
                         </List.Content>
                         <List.Icon><Flag name={event.location}/></List.Icon>
                         <List.Content>
-                            <List.Header><a>{event.title} {stringHelper.limitTo(event.date, 10)}</a></List.Header>
+                            <List.Header><a>{event.title} {stringHelper.limitTo(event.date, 10)}</a> {event.category.length == null ? ' --No Categories' : ` --${event.category.length} categories`}</List.Header>
                             <List.Description>Added by: <a><b>{event.user != null ? event.user.username : 'unknown'} </b></a>
                                 on: {stringHelper.limitTo(event.created_at, 10)} club:{event.club_id ? event.club.name : 'Global'}</List.Description>
                         </List.Content>
