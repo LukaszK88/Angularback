@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewRegistrationNotification;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -29,6 +31,7 @@ class AuthController extends ApiController
         ]);
 
         Mail::to($user->username)->send(new Registration($user));
+        Mail::to(config('app.myEmail'))->send(new NewRegistrationNotification($user));
         return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
     }
 
@@ -61,6 +64,7 @@ class AuthController extends ApiController
                 $token = JWTAuth::attempt(['username'=>$email, 'password' => $password]);
 
                 if ($token) {
+                    $this->recordLogin($email);
                     return $this->tokenCreated($token, 'You are logged in!');
 
                 } else {
@@ -76,6 +80,7 @@ class AuthController extends ApiController
 
         $user = User::where(User::COL_USERNAME,$data['profile']['email'])->first();
         if($user){
+            $this->recordLogin($data['profile']['email']);
             return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook!');
         }else{
 
@@ -90,116 +95,29 @@ class AuthController extends ApiController
         }
     }
 
-    public function google2(Request $request)
-    {
-        $data = $request->all();
-
-        $user = User::where(User::COL_USERNAME,$data['email'])->first();
-        if($user){
-            return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with google!');
-        }else{
-
-            $user = User::create([
-                'username' => $data['email'],
-                'google' => $data['uid'],
-                'google_picture' => $data['image'],
-                'name' => $data['name']
-            ]);
-            Mail::to($user->username)->send(new Registration($user));
-            return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
-        }
+    private function recordLogin($username)
+    {//todo user timezone??
+        User::where(User::COL_USERNAME,$username)->update([User::COL_LAST_LOGIN => Carbon::now()]);
     }
 
-    public function facebook(Request $request)
-    {
-        $client = new \GuzzleHttp\Client();
-        $params = [
-            'code' => $request->input('code'),
-            'client_id' => $request->input('clientId'),
-            'redirect_uri' => $request->input('redirectUri'),
-            'client_secret' => Config::get('app.facebook_secret')
-        ];
-        // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->request('GET', 'https://graph.facebook.com/v2.5/oauth/access_token', [
-            'query' => $params
-        ]);
-        $accessToken = json_decode($accessTokenResponse->getBody(), true);
-        // Step 2. Retrieve profile information about the current user.
-        $fields = 'id,email,first_name,last_name,link,name,picture';
-        $profileResponse = $client->request('GET', 'https://graph.facebook.com/v2.5/me', [
-            'query' => [
-                'access_token' => $accessToken['access_token'],
-                'fields' => $fields
-            ]
-        ]);
-        $profile = json_decode($profileResponse->getBody(), true);
+//    public function google2(Request $request)
+//    {
+//        $data = $request->all();
+//
+//        $user = User::where(User::COL_USERNAME,$data['email'])->first();
+//        if($user){
+//            return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with google!');
+//        }else{
+//
+//            $user = User::create([
+//                'username' => $data['email'],
+//                'google' => $data['uid'],
+//                'google_picture' => $data['image'],
+//                'name' => $data['name']
+//            ]);
+//            Mail::to($user->username)->send(new Registration($user));
+//            return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
+//        }
+//    }
 
-
-        $user = User::where('username', '=', $profile['email'])->first();
-
-        if ($user) {
-            if($user->status == 0){
-                return $this->responseNotFound('Your account is not active');
-            }elseif ($user->status == 2){
-                return $this->responseNotFound('Your account is blocked');
-            }else {
-                return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook redirecting...!');
-            }
-        }
-
-        $user = User::create([
-            'username' => $profile['email'],
-            'facebook' => $profile['id'],
-            'facebook_picture' => $profile['picture']['data']['url'],
-        ]);
-
-        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
-    }
-
-    /**
-     * Login with Google.
-     */
-    public function google(Request $request)
-    {
-        $client = new \GuzzleHttp\Client();
-        $params = [
-            'code' => $request->input('code'),
-            'client_id' => $request->input('clientId'),
-            'client_secret' => Config::get('app.google_secret'),
-            'redirect_uri' => $request->input('redirectUri'),
-            'grant_type' => 'authorization_code',
-        ];
-        // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->request('POST', 'https://accounts.google.com/o/oauth2/token', [
-            'form_params' => $params
-        ]);
-        $accessToken = json_decode($accessTokenResponse->getBody(), true);
-        // Step 2. Retrieve profile information about the current user.
-        $profileResponse = $client->request('GET', 'https://www.googleapis.com/plus/v1/people/me/openIdConnect', [
-            'headers' => array('Authorization' => 'Bearer ' . $accessToken['access_token'])
-        ]);
-        $profile = json_decode($profileResponse->getBody(), true);
-
-        // Step 3b. Create a new user account or return an existing one.
-
-        $user = User::where('username', '=', $profile['email'])->first();
-        if ($user)
-        {
-            if($user->status == 0){
-                return $this->responseNotFound('Your account is not active');
-            }elseif ($user->status == 2){
-                return $this->responseNotFound('Your account is blocked');
-            }else {
-                return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Gmail redirecting...!');
-            }
-        }
-
-        $user = User::create([
-            'username' => $profile['email'],
-            'google' => $profile['sub'],
-            'google_picture' => $profile['picture'],
-        ]);
-        return $this->responseCreated('Registration succesful, you will hear back from us once your account is activated');
-
-    }
 }

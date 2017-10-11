@@ -29,7 +29,7 @@ class Registration extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@whitecompany.ovh')
+        return $this->from('noreply@medievalclubs.com')
                     ->subject('Welcome')
                     ->markdown('emails.registration')
                     ->with('user',$this->user);

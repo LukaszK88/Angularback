@@ -29,7 +29,7 @@ class PasswordRecovery extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@whitecompany.ovh')
+        return $this->from('noreply@medievalclubs.com')
                     ->subject('Password Recovery')
                     ->markdown('emails.password-recovery')
                     ->with('password',$this->password);

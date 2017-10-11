@@ -29,7 +29,7 @@ class AccountActivated extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@whitecompany.ovh')
+        return $this->from('noreply@medievalclubs.com')
                     ->subject('Account Activated')
                     ->markdown('emails.account-active')
                     ->with('user',$this->user);

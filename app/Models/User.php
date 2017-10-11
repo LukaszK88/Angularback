@@ -30,6 +30,7 @@ class User extends Authenticatable
             COL_USERNAME = 'username',
             COL_CLUB_ID = 'club_id',
             COL_CLUB_ADMIN_ID = 'club_admin_id',
+            COL_LAST_LOGIN = 'last_login',
             COL_ID = 'id';
 
     const   TCOL_USER_ROLE_ID = self::TABLE.'.'.self::COL_USER_ROLE_ID,
@@ -59,7 +60,8 @@ class User extends Authenticatable
         self::COL_TOTAL_POINTS,
         self::COL_IMG,
         self::COL_CLUB_ID,
-        self::COL_CLUB_ADMIN_ID
+        self::COL_CLUB_ADMIN_ID,
+        self::COL_LAST_LOGIN
     ];
 
     public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)

@@ -13,6 +13,7 @@ return [
     'twitter_key' => '',
     'twitter_secret' => '',
 
+    'myEmail' => env('MAIL_USERNAME', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'BattleBook',
+    'name' => 'MedievalClubs',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +64,7 @@ return [
     |
     */
 
-    'url' => env('MIX_APP_URL', 'whitecompany'),
+    'url' => env('MIX_APP_URL', 'medievalClubs'),
 
     /*
     |--------------------------------------------------------------------------

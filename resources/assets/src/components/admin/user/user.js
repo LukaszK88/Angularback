@@ -11,6 +11,9 @@ import { input } from '../../../helpers/input';
 import { Tooltip } from 'reactstrap';
 import {fetchClubs} from '../../../actions/clubs';
 import DeleteConfirmation from './deleteUser';
+import { loading } from '../../../actions/config';
+
+
 class AdminUsers extends Component{
     constructor(){
         super();
@@ -46,10 +49,13 @@ class AdminUsers extends Component{
                         <Card.Meta>
                             {unauthorised.username}
                         </Card.Meta>
+                        <Card.Description>
+                            {unauthorised.name ? unauthorised.name : 'no name'}
+                        </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
                         <Button.Group>
-                            <Button onClick={() => this.props.takeAdminAction(unauthorised,'approve')} basic color='green'>Approve</Button>
+                            <Button loading={this.props.config.loading} onClick={() => {this.props.takeAdminAction(unauthorised,'approve');this.props.loading(true)}} basic color='green'>Approve</Button>
                             <Button onClick={() => this.props.takeAdminAction(unauthorised,'remove')} basic color='red'>Decline</Button>
                             <Button onClick={() => this.props.takeAdminAction(unauthorised,'block')} basic color='black'>Block</Button>
                         </Button.Group>
@@ -247,7 +253,9 @@ class AdminUsers extends Component{
 }
 
 function mapStateToProps(state) {
-    return { users:state.admin, clubs:state.clubs };
+    return { users:state.admin,
+        clubs:state.clubs,
+        config:state.config};
 }
 let InitializeFromStateForm = reduxForm({
     form: 'updateUserAdmin',
@@ -255,7 +263,14 @@ let InitializeFromStateForm = reduxForm({
 })(AdminUsers);
 
 InitializeFromStateForm = connect(
-    mapStateToProps,{fetchUsersAdmin,takeAdminAction,fetchUsers,deleteUser,getUserRoles,updateUserRole,fetchClubs}
+    mapStateToProps,{fetchUsersAdmin,
+        takeAdminAction,
+        fetchUsers,deleteUser
+        ,getUserRoles,
+        updateUserRole,
+        fetchClubs,
+        loading
+    }
 )(InitializeFromStateForm);
 
 export default InitializeFromStateForm;

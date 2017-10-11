@@ -12,7 +12,9 @@ class Triathlon extends BaseRanking
         self::COL_EVENT_ID,
         self::COL_WIN,
         self::COL_LOSS,
-        self::COL_POINTS
+        self::COL_POINTS,
+        self::COL_FIGHTS,
+
     ];
 
     public function user()

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API } from './index';
 import { FETCH_USERS_ADMIN,FETCH_USERS,DELETE_USER,FETCH_USER_ROLES,UPDATE_USER_ROLE} from './types';
 import {addFlashMessage} from './flashMessages';
+import {loading} from './config';
 
 export function fetchUsersAdmin() {
     const request = axios.get(`${API}admin`);
@@ -58,11 +59,13 @@ export function deleteUser(user) {
 }
 
 export function takeAdminAction(user, action) {
+
     return axios.get(`${API}admin/${user.id}/${action}`).then((response) => {
         return (dispatch) => {
             dispatch(addFlashMessage('success',response.data.message));
             dispatch(fetchUsersAdmin());
             dispatch(fetchUsers());
+            dispatch(loading(false));
         }
     });
 }
