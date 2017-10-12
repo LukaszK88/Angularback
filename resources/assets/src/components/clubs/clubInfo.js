@@ -27,30 +27,29 @@ class ClubInfo extends Component{
         });
     }
 
-    componentDidMount(){
-        this.props.dispatch(change('updateClubInfo','name',this.props.club.club.name));
-        this.props.dispatch(change('updateClubInfo','fb',this.props.club.club.fb));
-        this.props.dispatch(change('updateClubInfo','description',this.props.club.club.description));
-        this.props.dispatch(change('updateClubInfo','motto',this.props.club.club.motto));
-        this.props.dispatch(change('updateClubInfo','foundation',this.props.club.club.foundation));
-        this.props.dispatch(change('updateClubInfo','country',this.props.club.club.country));
+    componentWillRecive(){
+
 
     }
 
     onSubmit(values){
-
-        this.props.updateClub(this.props.clubId,values);
-        // this.setState({ showDatePicker: false });
-         this.handleClose();
-
+        this.props.updateClub(this.props.club.id,values);
+        this.handleClose();
     }
 
     handleOpen = () => {
+        this.props.dispatch(change('updateClubInfo','name',this.props.club.name));
+        this.props.dispatch(change('updateClubInfo','fb',this.props.club.fb));
+        this.props.dispatch(change('updateClubInfo','description',this.props.club.description));
+        this.props.dispatch(change('updateClubInfo','motto',this.props.club.motto));
+        this.props.dispatch(change('updateClubInfo','foundation',this.props.club.foundation));
+        this.props.dispatch(change('updateClubInfo','country',this.props.club.country));
         this.setState({ modalOpen: true });
-        this.props.fetchClub(this.props.clubId);
     }
 
-    handleClose = () => this.setState({ modalOpen: false });
+    handleClose = () => {
+        this.setState({ modalOpen: false });
+    }
 
 
     render(){
@@ -138,9 +137,7 @@ function validate(values) {
 
 
 function mapStateToProps(state, ownProps) {
-    return {currentUser: state.currentUser,
-            club: state.club
-    };
+    return {currentUser: state.currentUser};
 }
 
 let InitializeFromStateForm = reduxForm({

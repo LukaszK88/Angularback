@@ -20,6 +20,18 @@ body {
   padding: 200px 15px 200px;
 }
 
+.bad-bg{
+  position: relative;
+  min-height: 600px;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./img/bad.jpg');
+}
+
 .wc-bg{
   position: relative;
   min-height: 600px;
@@ -223,4 +235,10 @@ table a {
   .flash-message-mobile {
     width:100%;
   }
+}
+.white-bg{
+  background-color: white;
+}
+.ui.tabular.menu .item{
+  width: 50%;
 }

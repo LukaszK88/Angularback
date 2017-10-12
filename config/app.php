@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'url' => env('MIX_APP_URL', 'medievalClubs'),
+    'url' => env('APP_URL', 'medievalClubs'),
 
     /*
     |--------------------------------------------------------------------------

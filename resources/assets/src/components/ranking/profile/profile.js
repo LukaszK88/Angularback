@@ -33,13 +33,23 @@ class Profile extends Component{
         if(!profile){
             return <div>Loading...</div>;
         }
+        let bg ='';
+       if(profile.user.club_id == '1'){
+            bg = 'wc-bg'
+       }
+       if (profile.user.club_id == '2'){
+           bg = 'ukfed-bg'
+       }
+        if (profile.user.club_id == '6'){
+            bg = 'bad-bg'
+        }
 
         return(
             <div>
                 <FlashMessages/>
                 <NavbarComp/>
                 {profile.user &&
-                <div className={profile.user.club_id == '1' ? 'wc-bg' : 'ukfed-bg'}>
+                <div className={bg}>
                 <div className="container profile">
                     <div className="row">
                         <UserImage profile={profile} currentUser={this.props.currentUser}/>

@@ -20,6 +20,16 @@ class ClubsController extends ApiController
     {
         $clubs = Club::where(Club::COL_ACTIVE,1)->get();
 
+        $total_points = 0;
+        foreach ($clubs as $club){
+            foreach ($club->users as $user){
+                $total_points += $user->total_points;
+            }
+
+            $club['total_points'] = $total_points;
+            $total_points = 0;
+        }
+
         return $this->respond($clubs);
     }
 
@@ -43,6 +53,23 @@ class ClubsController extends ApiController
         }
 
         return $this->respond('Action taken');
+    }
+
+    public function getClubsByCountry($country)
+    {
+        $clubs = Club::where(Club::COL_COUNTRY,$country)->where(Club::COL_ACTIVE,1)->get();
+
+        $total_points = 0;
+        foreach ($clubs as $club){
+            foreach ($club->users as $user){
+                $total_points += $user->total_points;
+            }
+
+            $club['total_points'] = $total_points;
+            $total_points = 0;
+        }
+
+        return $this->respond($clubs);
     }
 
     /**
@@ -86,25 +113,28 @@ class ClubsController extends ApiController
     {
         $club = Club::with('users')->where(Club::COL_ID,$id)->first();
 
-        $total = 0;
+        $totalFights = 0;
+        $totalPoints = 0;
         $gold = 0;
         $silver = 0;
         $bronze = 0;
         foreach ($club->users as $user){
+
             $gold += $user->achievement->where('place','1st')->count();
             $silver += $user->achievement->where('place','2nd')->count();
             $bronze += $user->achievement->where('place','3rd')->count();
-
-            $total += $user->bohurt->sum('fights');
-            $total += $user->profight->sum('fights');
-            $total += $user->swordBuckler->sum('fights');
-            $total += $user->swordShield->sum('fights');
-            $total += $user->longsword->sum('fights');
-            $total += $user->triathlon->sum('fights');
-            $total += $user->polearm->sum('fights');
+            $totalPoints += $user->total_points;
+            $totalFights += $user->bohurt->sum('fights');
+            $totalFights += $user->profight->sum('fights');
+            $totalFights += $user->swordBuckler->sum('fights');
+            $totalFights += $user->swordShield->sum('fights');
+            $totalFights += $user->longsword->sum('fights');
+            $totalFights += $user->triathlon->sum('fights');
+            $totalFights += $user->polearm->sum('fights');
         }
 
-        $club['total_fights'] = $total;
+        $club['total_points'] = $totalPoints;
+        $club['total_fights'] = $totalFights;
         $club['gold'] = $gold;
         $club['silver'] = $silver;
         $club['bronze'] = $bronze;

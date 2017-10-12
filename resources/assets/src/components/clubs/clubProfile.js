@@ -50,12 +50,21 @@ class ClubProfile extends Component{
             return(<p>Loading....</p>)
         }else {
 
-            const clubPoints = _.sumBy(this.props.club.club.users, 'total_points');
-
+            let bg ='';
+            if(this.props.club.club.id== '1'){
+                bg = 'wc-bg'
+            }
+            if (this.props.club.club.id == '2'){
+                bg = 'ukfed-bg'
+            }
+            if (this.props.club.club.id == '6'){
+                bg = 'bad-bg'
+            }
             return (
                 <div>
                     <FlashMessages/>
                     <NavbarComp/>
+                    <div className={bg}>
                     <div className="container profile">
                         <div className="row">
                             <div className="col-md-3">
@@ -103,7 +112,7 @@ class ClubProfile extends Component{
                                             <div className="col-md-6">
                                                 <List>
                                                     <List.Item icon='certificate'
-                                                               content={'Club Total Points: '+ clubPoints }/>
+                                                               content={'Club Total Points: ' +  this.props.club.club.total_points}/>
                                                     <List.Item icon='certificate' content={'Attended Events: coming soon...'}/>
                                                     <List.Item icon='certificate' content={'Total Fights: ' + this.props.club.club.total_fights}/>
                                                     <List.Item icon='certificate' content={'Rank : coming soon...' }/>
@@ -171,6 +180,7 @@ class ClubProfile extends Component{
                             }
                         </div>
 
+                    </div>
                     </div>
                 </div>
             )

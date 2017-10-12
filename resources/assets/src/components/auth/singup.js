@@ -32,8 +32,8 @@ class Signup extends Component{
 
     componentDidMount(){
         this.state = {tabs:[
-            { menuItem: 'Fighter', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px',boxShadow:'0,0,0'}}  attached={false}><SignupFighter onClose={this.handleClose} /></Tab.Pane> },
-            { menuItem: 'Club', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px',boxShadow:'0,0,0'}}  attached={false}><SignupClub onClose={this.handleClose} /></Tab.Pane> },
+            { menuItem: 'Fighter', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px'}}  attached={false}><SignupFighter onClose={this.handleClose} /></Tab.Pane> },
+            { menuItem: 'Club', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px'}}  attached={false}><SignupClub onClose={this.handleClose} /></Tab.Pane> },
         ]};
     }
 

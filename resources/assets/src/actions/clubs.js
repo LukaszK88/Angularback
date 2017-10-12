@@ -34,6 +34,15 @@ export function fetchAllClubs() {
     }
 }
 
+export function fetchClubsByCountry(country) {
+    const request = axios.get(`${API}clubs-by-country/${country}`);
+
+    return {
+        type:FETCH_ALL_CLUBS,
+        payload:request
+    }
+}
+
 export function registerClub(data) {
     return axios.post(`${API}clubs`,data).then((response) => {
         return (dispatch) => {

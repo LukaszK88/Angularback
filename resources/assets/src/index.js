@@ -27,6 +27,7 @@ import Events from './components/admin/events';
 import AdminUsers from './components/admin/user/user';
 import AdminClubs from './components/admin/club/club';
 import ClubProfile from './components/clubs/clubProfile';
+import ClubsRanking from './components/clubs/ranking/clubs';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 
@@ -66,6 +67,7 @@ ReactDOM.render(
                 <Route path="/events" component={Events}/>
                 <Route path="/users" component={AdminUsers}/>
                 <Route path="/clubs-admin" component={AdminClubs}/>
+                <Route path="/ranking-clubs" component={ClubsRanking}/>
                 <Route path="/ranking" component={TabsComp} />
                 <Redirect from="/" to="/ranking"/>
                 <Route path="/" component={Home}/>
