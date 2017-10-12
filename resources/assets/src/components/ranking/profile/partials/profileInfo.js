@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Card,Image, List, Flag } from 'semantic-ui-react'
+import {Link} from 'react-router-dom';
 
 export default class ProfileInfo extends Component {
 
@@ -45,7 +46,7 @@ export default class ProfileInfo extends Component {
                                 <List.Item content={'"' + profile.user.quote + '"'}/>
                                 <List.Item icon='certificate' content={'Club :' }/>
                                 {profile.user.club_id != 0 &&
-                                <Image size={'tiny'} src={profile.user.club.logo}/>}
+                                <Link to={`/club/${profile.user.club_id}`}> <Image size={'tiny'} src={profile.user.club.logo}/></Link>}
                             </List>
                         </div>
                         <div className="col-md-6">

@@ -24,6 +24,15 @@ export default function (state = initialState, action) {
             }else if (action.payload.data){
                 //admin
                 if(action.payload.data.user_role_id == '3') {
+                    //admin + club admin
+                    if(action.payload.data.user_role_id == '3' && action.payload.data.club_admin_id) {
+                        return {
+                            isLoggedIn:true,
+                            admin: true,
+                            clubAdmin:parseInt(action.payload.data.club_admin_id),
+                            user: action.payload.data
+                        }
+                    }
                     return {
                         isLoggedIn:true,
                         admin: true,

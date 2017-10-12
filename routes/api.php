@@ -23,6 +23,7 @@ Route::get('/user-roles','UsersController@getUserRoles');
 Route::post('/storePhoto/{id}', 'UsersController@storeUserPhoto');
 Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserEventInfo');
 
+
 //AUTH
 Route::post('/user-store','AuthController@store');
 Route::post('/user/authenticate','AuthController@authenticate');
@@ -73,8 +74,10 @@ Route::get('/event-attendees/{eventId}','EventsController@getEventAttendees');
 Route::get('/event-attending/{userId}','EventsController@getEventsAttendedByUser');
 
 //Clubs
-Route::resource('/club','ClubsController');
-
+Route::resource('/clubs','ClubsController');
+Route::post('/club-logo/{id}','ClubsController@storeClubLogo');
+Route::get('/clubs-all','ClubsController@getAllClubs');
+Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 //BLOG
 Route::resource('/post','PostsController');
 Route::get('/posts/{type}','PostsController@getPostsOfType');

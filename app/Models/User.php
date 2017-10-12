@@ -151,6 +151,6 @@ class User extends Authenticatable
 
     public function club()
     {
-        return $this->hasOne(Club::class, 'id', 'club_id');
+        return $this->belongsTo(Club::class,'club_id','id');
     }
 }

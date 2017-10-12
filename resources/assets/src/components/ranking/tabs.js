@@ -109,7 +109,7 @@ class TabsComp extends Component{
 
         const { calculations} = this.state;
         const all = [{key:'0' , value:'0', text:'All Clubs'}];
-        const clubs = _.map(this.props.clubs, (club) => {
+        const clubs = _.map(this.props.clubs.clubs, (club) => {
             return {key:club.id , value:club.id, flag:club.country, text:club.name}
         });
 

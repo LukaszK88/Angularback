@@ -48,7 +48,7 @@ class UpdateUser extends Component{
     handleClose = () => this.setState({ modalOpen: false });
 
     renderClubSelection(){
-        const options = _.map(this.props.clubs, (club) => {
+        const options = _.map(this.props.clubs.clubs, (club) => {
             return {key:club.id , value:club.id, flag:club.country, text:club.name}
         });
 
@@ -98,7 +98,7 @@ class UpdateUser extends Component{
                                 <Field
                                 label="Weight *"
                                 name="weight"
-                                min={50}
+                                min={45}
                                 max={140}
                                 placeholder="Your weight"
                                 component={input.renderSlider}

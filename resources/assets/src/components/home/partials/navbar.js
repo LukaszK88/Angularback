@@ -10,7 +10,7 @@ import DropdownMenu from 'react-dd-menu';
 import UpdateUser from './userInfo';
 import ChangePassword from '../../auth/changePassword';
 import { config } from '../../../config';
-
+import ClubInfo from '../../clubs/clubInfo';
 
 
 class NavbarComp extends Component{
@@ -60,14 +60,24 @@ class NavbarComp extends Component{
                         <Link className="nav-link" to="/ranking">Ranking</Link>
                     </li>
                     <DropdownMenu as="li" className="nav-item" {...menuOptions}>
-                        <li><Link to={`/profile/${user.id}`}>Profile <Icon name="drivers license outline"/></Link></li>
+                        <li><Link to={`/profile/${user.id}`}>Profile Page <Icon name="drivers license outline"/></Link></li>
+                        { user.club_id != 0 &&
+                            <li><Link to={`/club/${user.club_id}`}>Club Page <Icon name="drivers license outline"/></Link>
+                            </li>
+                        }
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
                         {(admin || clubAdmin) &&
                         <li><Link to={`/events`}>Manage events <Icon name="fort awesome"/></Link></li>
                         }
+                        {(admin || clubAdmin) &&
+                        <li><ClubInfo clubId={clubAdmin}/></li>
+                        }
                         { admin &&
                         <li><Link to={`/users`}>Manage users <Icon name="users"/></Link></li>
+                        }
+                        { admin &&
+                        <li><Link to={`/clubs-admin`}>Manage clubs <Icon name="users"/></Link></li>
                         }
                     </DropdownMenu>
 

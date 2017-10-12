@@ -79,9 +79,15 @@ class AuthController extends ApiController
         $data = $request->all();
 
         $user = User::where(User::COL_USERNAME,$data['profile']['email'])->first();
-        if($user){
-            $this->recordLogin($data['profile']['email']);
+        if($user) {
+            if ($user->status == 0) {
+                return $this->responseNotFound('Your account is not active');
+            } elseif ($user->status == 2) {
+                return $this->responseNotFound('Your account is blocked');
+            } else
+                $this->recordLogin($data['profile']['email']);
             return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with Facebook!');
+
         }else{
 
             $user = User::create([
@@ -90,7 +96,8 @@ class AuthController extends ApiController
                 //'facebook_picture' => $data['picture']['data']['url'],
                 'name' => $data['profile']['name']
             ]);
-            //Mail::to($user->username)->send(new Registration($user));
+            Mail::to($user->username)->send(new Registration($user));
+            Mail::to(config('app.myEmail'))->send(new NewRegistrationNotification($user));
             return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
         }
     }

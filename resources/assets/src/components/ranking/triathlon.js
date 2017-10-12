@@ -17,7 +17,7 @@ class Triathlon extends Component{
                 <Image src={userHelper.getImage(row)} shape='rounded' size='mini' />
                 <Header.Content>
                     <Link to={`/profile/${row.id}`}>  {row.name} </Link>
-                    <Header.Subheader>{row.club.name}</Header.Subheader>
+                    <Header.Subheader><Link to={`/club/${row.club.id}`}>{row.club.name}</Link></Header.Subheader>
                 </Header.Content>
             </Header>
         )

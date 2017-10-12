@@ -137,7 +137,7 @@ class AdminUsers extends Component{
             return {key:role.id,value:role.id,text:role.role}
         });
 
-        const clubOptions = _.map(this.props.clubs, (club) => {
+        const clubOptions = _.map(this.props.clubs.clubs, (club) => {
             return {key:club.id , value:club.id, flag:club.country, text:club.name}
         });
         const clubs = empty.concat(clubOptions);

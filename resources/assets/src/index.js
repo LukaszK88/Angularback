@@ -25,7 +25,8 @@ import {currentUser} from './actions';
 import Profile from './components/ranking/profile/profile';
 import Events from './components/admin/events';
 import AdminUsers from './components/admin/user/user';
-
+import AdminClubs from './components/admin/club/club';
+import ClubProfile from './components/clubs/clubProfile';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 
@@ -61,8 +62,10 @@ ReactDOM.render(
             <Switch>
 
                 <Route path="/profile/:userId" component={Profile}/>
+                <Route path="/club/:clubId" component={ClubProfile}/>
                 <Route path="/events" component={Events}/>
                 <Route path="/users" component={AdminUsers}/>
+                <Route path="/clubs-admin" component={AdminClubs}/>
                 <Route path="/ranking" component={TabsComp} />
                 <Redirect from="/" to="/ranking"/>
                 <Route path="/" component={Home}/>

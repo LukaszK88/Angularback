@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal, Icon, Tab } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { registerUser,loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
@@ -8,13 +8,14 @@ import {addFlashMessage} from '../../actions/flashMessages';
 import { input } from '../../helpers/input';
 import FacebookProvider, { Login } from 'react-facebook';
 import { loading } from '../../actions/config';
-
-
+import SignupFighter from './partials/signupFighter';
+import SignupClub from './partials/signupClub';
 class Signup extends Component{
     constructor(){
         super();
 
         this.state = ({
+            tabs:[],
             modalOpen:false
         });
     }
@@ -22,13 +23,19 @@ class Signup extends Component{
     onSubmit(values){
         this.props.loading(true);
         this.props.registerUser(values);
-        this.setState({modalOpen:false});
+        this.handleClose();
     }
 
     handleOpen = () => this.setState({ modalOpen: true });
 
     handleClose = () => this.setState({ modalOpen: false });
 
+    componentDidMount(){
+        this.state = {tabs:[
+            { menuItem: 'Fighter', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px',boxShadow:'0,0,0'}}  attached={false}><SignupFighter onClose={this.handleClose} /></Tab.Pane> },
+            { menuItem: 'Club', render: () => <Tab.Pane style={{border:'0px',borderRadius:'0px',boxShadow:'0,0,0'}}  attached={false}><SignupClub onClose={this.handleClose} /></Tab.Pane> },
+        ]};
+    }
 
     render(){
         const handleSubmit = this.props.handleSubmit;
@@ -38,39 +45,7 @@ class Signup extends Component{
                 <Modal.Header>Register</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
-                        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-                            <Field
-                                label="Email"
-                                name="email"
-                                type="text"
-                                component={input.renderField}
-                            />
-                            <Field
-                                label="Password"
-                                name="password"
-                                type="password"
-                                component={input.renderField}
-                            />
-                            <Button.Group>
-                            <Button color={'black'} type="submit">Register</Button>
-                                <Button.Or />
-                                <FacebookProvider appId="1884018281856728">
-                                    <Login
-                                        scope="email"
-                                        onResponse={this.props.loginWithFacebook}
-
-                                        render={({ isLoading, isWorking, onClick }) => (
-                                            <span onClick={onClick}>
-                                            <Button color='facebook'>
-                                                <Icon name='facebook' /> Facebook
-                                            </Button>
-                                            </span>
-                                        )}
-                                    />
-                                </FacebookProvider>
-                            </Button.Group>
-                        </form>
-
+                        <Tab panes={this.state.tabs} />
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
