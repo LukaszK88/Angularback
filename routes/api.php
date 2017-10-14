@@ -43,6 +43,7 @@ Route::post('/fighters/longsword','RankingController@saveLongsword');
 Route::post('/fighters/sword_buckler','RankingController@saveSwordBuckler');
 Route::post('/fighters/polearm','RankingController@savePolearm');
 Route::post('/fighters/triathlon','RankingController@saveTriathlon');
+Route::post('/fighters-update/{category}/{recordId}/{userId}','RankingController@updateRankingRecord');
 
 //TODO work on REST
 Route::get('/achievement/{userId?}','AchievementController@index');

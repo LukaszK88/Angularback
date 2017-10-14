@@ -36,7 +36,16 @@ export function deleteAchievement(achievement) {
      });
 }
 
-export function updateRanking(data,type) {
+export function updateRanking(data,type,recordId,fighterId) {
+    return axios.post(`${API}fighters-update/${type}/${recordId}/${fighterId}`,data).then((response) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('success',response.data.message));
+            dispatch(fetchFighters());
+        }
+    });
+}
+
+export function storeRanking(data,type) {
     return axios.post(`${API}fighters/${type}`,data).then((response) => {
         return (dispatch) => {
             dispatch(addFlashMessage('success',response.data.message));

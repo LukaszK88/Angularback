@@ -26,4 +26,9 @@ class Longsword extends BaseRanking {
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

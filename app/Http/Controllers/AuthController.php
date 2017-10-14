@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewRegistrationNotification;
 use App\Models\User;
+use App\Services\AuthService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\MessageBag;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Mail\Registration;
 use Illuminate\Support\Facades\Mail;
@@ -16,19 +18,10 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends ApiController
 {
 
-    public function store(Request $request)
+    public function store(Request $request, AuthService $authService)
     {
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:users,username',
-        ]);
-
-        if ($validator->fails()) return $this->responseNotFound($validator->errors());
-
-        $user = User::create([
-            'username' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
-        ]);
+        $user = $authService->registerUser($request,$request->input('email'),$request->input('password'));
+        if($user instanceof MessageBag) return $this->responseNotFound($user);
 
         Mail::to($user->username)->send(new Registration($user));
         Mail::to(config('app.myEmail'))->send(new NewRegistrationNotification($user));

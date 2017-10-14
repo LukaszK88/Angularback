@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ClubActivated;
+use App\Mail\ClubCaptainRegistration;
 use App\Mail\ClubRegistration;
 use App\Models\Club;
+use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\MessageBag;
 
 class ClubsController extends ApiController
 {
@@ -88,7 +92,7 @@ class ClubsController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, AuthService $authService)
     {
         $data = $request->all();
 
@@ -96,8 +100,19 @@ class ClubsController extends ApiController
 
         if($club) return $this->responseCreated('Club already exists');
 
-        Club::create($data);
+        $captain = $authService->registerUser($request,$data['email'],$data['password']);
+        if($captain instanceof MessageBag) return $this->responseNotFound($captain);
 
+        $data['founder'] = $data['email'];
+        $club = Club::create($data);
+
+        User::where(User::COL_ID,$captain->id)
+            ->update([
+                User::COL_CLUB_ADMIN_ID => $club->id,
+                User::COL_CLUB_ID => $club->id
+            ]);
+        //email captain
+        Mail::to($data['email'])->send(new ClubCaptainRegistration($data));
         Mail::to(config('app.myEmail'))->send(new ClubRegistration($data));
 
         return $this->responseCreated('Club Registered, we will get back to you with confirmation soon...');

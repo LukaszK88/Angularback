@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { Button, Modal, Icon} from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
-import { updateRanking} from '../../../actions/ranking';
+import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-
+import LastRecords from './partials/lastRecords';
 class UpdateBohurt extends Component{
     constructor(props) {
         super(props);
@@ -18,7 +18,7 @@ class UpdateBohurt extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.updateRanking(values,'bohurt');
+        this.props.storeRanking(values,'bohurt');
         this.setState({modalOpen:false});
     }
 
@@ -44,7 +44,11 @@ class UpdateBohurt extends Component{
 
         return(
                 <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
-                <Modal.Header>Update {this.props.fighter.name}</Modal.Header>
+                <Modal.Header>Update {this.props.fighter.name}
+                    { (this.props.fighter.bohurt.length  > 0 ) &&
+                    <LastRecords category="bohurt" fighter={this.props.fighter}/>
+                    }
+                </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -115,4 +119,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,{updateRanking})(UpdateBohurt)));
+export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,{storeRanking})(UpdateBohurt)));

@@ -49,6 +49,11 @@ export function registerClub(data) {
             dispatch(addFlashMessage('success',response.data.message));
             dispatch(loading(false));
         }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
+            dispatch(loading(false));
+        }
     });
 }
 

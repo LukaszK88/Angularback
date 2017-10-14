@@ -12,6 +12,7 @@ use App\Models\SwordBuckler;
 use App\Models\SwordShield;
 use App\Models\Triathlon;
 use App\Models\User;
+use App\Services\RankingService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,9 +24,37 @@ class RankingController extends ApiController
 
     protected $rankingTransformer;
 
-    public function __construct(RankingTransformer $rankingTransformer)
+    protected $rankingService;
+
+    protected   $bohurt,
+                $profight,
+                $swordShield,
+                $swordBuckler,
+                $longsword,
+                $polearm,
+                $triathlon;
+
+    public function __construct(
+        RankingService $rankingService,
+        RankingTransformer $rankingTransformer,
+        Bohurt $bohurt,
+        Profight $profight,
+        SwordShield $swordShield,
+        SwordBuckler $swordBuckler,
+        Longsword $longsword,
+        Polearm $polearm,
+        Triathlon $triathlon
+        )
     {
+        $this->rankingService = $rankingService;
         $this->rankingTransformer = $rankingTransformer;
+        $this->bohurt = $bohurt;
+        $this->profight = $profight;
+        $this->swordShield = $swordShield;
+        $this->swordBuckler = $swordBuckler;
+        $this->longsword = $longsword;
+        $this->polearm = $polearm;
+        $this->triathlon = $triathlon;
     }
     /**
      * Display a listing of the resource.
@@ -35,13 +64,13 @@ class RankingController extends ApiController
 
     public function getFighters($clubId, $date = null)
     {
-        $rawFighters = User::with('bohurt')
-            ->with('profight')
-            ->with('swordShield')
-            ->with('longsword')
-            ->with('swordBuckler')
-            ->with('polearm')
-            ->with('triathlon')
+        $rawFighters = User::with('bohurt.event')
+            ->with('profight.event')
+            ->with('swordShield.event')
+            ->with('longsword.event')
+            ->with('swordBuckler.event')
+            ->with('polearm.event')
+            ->with('triathlon.event')
             ->with('club')
             ->whereNotNull('name')
             ->where(User::COL_CLUB_ID,'!=',0);
@@ -192,6 +221,68 @@ class RankingController extends ApiController
         $data['The Rock']->category = 'The Rock';
 
         return $this->respond($data);
+    }
+
+    public function updateRankingRecord(Request $request, $category, $recordId, $userId )
+    {
+        $data = $request->all();
+
+        $user = User::find($userId);
+
+        $categoriesTables = [
+            'bohurt' => $this->bohurt,
+            'profight' => $this->profight,
+            'sword_shield' => $this->swordShield,
+            'sword_buckler' => $this->swordBuckler,
+            'longsword' => $this->longsword,
+            'polearm' => $this->polearm,
+            'triathlon' => $this->triathlon
+        ];
+
+        foreach ($categoriesTables as $cat => $table){
+            if($cat == $category){
+                $oldRecord = $table->find($recordId);
+
+                switch ($cat){
+                    case 'bohurt':
+                        $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->rankingService->calculateBohurtPoints($oldRecord)]);
+                        break;
+                    case 'profight':
+                        $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->rankingService->calculateProfightPoints($oldRecord)]);
+                        break;
+                    default:
+                        $user->update([User::COL_TOTAL_POINTS => $user->total_points - $oldRecord->win]);
+                        break;
+                }
+
+                $newRecord = $table->updateOrCreate(['id' => $recordId], $data);
+
+                switch ($cat){
+                    case 'bohurt':
+                        $newRecord->update([
+                            'fights' => $this->rankingService->addBohurtFights($newRecord),
+                            'points' => $this->rankingService->calculateBohurtPoints($newRecord)
+                       ]);
+                        break;
+                    case 'profight':
+                        $newRecord->update([
+                            'fights' => $this->rankingService->addProfightFights($newRecord),
+                            'points' => $this->rankingService->calculateProfightPoints($newRecord)
+                        ]);
+                        break;
+                    default:
+                        $newRecord->update([
+                            'fights' => $newRecord->win + $newRecord->loss,
+                            'points' => $newRecord->win
+                        ]);
+                        break;
+
+                }
+                $this->addTotalPoints($newRecord->user_id, $newRecord->points);
+            }
+        }
+
+        return  $this->responseCreated('Record Updated');
     }
 
     public function saveBohurt(Request $request, Bohurt $bohurt)

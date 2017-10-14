@@ -3,7 +3,7 @@
 @isset($club['fb'])
 fb : {{$club['fb']}}
 @endisset
-email {{$club['founder']}}
+email {{$club['email']}}
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

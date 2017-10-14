@@ -42,9 +42,16 @@ class SignupClub extends Component{
                 />
                 <Field
                     label="Captain Email *"
-                    name="founder"
+                    name="email"
                     placeholder="Contact email"
                     type="text"
+                    component={input.renderField}
+                />
+                <Field
+                    label="Password *"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
                     component={input.renderField}
                 />
                 <Field
@@ -71,17 +78,23 @@ function validate(values) {
     if(!values.name){
         errors.name = "Club name cannot be empty";
     }
-    if(values.founder && values.founder.length < 4){
-        errors.founder = "Email should be min 4 chars";
+    if(values.email && values.email.length < 4){
+        errors.email = "Email should be min 4 chars";
     }
-    if(values.founder && !regExp.test(values.founder)){
-        errors.founder = "Email should be a valid email";
+    if(values.email && !regExp.test(values.email)){
+        errors.email = "Email should be a valid email";
     }
-    if(!values.founder){
-        errors.founder = "Email should not be empty";
+    if(!values.email){
+        errors.email = "Email should not be empty";
     }
     if(!values.country){
         errors.country = "Country should not be empty";
+    }
+    if(!values.password){
+        errors.password = "You need to secure your account...";
+    }
+    if(values.password && values.password.length < 6){
+        errors.password = "give me six..";
     }
 
     return errors;

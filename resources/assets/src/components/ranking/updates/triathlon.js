@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
-import { updateRanking} from '../../../actions/ranking';
+import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
+import LastRecords from './partials/lastRecords';
 
 class UpdateTriathlon extends Component{
     constructor(props) {
@@ -18,7 +19,7 @@ class UpdateTriathlon extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.updateRanking(values,'triathlon');
+        this.props.storeRanking(values,'triathlon');
         this.setState({modalOpen:false});
     }
 
@@ -39,12 +40,16 @@ class UpdateTriathlon extends Component{
                 };
             }
         });
+
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
-
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<i onClick={this.handleOpen} className="fa fa-pencil-square-o"></i>}>
-                <Modal.Header>Update {this.props.fighter.name}</Modal.Header>
+            <Modal closeIcon size={'tiny'}  open={this.state.modalOpen} onClose={this.handleClose} trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal.Header>Update {this.props.fighter.name}
+                    { (this.props.fighter.triathlon.length > 0 ) &&
+                    <LastRecords category="triathlon" fighter={this.props.fighter}/>
+                    }
+                    </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -96,4 +101,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'UpdateTriathlon'})(connect(null,{updateRanking})(UpdateTriathlon)));
+export default withRouter(reduxForm({validate:validate, form: 'UpdateTriathlon'})(connect(null,{storeRanking})(UpdateTriathlon)));

@@ -16,6 +16,7 @@ class Bohurt extends Model{
     protected $table = 'bohurts';
 
     const   COL_EVENT_ID = 'event_id',
+            COL_ID = 'id',
             COL_USER_ID = 'user_id',
             COL_FIGHTS = 'fights',
             COL_WON = 'won',
@@ -27,6 +28,7 @@ class Bohurt extends Model{
 
     protected $fillable=[
         self::COL_USER_ID,
+        self::COL_ID,
         self::COL_FIGHTS,
         self::COL_WON,
         self::COL_LAST,
