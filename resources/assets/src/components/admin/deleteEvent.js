@@ -24,7 +24,7 @@ class DeleteConfirmation extends Component{
 render(){
     const {event} = this.props;
         return(
-            <Modal open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Icon onClick={this.handleOpen} size="large" name="delete"></Icon>} basic size='small'>
+            <Modal open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Icon className="icon-md-margin-right" onClick={this.handleOpen} size="large" name="delete"></Icon>} basic size='small'>
                 <Header icon='trash outline' content={`Delete ${event.title} Event`} />
                 <Modal.Content>
                     <p>Are you sure? This will cause related achievements to be deleted?</p>

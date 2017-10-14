@@ -3,31 +3,25 @@ export const config ={
         //local
        base:'http://127.0.0.1:8000/api/',
         //prod
-        //base:'http://www.medievalclubs.com/api/'
+       // base:'http://www.medievalclubs.com/api/'
     },
     url:{
         base: 'http://localhost:3000/'
         //base: 'http://www.whitecompanyy.com/'
-        //base: 'http://www.medievalclubs.com/'
-    },
-    clubs:{
-        select:[
-            {key:'white-company' , value:'White Company', flag:'gb', text:'White Company'},
-            {key:'uk-federation' , value:'UK Federation', flag:'gb', text:'UK Federation'}
-        ]
+       // base: 'http://www.medievalclubs.com/'
     },
     select:{
         categories:[
-            { key:1, value:'Bohurt',text:'Bohurt'},
-            { key:2, value:'10v10',text:'10v10'},
-            { key:3, value:'16v16',text:'16v16'},
-            { key:4, value:'21v21',text:'21v21'},
-            { key:5, value:'Sword&Shield',text:'Sword&Shield'},
-            { key:6, value:'Sword&Buckler',text:'Sword&Buckler'},
-            { key:7, value:'Polearm',text:'Polearm'},
-            { key:8, value:'Longsword',text:'Longsword'},
-            { key:9, value:'Triathlon',text:'Triathlon'},
-            { key:10, value:'Profight',text:'Profight'}
+            { value:'Bohurt',text:'Bohurt'},
+            { value:'10v10',text:'10v10'},
+            { value:'16v16',text:'16v16'},
+            { value:'21v21',text:'21v21'},
+            { value:'Sword&Shield',text:'Sword&Shield'},
+            { value:'Sword&Buckler',text:'Sword&Buckler'},
+            { value:'Polearm',text:'Polearm'},
+            { value:'Longsword',text:'Longsword'},
+            { value:'Triathlon',text:'Triathlon'},
+            { value:'Profight',text:'Profight'}
         ],
         places:[
             { key:'1st', value:'1st',text:'1st'},

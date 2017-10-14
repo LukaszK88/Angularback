@@ -60,7 +60,7 @@ class LastRecords extends Component{
         return _.map(records, (record) => {
 
                 return (
-                  <div>
+                  <div key={record.id}>
                       <Accordion.Title active={activeIndex === record.id} index={record} onClick={this.handleClick}>
                           <Icon name='dropdown' />
                           {`${record.id} `}

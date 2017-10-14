@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import FlashMessages from './../helpers/message';
 import NavbarComp from '../home/partials/navbar';
-import { List, Card, Flag, Button, Icon } from 'semantic-ui-react'
+import { List, Card, Flag, Button, Icon,Header } from 'semantic-ui-react'
 import AddEvent from './addEvent';
 import {getEventTypes,fetchEvents} from '../../actions/events';
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import { stringHelper } from '../../helpers/string';
 import EditEvent from './editEvent';
 import AddCategories from './addCatgories';
 import DeleteConfirmation from './deleteEvent';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 class Events extends Component{
     componentDidMount(){
@@ -18,38 +19,42 @@ class Events extends Component{
 
     }
 
-    renderEventList(){
-        let events = _.orderBy(this.props.events.events,['created_at'],['desc']);
+    formatTitle(cell,row){
+        return(
+            <Header as='h4' image>
+                <Flag name={row.location} />
+                <Header.Content>
+                    {/*<Link to={`/profile/${row.id}`}>  {row.name} </Link>*/}
+                    {row.title} {row.category.length == null ? ' - No Categories' : ` - ${row.category.length} categories`}
+                    <Header.Subheader>{row.club_id ? row.club.name : 'Global   '} Added by: {event.user != null ? ` ${event.user.username}` : ' unknown'} </Header.Subheader>
+                </Header.Content>
+            </Header>
+        )
+    }
 
-        return _.map(events,(event) => {
-            if(event.global || event.club_id == this.props.currentUser.user.club_id) {
-                return (
-                    <List.Item>
-                        <List.Content floated='right'>
-                            { ((event.club_id == this.props.currentUser.user.club_id || (event.global && event.user_id == this.props.currentUser.user.id) )|| this.props.currentUser.admin) &&
-                                <span>
-                                <List.Icon><AddCategories event={event}/></List.Icon>
-                                < EditEvent event={event}/>
-                                <DeleteConfirmation event={event} />
-                                </span>
-                            }
-                        </List.Content>
-                        <List.Icon><Flag name={event.location}/></List.Icon>
-                        <List.Content>
-                            <List.Header><a>{event.title} {stringHelper.limitTo(event.date, 10)}</a> {event.category.length == null ? ' --No Categories' : ` --${event.category.length} categories`}</List.Header>
-                            <List.Description>Added by: <a><b>{event.user != null ? event.user.username : 'unknown'} </b></a>
-                                on: {stringHelper.limitTo(event.created_at, 10)} club:{event.club_id ? event.club.name : 'Global'}</List.Description>
-                        </List.Content>
-                    </List.Item>
-                )
-            }
-        });
+    formatDate(cell,row){
+        return (
+            <span>{stringHelper.limitTo(row.date, 10)}</span>
+        )
+    }
+
+    actions(cell,row,currentUser ){
+        if ((row.club_id == currentUser.user.club_id || (row.global && row.user_id == currentUser.user.id) )|| currentUser.admin) {
+
+            return (
+                <div className="row" >
+                    <AddCategories event={row}/>
+                    <EditEvent event={row}/>
+                    <DeleteConfirmation  event={row} />
+                </div>
+            )
+        }
     }
 
     render(){
 
         const {events, eventTypes} = this.props.events;
-
+        
         return(
             <div>
                 <FlashMessages/>
@@ -66,9 +71,14 @@ class Events extends Component{
                     <div className="row">
                     <Card fluid >
                         <Card.Content>
-                            <List divided verticalAlign="middle">
-                                {this.renderEventList()}
-                            </List>
+                            {(events.length > 0) &&
+                            <BootstrapTable data={ events } pagination>
+                                <TableHeaderColumn dataField='title' dataFormat={this.formatTitle} isKey filter={ {type: 'TextFilter', delay: 1000} }>Tournament Name</TableHeaderColumn>
+                                <TableHeaderColumn dataField='date'  dataFormat={this.formatDate} filter={ {type: 'TextFilter', delay: 1000} }>Date</TableHeaderColumn>
+                                <TableHeaderColumn dataField='actions' style={{display:"table-inline"}} dataFormat={this.actions} formatExtraData={this.props.currentUser} >Actions</TableHeaderColumn>
+
+                            </BootstrapTable>
+                            }
                         </Card.Content>
                     </Card>
                     </div>
@@ -76,6 +86,7 @@ class Events extends Component{
                 </div>
             </div>
         )
+
     }
 }
 

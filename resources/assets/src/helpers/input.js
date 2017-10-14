@@ -59,6 +59,7 @@ export const input ={
             <div className={className}>
 
                 <TextField
+                    floatingLabelStyle={{color:'black'}}
                     type={field.type}
                     { ...field.input }
                     hintText={ field.label }
@@ -78,6 +79,7 @@ export const input ={
             <div className={className}>
                 <label>{ field.label }</label>
                 <textarea
+                    floatingLabelStyle={{color:'black'}}
                     className="form-control"
                     { ...field.input }
                 ></textarea>
@@ -91,6 +93,7 @@ export const input ={
         return(
             <div>
                 <DatePicker
+                    floatingLabelStyle={{color:'black'}}
                     onChange={(event, date) => field.input.onChange(date)}
                     name={field.input.name}
                     value={field.input.value}
