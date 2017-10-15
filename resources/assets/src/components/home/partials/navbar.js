@@ -62,16 +62,21 @@ class NavbarComp extends Component{
                     <li className="nav-item">
                         <Link className="nav-link" to="/ranking-clubs">Clubs</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/events">Events</Link>
+                    </li>
                     <DropdownMenu as="li" className="nav-item" {...menuOptions}>
+
                         <li><Link to={`/profile/${user.id}`}>Profile Page <Icon name="drivers license outline"/></Link></li>
                         { user.club_id != 0 &&
                             <li><Link to={`/club/${user.club_id}`}>Club Page <Icon name="drivers license outline"/></Link>
                             </li>
                         }
+                        <li><Link to={`/my-events/${user.id}`}>My Events Page <Icon name="calendar"/></Link></li>
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
                         {(admin || clubAdmin) &&
-                        <li><Link to={`/events`}>Manage events <Icon name="fort awesome"/></Link></li>
+                        <li><Link to={`/events-admin`}>Manage events <Icon name="fort awesome"/></Link></li>
                         }
                         {(admin || clubAdmin) &&
                         <li><ClubInfo club={user.club}/></li>
@@ -101,6 +106,9 @@ class NavbarComp extends Component{
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/ranking-clubs">Clubs</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/events">Events</Link>
                 </li>
                 <li className="nav-item">
                     <LoginModal/>

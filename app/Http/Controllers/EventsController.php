@@ -21,6 +21,7 @@ class EventsController extends ApiController
      */
     public function index()
     {  //TODO transform
+        //event admin table
        $events = Event::with('user')
             ->with('eventType')
             ->with('category')
@@ -32,25 +33,14 @@ class EventsController extends ApiController
 
     }
 
-    //TODO use for admin panel
-    public function getEventsByType2($type)
-    {
-        $events = Event::where(Event::COL_EVENT_TYPE_ID,$type)->get();
-
-        return $this->respond($events);
-    }
     //TODO event list
     public function getEventsByType($type)
     {
-        $events = Event::leftJoin(Image::TABLE, function ($join) {
-            $join->on(Event::TCOL_ID,'=',Image::TCOL_EVENT_ID)
-                ->where(Image::TCOL_IMAGE_TYPE_ID, '=', 1);})
-            ->join(EventType::TABLE,EventType::TABLE.'.'.EventType::COL_ID,'=',Event::TCOL_EVENT_TYPE_ID)
-            ->select('events.*',EventType::TCOL_TYPE, Image::TCOL_URL)
+        $events = Event::
+            join(EventType::TABLE,EventType::TABLE.'.'.EventType::COL_ID,'=',Event::TCOL_EVENT_TYPE_ID)
+            ->select('events.*',EventType::TCOL_TYPE)
             ->where(Event::TCOL_EVENT_TYPE_ID,$type)
-            //->groupBy(EventType::TCOL_ID)
-            ->with('user')
-            ->with('category')
+            ->with(['category','user','attendance'])
             ->get();
 
         foreach ($events as $event){
@@ -112,7 +102,8 @@ class EventsController extends ApiController
             ->with('user')
             ->with('eventType')
             ->with('category')
-            ->with('attendance')
+            ->with('attendance.user')
+            ->with('attendance.eventAttendCategory')
             ->first();
 
         return $this->respond($event);
@@ -190,31 +181,52 @@ class EventsController extends ApiController
 
     public function attendEvent($eventId, $userId, Request $request)
     {
-        $attendance  =EventAttendence::updateOrCreate([
+        //todo seperate controller??
+        $data = $request->all();
+
+        $attendance = EventAttendence::updateOrCreate([
             EventAttendence::COL_EVENT_ID => $eventId,
             EventAttendence::COL_USER_ID => $userId
         ],[
-            EventAttendence::COL_GOING => $request->input('going')
+            EventAttendence::COL_GOING => 1
         ]);
 
-        return $this->respond($attendance);
-    }
-
-    public function storeEventAttendedCategories($eventAttendId,Request $request)
-    {
-        foreach ($request->all() as $category => $key){
-            if($key === true) {
+        foreach ($data as $category => $status){
+            if($status === true) {
                 EventAttendCategory::updateOrCreate([
-                    EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
+                    EventAttendCategory::COL_EVENT_ATTEND_ID => $attendance->id,
                     EventAttendCategory::COL_NAME => $category
                 ]);
-            }elseif ($key === false){
-                EventAttendCategory::where(EventAttendCategory::COL_EVENT_ATTEND_ID,$eventAttendId)
+            }elseif ($status === false){
+                EventAttendCategory::where(EventAttendCategory::COL_EVENT_ATTEND_ID,$attendance->id)
                     ->where(EventAttendCategory::COL_NAME, $category)
                     ->delete();
             }
         }
-        return $this->responseCreated('Categories attended');
+
+        return $this->respond($attendance);
     }
+
+    public function notGoing($eventId, $userId)
+    {
+        EventAttendence::where(EventAttendence::COL_EVENT_ID,$eventId)->where(EventAttendence::COL_USER_ID,$userId)->delete();
+    }
+
+//    public function storeEventAttendedCategories($eventAttendId,Request $request)
+//    {
+//        foreach ($request->all() as $category => $key){
+//            if($key === true) {
+//                EventAttendCategory::updateOrCreate([
+//                    EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
+//                    EventAttendCategory::COL_NAME => $category
+//                ]);
+//            }elseif ($key === false){
+//                EventAttendCategory::where(EventAttendCategory::COL_EVENT_ATTEND_ID,$eventAttendId)
+//                    ->where(EventAttendCategory::COL_NAME, $category)
+//                    ->delete();
+//            }
+//        }
+//        return $this->responseCreated('Categories attended');
+//    }
 
 }

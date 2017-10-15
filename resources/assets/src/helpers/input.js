@@ -93,7 +93,6 @@ export const input ={
         return(
             <div>
                 <DatePicker
-                    floatingLabelStyle={{color:'black'}}
                     onChange={(event, date) => field.input.onChange(date)}
                     name={field.input.name}
                     value={field.input.value}

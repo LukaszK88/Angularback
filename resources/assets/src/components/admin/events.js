@@ -11,6 +11,7 @@ import EditEvent from './editEvent';
 import AddCategories from './addCatgories';
 import DeleteConfirmation from './deleteEvent';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {Link} from 'react-router-dom';
 
 class Events extends Component{
     componentDidMount(){
@@ -25,7 +26,8 @@ class Events extends Component{
                 <Flag name={row.location} />
                 <Header.Content>
                     {/*<Link to={`/profile/${row.id}`}>  {row.name} </Link>*/}
-                    {row.title} {row.category.length == null ? ' - No Categories' : ` - ${row.category.length} categories`}
+                    <Link to={`/event/${row.id}`}> {row.title} </Link>
+                    {row.category.length == null ? ' - No Categories' : ` - ${row.category.length} categories`}
                     <Header.Subheader>{row.club != null ? row.club.name : 'Global   '} Added by: {row.user != null ? ` ${row.user.username}` : ' unknown'} </Header.Subheader>
                 </Header.Content>
             </Header>

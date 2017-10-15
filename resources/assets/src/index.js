@@ -31,6 +31,10 @@ import ClubsRanking from './components/clubs/ranking/clubs';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import PrivateRoute from './components/auth/privateRoute';
+import EventPage from './components/events/eventPage';
+import EventsList from './components/events/eventsList';
+import MyCalendar from './components/events/eventCalendar';
+
 const createStoreWithMiddleware = createStore(reducers,
     composeWithDevTools(
         /* logger must be the last middleware in chain to log actions */
@@ -61,10 +65,12 @@ ReactDOM.render(
     <Provider store={createStoreWithMiddleware}>
         <BrowserRouter history={history}>
             <Switch>
-
                 <Route path="/profile/:userId" component={Profile}/>
                 <Route path="/club/:clubId" component={ClubProfile}/>
-                <PrivateRoute path="/events" component={Events}/>
+                <Route path="/event/:eventId" component={EventPage}/>
+                <Route path="/events" component={EventsList}/>
+                <PrivateRoute path="/my-events/:userId" component={MyCalendar}/>
+                <PrivateRoute path="/events-admin" component={Events}/>
                 <PrivateRoute admin={true} path="/users" component={AdminUsers}/>
                 <PrivateRoute admin={true} path="/clubs-admin" component={AdminClubs}/>
                 <Route path="/ranking-clubs" component={ClubsRanking}/>
