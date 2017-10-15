@@ -26,7 +26,7 @@ class Events extends Component{
                 <Header.Content>
                     {/*<Link to={`/profile/${row.id}`}>  {row.name} </Link>*/}
                     {row.title} {row.category.length == null ? ' - No Categories' : ` - ${row.category.length} categories`}
-                    <Header.Subheader>{row.club_id ? row.club.name : 'Global   '} Added by: {event.user != null ? ` ${event.user.username}` : ' unknown'} </Header.Subheader>
+                    <Header.Subheader>{row.club != null ? row.club.name : 'Global   '} Added by: {row.user != null ? ` ${row.user.username}` : ' unknown'} </Header.Subheader>
                 </Header.Content>
             </Header>
         )
@@ -54,7 +54,8 @@ class Events extends Component{
     render(){
 
         const {events, eventTypes} = this.props.events;
-        
+
+       const eventsOrdered = _.orderBy(events,['created_at'],['desc']);
         return(
             <div>
                 <FlashMessages/>
@@ -72,7 +73,7 @@ class Events extends Component{
                     <Card fluid >
                         <Card.Content>
                             {(events.length > 0) &&
-                            <BootstrapTable data={ events } pagination>
+                            <BootstrapTable data={ eventsOrdered } pagination>
                                 <TableHeaderColumn dataField='title' dataFormat={this.formatTitle} isKey filter={ {type: 'TextFilter', delay: 1000} }>Tournament Name</TableHeaderColumn>
                                 <TableHeaderColumn dataField='date'  dataFormat={this.formatDate} filter={ {type: 'TextFilter', delay: 1000} }>Date</TableHeaderColumn>
                                 <TableHeaderColumn dataField='actions' style={{display:"table-inline"}} dataFormat={this.actions} formatExtraData={this.props.currentUser} >Actions</TableHeaderColumn>

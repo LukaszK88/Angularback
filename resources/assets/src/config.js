@@ -3,12 +3,12 @@ export const config ={
         //local
        base:'http://127.0.0.1:8000/api/',
         //prod
-       // base:'http://www.medievalclubs.com/api/'
+        //base:'http://www.medievalclubs.com/api/'
     },
     url:{
         base: 'http://localhost:3000/'
         //base: 'http://www.whitecompanyy.com/'
-       // base: 'http://www.medievalclubs.com/'
+        //base: 'http://www.medievalclubs.com/'
     },
     select:{
         categories:[

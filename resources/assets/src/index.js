@@ -30,7 +30,7 @@ import ClubProfile from './components/clubs/clubProfile';
 import ClubsRanking from './components/clubs/ranking/clubs';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
-
+import PrivateRoute from './components/auth/privateRoute';
 const createStoreWithMiddleware = createStore(reducers,
     composeWithDevTools(
         /* logger must be the last middleware in chain to log actions */
@@ -64,9 +64,9 @@ ReactDOM.render(
 
                 <Route path="/profile/:userId" component={Profile}/>
                 <Route path="/club/:clubId" component={ClubProfile}/>
-                <Route path="/events" component={Events}/>
-                <Route path="/users" component={AdminUsers}/>
-                <Route path="/clubs-admin" component={AdminClubs}/>
+                <PrivateRoute path="/events" component={Events}/>
+                <PrivateRoute admin={true} path="/users" component={AdminUsers}/>
+                <PrivateRoute admin={true} path="/clubs-admin" component={AdminClubs}/>
                 <Route path="/ranking-clubs" component={ClubsRanking}/>
                 <Route path="/ranking" component={TabsComp} />
                 <Redirect from="/" to="/ranking"/>
