@@ -1,12 +1,10 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Icon, Tab } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+import { Modal, Tab } from 'semantic-ui-react';
+import { reduxForm } from 'redux-form';
 import { registerUser,loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import {addFlashMessage} from '../../actions/flashMessages';
-import { input } from '../../helpers/input';
-import FacebookProvider, { Login } from 'react-facebook';
 import { loading } from '../../actions/config';
 import SignupFighter from './partials/signupFighter';
 import SignupClub from './partials/signupClub';
@@ -38,14 +36,13 @@ class Signup extends Component{
     }
 
     render(){
-        const handleSubmit = this.props.handleSubmit;
 
         return(
             <Modal closeIcon size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<a className="nav-link" onClick={this.handleOpen} >Register</a>}>
                 <Modal.Header>Register</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
-                        <Tab panes={this.state.tabs} />
+                        <Tab className="tabs-registration" panes={this.state.tabs} />
                     </Modal.Description>
                 </Modal.Content>
             </Modal>

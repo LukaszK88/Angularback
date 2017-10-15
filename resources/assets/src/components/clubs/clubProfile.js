@@ -2,13 +2,13 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import  NavbarComp from '../home/partials/navbar';
 import FlashMessages from '../helpers/message';
-import {fetchClub} from '../../actions/clubs';
+import {fetchClub,fetchClubs} from '../../actions/clubs';
 import { Card, Icon, Image, List,Button } from 'semantic-ui-react'
 import { userHelper } from '../../helpers/user';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
 import DropZone from './dropZone';
-
+import PerformanceCharts from './performaneCharts';
 
 class ClubProfile extends Component{
 
@@ -20,6 +20,8 @@ class ClubProfile extends Component{
 
     componentDidMount(){
         this.props.fetchClub(this.props.match.params.clubId);
+        this.props.fetchClubs();
+
     }
 
     renderClubFighters(){
@@ -84,7 +86,9 @@ class ClubProfile extends Component{
 
                                             <Icon name='users' size="large"/>
                                             {this.props.club.club.users ? this.props.club.club.users.length : ''}
-
+                                            <div className="float-right">
+                                                <PerformanceCharts club={this.props.club} clubs={this.props.clubs}/>
+                                            </div>
                                     </Card.Content>
                                     { this.props.club.club.fb &&
                                         <Button as='a' target="_blank"
@@ -190,9 +194,10 @@ class ClubProfile extends Component{
 
 function mapStateToProps(state) {
     return {club: state.club,
+             clubs:state.clubs,
             currentUser: state.currentUser
     };
 }
 
 
-export default connect(mapStateToProps,{fetchClub})(ClubProfile);
+export default connect(mapStateToProps,{fetchClub,fetchClubs})(ClubProfile);

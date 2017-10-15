@@ -29,6 +29,7 @@
     "react-toolbox": "^2.0.0-beta.12",
     "react-transition-group": "^2.2.0",
     "reactstrap": "^4.8.0",
+    "recharts": "^1.0.0-alpha.6",
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
     "redux-promise": "^0.5.3",

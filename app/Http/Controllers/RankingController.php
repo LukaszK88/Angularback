@@ -94,14 +94,14 @@ class RankingController extends ApiController
 
     public function getFighter($id, User $user)
     {
-        $fighter = User::with('bohurt')
-            ->with('profight')
-            ->with('swordShield')
-            ->with('longsword')
-            ->with('swordBuckler')
-            ->with('polearm')
+        $fighter = User::with('bohurt.event')
+            ->with('profight.event')
+            ->with('swordShield.event')
+            ->with('longsword.event')
+            ->with('swordBuckler.event')
+            ->with('polearm.event')
             ->with('club')
-            ->with('triathlon')
+            ->with('triathlon.event')
             ->where('id', $id)
             ->first();
 

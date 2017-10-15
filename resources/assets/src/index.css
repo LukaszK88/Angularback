@@ -239,6 +239,6 @@ table a {
 .white-bg{
   background-color: white;
 }
-.ui.tabular.menu .item{
-  width: 50%;
+.tabs-registration .ui.tabular.menu .item{
+  width:50%;
 }

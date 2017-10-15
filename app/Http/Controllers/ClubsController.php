@@ -25,13 +25,23 @@ class ClubsController extends ApiController
         $clubs = Club::where(Club::COL_ACTIVE,1)->get();
 
         $total_points = 0;
+        $total_fights = 0;
         foreach ($clubs as $club){
             foreach ($club->users as $user){
                 $total_points += $user->total_points;
+                $total_fights += $user->bohurt->sum('fights');
+                $total_fights += $user->profight->sum('fights');
+                $total_fights += $user->swordBuckler->sum('fights');
+                $total_fights += $user->swordShield->sum('fights');
+                $total_fights += $user->longsword->sum('fights');
+                $total_fights += $user->triathlon->sum('fights');
+                $total_fights += $user->polearm->sum('fights');
             }
 
+            $club['total_fights'] = $total_fights;
             $club['total_points'] = $total_points;
             $total_points = 0;
+            $total_fights = 0;
         }
 
         return $this->respond($clubs);
