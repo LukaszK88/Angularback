@@ -13,7 +13,7 @@ export function logout() {
     return (dispatch) => {
         window.localStorage.removeItem('token');
         setAuthorizationToken(false);
-        dispatch(currentUser(null));
+        dispatch(currentLoggedInUser(null));
         dispatch(addFlashMessage('error', 'Logging out...'));
     }
 }
@@ -82,7 +82,7 @@ export function loginUser(user) {
         window.localStorage.setItem('token',token);
         setAuthorizationToken(token);
         return (dispatch) => {
-            dispatch(currentUser(token));
+            dispatch(currentLoggedInUser(token));
             dispatch(addFlashMessage('success', message));
             dispatch(loading(false));
         }
@@ -115,7 +115,7 @@ export function loginWithFacebook(data) {
         setAuthorizationToken(token);
 
         return (dispatch) => {
-            dispatch(currentUser(token));
+            dispatch(currentLoggedInUser(token));
             dispatch(addFlashMessage('success', message));
         }
     }).catch((error) => {
@@ -126,7 +126,7 @@ export function loginWithFacebook(data) {
     });
 }
 
-export function currentUser(token) {
+export function currentLoggedInUser(token) {
     const request = axios.get(`${API}user-current`,{'Authorization': `Bearer ${token}`});
 
     return {

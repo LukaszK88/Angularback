@@ -21,7 +21,7 @@ import Home from './components/home/home';
 import TabsComp from './components/ranking/tabs';
 import thunk from 'redux-thunk';
 import setAuthorizationToken from './utils/setAuthorizationToken';
-import {currentUser} from './actions';
+import {currentLoggedInUser} from './actions';
 import Profile from './components/ranking/profile/profile';
 import Events from './components/admin/events';
 import AdminUsers from './components/admin/user/user';
@@ -30,6 +30,7 @@ import ClubProfile from './components/clubs/clubProfile';
 import ClubsRanking from './components/clubs/ranking/clubs';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import PrivateRoute from './components/auth/privateRoute';
 import EventPage from './components/events/eventPage';
 import EventsList from './components/events/eventsList';
@@ -57,7 +58,7 @@ const muiTheme = getMuiTheme({
 });
 if(window.localStorage.getItem('token')) {
     setAuthorizationToken(window.localStorage.getItem('token'));
-    createStoreWithMiddleware.dispatch(currentUser(window.localStorage.getItem('token')));
+    createStoreWithMiddleware.dispatch(currentLoggedInUser(window.localStorage.getItem('token')));
 }
 
 ReactDOM.render(
@@ -69,7 +70,7 @@ ReactDOM.render(
                 <Route path="/club/:clubId" component={ClubProfile}/>
                 <Route path="/event/:eventId" component={EventPage}/>
                 <Route path="/events" component={EventsList}/>
-                <PrivateRoute path="/my-events/:userId" component={MyCalendar}/>
+                <Route path="/my-events/:userId" component={MyCalendar}/>
                 <PrivateRoute path="/events-admin" component={Events}/>
                 <PrivateRoute admin={true} path="/users" component={AdminUsers}/>
                 <PrivateRoute admin={true} path="/clubs-admin" component={AdminClubs}/>

@@ -44,7 +44,7 @@ class NavbarComp extends Component{
     }
 
     renderLoggedIn(){
-        const{user, admin, clubAdmin} = this.props.currentUser;
+        const{user, admin, clubAdmin, editor} = this.props.currentUser;
         if(user) {
             const menuOptions = {
                 isOpen: this.state.isMenuOpen,
@@ -72,10 +72,10 @@ class NavbarComp extends Component{
                             <li><Link to={`/club/${user.club_id}`}>Club Page <Icon name="drivers license outline"/></Link>
                             </li>
                         }
-                        <li><Link to={`/my-events/${user.id}`}>My Events Page <Icon name="calendar"/></Link></li>
+                        <li><Link to={`/my-events/${user.id}`}>My Events<Icon name="calendar"/></Link></li>
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
-                        {(admin || clubAdmin) &&
+                        {(admin || clubAdmin || editor) &&
                         <li><Link to={`/events-admin`}>Manage events <Icon name="fort awesome"/></Link></li>
                         }
                         {(admin || clubAdmin) &&

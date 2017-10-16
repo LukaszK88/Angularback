@@ -43,7 +43,7 @@ class UsersController extends ApiController
 
         $user = JWTAuth::toUser($token);
 
-        $user = User::with('club')->where(User::COL_ID,$user->id)->first();
+        $user = User::with(['club','attendence.event','attendence.eventAttendCategory'])->where(User::COL_ID,$user->id)->first();
 
         return response()->json($user);
 

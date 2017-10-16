@@ -83,7 +83,7 @@ class Attend extends Component{
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             {this.renderCategories()}
-
+                            <br/>
                             <Button color={'black'} type="submit">Attend</Button>
                         </form>
                     </Modal.Description>

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, List, Radio } from 'semantic-ui-react';
+import { Button, Modal, Icon, Radio } from 'semantic-ui-react';
 import { Field, reduxForm, change } from 'redux-form';
 import {updateEvent} from '../../actions/events';
 import _ from 'lodash';
@@ -89,7 +89,15 @@ class EditEvent extends Component{
 
         return(
 
-            <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<List.Icon className="icon-md-margin-right" onClick={this.handleOpen} size="large" name="edit"/>}>
+            <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose}
+                   trigger={
+                       <Icon id="edit"  className="icon-md-margin-right" onClick={this.handleOpen} size="large" name="edit">
+                           <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="edit"
+                                    toggle={this.toggle.bind(this)}>
+                               Click to edit event
+                           </Tooltip>
+                       </Icon>
+                   }>
                 <Modal.Header>Edit Event</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>

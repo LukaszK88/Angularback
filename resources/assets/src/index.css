@@ -215,7 +215,7 @@ table a {
 }
 
 .fake-link{
-  text-decoration: underline;
+  text-decoration: underline!important;
 }
 .fake-link:hover{
   cursor: pointer;

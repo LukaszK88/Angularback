@@ -18,6 +18,10 @@ class Event extends Model
             COL_DATE = 'date',
             COL_CLUB_ID = 'club_id',
             COL_GLOBAL = 'global',
+            COL_MAKE_PAGE = 'make_page',
+            COL_END = 'end',
+            COL_LAT = 'lat',
+            COL_LNG = 'lng',
             COL_EVENT_TYPE_ID = 'event_type_id';
 
     const   TCOL_ID = self::TABLE.'.'.self::COL_ID,
@@ -27,6 +31,10 @@ class Event extends Model
             TCOL_EVENT_TYPE_ID = self::TABLE.'.'.self::COL_EVENT_TYPE_ID;
 
     protected $fillable=[
+        self::COL_END,
+        self::COL_MAKE_PAGE,
+        self::COL_LAT,
+        self::COL_LNG,
         self::COL_USER_ID,
         self::COL_TITLE,
         self::COL_BODY,

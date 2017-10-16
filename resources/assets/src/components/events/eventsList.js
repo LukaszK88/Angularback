@@ -16,45 +16,50 @@ class EventsList extends Component{
     renderFutureEvents(){
         const{eventsList} = this.props.events;
 
-        return _.map(eventsList,(event) => {
-            if(event.future == true){
-                return(
-                    <Feed.Event key={event.id}>
-                        <Feed.Label > <Flag name={event.location}/></Feed.Label>
-                        <Feed.Content>
-                            <Feed.Summary>
-                                <Feed.User><Link to={`/event/${event.id}`}>  {event.title}</Link></Feed.User> Added by: {event.user.name}
+       let events = _.orderBy(eventsList,['date'],['asc']);
+        return _.map(events,(event) => {
+            if(event.future == true && event.make_page){
+                if((this.props.currentUser.isLoggedIn && (event.club_id == this.props.currentUser.user.club_id)) || (event.global)) {
 
-                                <Feed.Date>
-                                    <Countdown targetDate={new Date(event.date)}
-                                               format={{
-                                                   day: 'DD',
-                                                   hour: 'HH',
-                                                   minute: 'MM',
-                                                   second: 'SS'
-                                               }}
-                                               interval={1000}
-                                               timeSeparator={':'}
-                                               leadingZero
-                                    />
-                                </Feed.Date>
-                                <Feed.Date>
-                                To go!
-                                </Feed.Date>
-                            </Feed.Summary>
-                            <Feed.Extra text>
-                                {event.category.length > 0 ?  `${event.category.length} Categories` : 'no Categories'}
-                            </Feed.Extra>
-                            <Feed.Meta>
-                            <Feed.Like>
-                                <Icon name='users' size="large"/>
-                                {event.attendance.length > 0 ? event.attendance.length : '0'}
-                            </Feed.Like>
-                            </Feed.Meta>
-                        </Feed.Content>
+                    return (
+                        <Feed.Event key={event.id}>
+                            <Feed.Label > <Flag name={event.location}/></Feed.Label>
+                            <Feed.Content>
+                                <Feed.Summary>
+                                    <Feed.User><Link to={`/event/${event.id}`}>  {event.title}</Link></Feed.User> Added
+                                    by: {event.user.name}
 
-                            </Feed.Event>
-                )
+                                    <Feed.Date>
+                                        <Countdown targetDate={new Date(event.date)}
+                                                   format={{
+                                                       day: 'DD',
+                                                       hour: 'HH',
+                                                       minute: 'MM',
+                                                       second: 'SS'
+                                                   }}
+                                                   interval={1000}
+                                                   timeSeparator={':'}
+                                                   leadingZero
+                                        />
+                                    </Feed.Date>
+                                    <Feed.Date>
+                                        To go!
+                                    </Feed.Date>
+                                </Feed.Summary>
+                                <Feed.Extra text>
+                                    {event.category.length > 0 ? `${event.category.length} Categories` : 'no Categories'}
+                                </Feed.Extra>
+                                <Feed.Meta>
+                                    <Feed.Like>
+                                        <Icon name='users' size="large"/>
+                                        {event.attendance.length > 0 ? event.attendance.length : '0'}
+                                    </Feed.Like>
+                                </Feed.Meta>
+                            </Feed.Content>
+
+                        </Feed.Event>
+                    )
+                }
             }
         })
     }
@@ -65,6 +70,8 @@ class EventsList extends Component{
             <div>
                 <FlashMessages/>
                 <NavbarComp/>
+                <div className="wc-bg">
+
                 <div className="container">
                     <div className="row">
                         <div className="col-md-9">
@@ -78,13 +85,16 @@ class EventsList extends Component{
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    return { events:state.events};
+    return { events:state.events,
+        currentUser:state.currentUser
+    };
 }
 
 

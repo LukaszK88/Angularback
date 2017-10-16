@@ -9,6 +9,7 @@ import _ from 'lodash';
 import Attend from './attend';
 import { userHelper } from '../../helpers/user';
 import {Link} from 'react-router-dom';
+import GoogleMap from './partials/map';
 
 class EventPage extends Component{
     constructor(props){
@@ -103,6 +104,8 @@ class EventPage extends Component{
                 <div>
                     <FlashMessages/>
                     <NavbarComp/>
+                    <div className="wc-bg">
+
                     <div className="container profile">
                         <div className="row">
                             <div className="col-md-8">
@@ -123,6 +126,9 @@ class EventPage extends Component{
                                         </Card.Header>
                                         <Card.Meta>
                                             Event date: {stringHelper.limitTo(event.date,10)}
+                                            {(event.end) &&
+                                            <span> to: {stringHelper.limitTo(event.end,10)}</span>
+                                            }
                                         </Card.Meta>
                                     </Card.Content>
                                     {event.body &&
@@ -146,6 +152,7 @@ class EventPage extends Component{
                                 </Card>
                             </div>
                             <div className="col-md-4">
+                                {(event.attendance.length > 0) &&
                                 <Card fluid>
                                     <Card.Content>
                                         <Card.Header className="text-center">
@@ -162,10 +169,18 @@ class EventPage extends Component{
                                         </Feed>
                                     </Card.Content>
                                 </Card>
+                                }
                             </div>
                         </div>
+                        {(event.lng && event.lat) &&
+                        <div className="row">
+                            <div className="col-md-8">
+                                <GoogleMap lng={parseFloat(event.lng)} lat={parseFloat(event.lat)}/>
+                            </div>
+                        </div>
+                        }
                     </div>
-
+                    </div>
                 </div>
             )
         }

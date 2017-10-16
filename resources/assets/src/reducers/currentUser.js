@@ -29,6 +29,7 @@ export default function (state = initialState, action) {
                         return {
                             isLoggedIn:true,
                             admin: true,
+                            editor: true,
                             clubAdmin:parseInt(action.payload.data.club_admin_id),
                             user: action.payload.data
                         }
@@ -36,6 +37,7 @@ export default function (state = initialState, action) {
                     return {
                         isLoggedIn:true,
                         admin: true,
+                        editor: true,
                         clubAdmin:null,
                         user: action.payload.data
                     }
@@ -45,7 +47,18 @@ export default function (state = initialState, action) {
                     return {
                         isLoggedIn:true,
                         admin: false,
+                        editor: true,
                         clubAdmin:parseInt(action.payload.data.club_admin_id),
+                        user: action.payload.data
+                    }
+                }
+                //editor
+                if(action.payload.data.user_role_id == '2') {
+                    return {
+                        isLoggedIn:true,
+                        admin: false,
+                        editor: true,
+                        clubAdmin:null,
                         user: action.payload.data
                     }
                 }

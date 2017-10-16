@@ -12,7 +12,7 @@ import AddCategories from './addCatgories';
 import DeleteConfirmation from './deleteEvent';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {Link} from 'react-router-dom';
-
+import InfoEvent from './infoEvent';
 class Events extends Component{
     componentDidMount(){
         this.props.getEventTypes();
@@ -20,13 +20,18 @@ class Events extends Component{
 
     }
 
-    formatTitle(cell,row){
+    formatTitle(cell,row,currentUser){
         return(
             <Header as='h4' image>
                 <Flag name={row.location} />
                 <Header.Content>
                     {/*<Link to={`/profile/${row.id}`}>  {row.name} </Link>*/}
-                    <Link to={`/event/${row.id}`}> {row.title} </Link>
+                    {((row.make_page) && ((row.global) || row.club_id == currentUser.user.club_id)) ?
+                        <a className="fake-link"> <Link to={`/event/${row.id}`}> {row.title} </Link></a>
+                        :
+                        `${row.title}`
+                    }
+
                     {row.category.length == null ? ' - No Categories' : ` - ${row.category.length} categories`}
                     <Header.Subheader>{row.club != null ? row.club.name : 'Global   '} Added by: {row.user != null ? ` ${row.user.username}` : ' unknown'} </Header.Subheader>
                 </Header.Content>
@@ -47,6 +52,7 @@ class Events extends Component{
                 <div className="row" >
                     <AddCategories event={row}/>
                     <EditEvent event={row}/>
+                    <InfoEvent event={row}/>
                     <DeleteConfirmation  event={row} />
                 </div>
             )
@@ -76,7 +82,7 @@ class Events extends Component{
                         <Card.Content>
                             {(events.length > 0) &&
                             <BootstrapTable data={ eventsOrdered } pagination>
-                                <TableHeaderColumn dataField='title' dataFormat={this.formatTitle} isKey filter={ {type: 'TextFilter', delay: 1000} }>Tournament Name</TableHeaderColumn>
+                                <TableHeaderColumn dataField='title' dataFormat={this.formatTitle} formatExtraData={this.props.currentUser} isKey filter={ {type: 'TextFilter', delay: 1000} }>Tournament Name</TableHeaderColumn>
                                 <TableHeaderColumn dataField='date'  dataFormat={this.formatDate} filter={ {type: 'TextFilter', delay: 1000} }>Date</TableHeaderColumn>
                                 <TableHeaderColumn dataField='actions' style={{display:"table-inline"}} dataFormat={this.actions} formatExtraData={this.props.currentUser} >Actions</TableHeaderColumn>
 

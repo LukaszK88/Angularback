@@ -146,7 +146,7 @@ class User extends Authenticatable
 
     public function attendence()
     {
-        return $this->hasOne(EventAttendence::class, 'id', 'user_id');
+        return $this->hasMany(EventAttendence::class,'user_id','id');
     }
 
     public function club()

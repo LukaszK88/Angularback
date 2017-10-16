@@ -66,7 +66,16 @@ class AddCategories extends Component{
 
         return(
 
-            <Modal closeIcon size="tiny" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Icon className="icon-md-margin-right" onClick={this.handleOpen} size="large" name="shield"/>}>
+            <Modal closeIcon size="tiny" open={this.state.modalOpen}  onClose={this.handleClose}
+                   trigger={
+
+                       <Icon id="category" className="icon-md-margin-right" onClick={this.handleOpen} size="large" name="shield">
+                           <Tooltip placement="left" isOpen={this.state.tooltipOpen} target="category"
+                                    toggle={this.toggle.bind(this)}>
+                               Click to add categories
+                           </Tooltip>
+                       </Icon>
+                   }>
                 <Modal.Header>Add Categories</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
