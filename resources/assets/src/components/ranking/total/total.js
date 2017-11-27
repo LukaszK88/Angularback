@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, List } from 'semantic-ui-react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { userHelper } from '../../helpers/user';
+import { userHelper } from '../../../helpers/user';
 
 class Total extends Component {
   renderFighters() {

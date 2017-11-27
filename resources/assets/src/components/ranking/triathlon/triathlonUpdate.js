@@ -1,13 +1,14 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Icon} from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-import LastRecords from './partials/lastRecords';
-class UpdateBohurt extends Component{
+import LastRecords from './../partials/lastRecords';
+
+class UpdateTriathlon extends Component{
     constructor(props) {
         super(props);
 
@@ -18,7 +19,7 @@ class UpdateBohurt extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.storeRanking(values,'bohurt');
+        this.props.storeRanking(values,'triathlon');
         this.setState({modalOpen:false});
     }
 
@@ -27,7 +28,6 @@ class UpdateBohurt extends Component{
     handleClose = () => this.setState({ modalOpen: false });
 
     render(){
-
         const handleSubmit = this.props.handleSubmit;
 
         const countryOptions = _.map(this.props.events.events,event => {
@@ -40,21 +40,22 @@ class UpdateBohurt extends Component{
                 };
             }
         });
+
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon size="large" onClick={this.handleOpen} name="edit"></Icon>}>
+            <Modal closeIcon size={'tiny'}  open={this.state.modalOpen} onClose={this.handleClose} trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
-                    { (this.props.fighter.bohurt.length  > 0 ) &&
-                    <LastRecords category="bohurt" fighter={this.props.fighter}/>
+                    { (this.props.fighter.triathlon.length > 0 ) &&
+                    <LastRecords category="triathlon" fighter={this.props.fighter}/>
                     }
-                </Modal.Header>
+                    </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
                                 label="Win"
-                                name="won"
+                                name="win"
                                 value={this.state.value}
                                 max={20}
                                 min={0}
@@ -63,30 +64,10 @@ class UpdateBohurt extends Component{
                             />
                             <br/>
                             <Field
-                                label="Last Man Standing"
-                                name="last"
+                                label="Lost"
+                                name="loss"
                                 value={this.state.value}
-                                max={10}
-                                min={0}
-                                onChange={value => this.setState({ value })}
-                                component={input.renderSlider}
-                            />
-                            <br/>
-                            <Field
-                                label="Down"
-                                name="down"
-                                value={this.state.value}
-                                max={15}
-                                min={0}
-                                onChange={value => this.setState({ value })}
-                                component={input.renderSlider}
-                            />
-                            <br/>
-                            <Field
-                                label="Suicides"
-                                name="suicide"
-                                value={this.state.value}
-                                max={10}
+                                max={20}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
@@ -95,6 +76,7 @@ class UpdateBohurt extends Component{
                             <Field
                                 name="event_id"
                                 options={events}
+                                placeholder="Select Competition"
                                 component={input.renderSelect}
                             />
                             <br/>
@@ -119,4 +101,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,{storeRanking})(UpdateBohurt)));
+export default withRouter(reduxForm({validate:validate, form: 'UpdateTriathlon'})(connect(null,{storeRanking})(UpdateTriathlon)));

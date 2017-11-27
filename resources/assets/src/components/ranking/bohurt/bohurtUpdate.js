@@ -1,14 +1,14 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal, Icon} from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-import LastRecords from './partials/lastRecords';
+import LastRecords from '../partials/lastRecords';
 
-class UpdateProfight extends Component{
+class UpdateBohurt extends Component{
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class UpdateProfight extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.storeRanking(values,'profight');
+        this.props.storeRanking(values,'bohurt');
         this.setState({modalOpen:false});
     }
 
@@ -28,6 +28,7 @@ class UpdateProfight extends Component{
     handleClose = () => this.setState({ modalOpen: false });
 
     render(){
+
         const handleSubmit = this.props.handleSubmit;
 
         const countryOptions = _.map(this.props.events.events,event => {
@@ -43,70 +44,50 @@ class UpdateProfight extends Component{
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon size="large" onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
-                    { (this.props.fighter.profight.length  > 0 ) &&
-                    <LastRecords category="profight" fighter={this.props.fighter}/>
+                    { (this.props.fighter.bohurt.length  > 0 ) &&
+                    <LastRecords category="bohurt" fighter={this.props.fighter}/>
                     }
-                    </Modal.Header>
+                </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
                                 label="Win"
-                                name="win"
+                                name="won"
                                 value={this.state.value}
-                                max={1}
+                                max={20}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
                             />
                             <br/>
                             <Field
-                                label="KO"
-                                name="ko"
+                                label="Last Man Standing"
+                                name="last"
                                 value={this.state.value}
-                                max={1}
+                                max={10}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
                             />
                             <br/>
                             <Field
-                                label="Loss"
-                                name="loss"
+                                label="Down"
+                                name="down"
                                 value={this.state.value}
-                                max={1}
+                                max={15}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
                             />
                             <br/>
                             <Field
-                                label="First Class I"
-                                name="fc_1"
+                                label="Suicides"
+                                name="suicide"
                                 value={this.state.value}
-                                max={1}
-                                min={0}
-                                onChange={value => this.setState({ value })}
-                                component={input.renderSlider}
-                            />
-                            <br/>
-                            <Field
-                                label="First Class II"
-                                name="fc_2"
-                                value={this.state.value}
-                                max={1}
-                                min={0}
-                                onChange={value => this.setState({ value })}
-                                component={input.renderSlider}
-                            />
-                            <br/>
-                            <Field
-                                label="First Class III"
-                                name="fc_3"
-                                value={this.state.value}
-                                max={1}
+                                max={10}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
@@ -115,7 +96,6 @@ class UpdateProfight extends Component{
                             <Field
                                 name="event_id"
                                 options={events}
-                                placeholder="Select Competition"
                                 component={input.renderSelect}
                             />
                             <br/>
@@ -140,4 +120,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'updateProfight'})(connect(null,{storeRanking})(UpdateProfight)));
+export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,{storeRanking})(UpdateBohurt)));

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Total from './total';
-import Leaderboard from './leaderboard';
-import { Bohurt } from '../ranking';
-import SwordShield from './swordShield';
-import Profight from './profight';
-import SwordBuckler from './swordBuckler';
-import Longsword from './longsword';
-import Polearm from './polearm';
-import Triathlon from './triathlon';
+import {
+  Bohurt,
+  Profight,
+  SwordShield,
+  Longsword,
+  SwordBuckler,
+  Polearm,
+  Triathlon,
+  Leaderboard,
+  Total,
+} from '../ranking';
 import { Button } from 'semantic-ui-react';
 import { fetchFighters, fetchLeaderboard, setActiveCategory, setActiveSeason } from '../../actions/ranking';
 import { fetchEvents } from '../../actions/events';
@@ -43,7 +45,7 @@ class TabsComp extends Component {
     this.props.fetchEvents();
     this.props.fetchLeaderboard();
     this.props.setActiveSeason('2017');
-    this.props.setActiveCategory('Bohurt');
+    this.props.setActiveCategory('Profight');
   }
 
   componentWillReceiveProps(nextProps) {

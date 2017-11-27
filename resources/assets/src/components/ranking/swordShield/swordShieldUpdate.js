@@ -1,14 +1,14 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal, Icon} from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-import LastRecords from './partials/lastRecords';
+import LastRecords from './../partials/lastRecords';
 
-class UpdateLongsword extends Component{
+class UpdateSwordShield extends Component{
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class UpdateLongsword extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.storeRanking(values,'longsword');
+        this.props.storeRanking(values,'sword_shield');
         this.setState({modalOpen:false});
     }
 
@@ -42,12 +42,11 @@ class UpdateLongsword extends Component{
         });
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
-
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+            <Modal  closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
-                    { (this.props.fighter.longsword.length > 0 ) &&
-                    <LastRecords category="longsword" fighter={this.props.fighter}/>
+                    { (this.props.fighter.sword_shield.length  > 0 ) &&
+                    <LastRecords category="sword_shield" fighter={this.props.fighter}/>
                     }
                     </Modal.Header>
                 <Modal.Content image>
@@ -101,4 +100,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'UpdateSwordShield'})(connect(null,{storeRanking})(UpdateLongsword)));
+export default withRouter(reduxForm({validate:validate, form: 'UpdateSwordShield'})(connect(null,{storeRanking})(UpdateSwordShield)));

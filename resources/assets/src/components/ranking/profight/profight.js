@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import { Image, List } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
-import UpdateBohurt from './bohurtUpdate';
+import UpdateProfight from './profightUpdate';
+import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
-const styles = require('../ranking.css');
 
-class Bohurt extends Component {
+class Profight extends Component {
   renderFighters() {
     const { admin, clubAdmin } = this.props.currentUser;
 
-    const fighters = _.orderBy(this.props.fighters, ['bohurtTable.points'], ['desc']);
+    const fighters = _.orderBy(this.props.fighters, ['profightTable.points'], ['desc']);
     return _.map(fighters, (fighter, index) => (
       <List.Item>
         <div className="row">
@@ -20,7 +19,7 @@ class Bohurt extends Component {
           <div className="col-sm-1 col-2">
             <Image avatar src={userHelper.getImage(fighter)} />
           </div>
-          <div className="col-sm-4 col-6 ">
+          <div className="col-sm-3 col-6 ">
             <List.Content>
               <List.Header><Link to={`/profile/${fighter.id}`}> {fighter.name}</Link></List.Header>
               <Link to={`/club/${fighter.club.id}`}>{fighter.club.name}</Link>
@@ -28,59 +27,67 @@ class Bohurt extends Component {
           </div>
 
           <div className="col-sm-1 text-center hidden-xs-down">
-            {fighter.bohurtTable.won}
+            {fighter.profightTable.win}
           </div>
           <div className="col-sm-1 text-center hidden-xs-down">
-            {fighter.bohurtTable.lastMan}
+            {fighter.profightTable.loss}
           </div>
           <div className="col-sm-1 text-center hidden-xs-down">
-            {fighter.bohurtTable.suicide}
+            {fighter.profightTable.ko}
           </div>
           <div className="col-sm-1 text-center hidden-xs-down">
-            {fighter.bohurtTable.down}
+            {fighter.profightTable.fc1}
           </div>
           <div className="col-sm-1 text-center hidden-xs-down">
-            {userHelper.ratioBohurt(fighter)}%
+            {fighter.profightTable.fc2}
           </div>
           <div className="col-sm-1 text-center hidden-xs-down">
-            {fighter.bohurtTable.points}
+            {fighter.profightTable.fc3}
+          </div>
+          <div className="col-sm-1 text-center hidden-xs-down">
+            {fighter.profightTable.points}
           </div>
           <div className="col-2 hidden-sm-up">
             <div className="small text-center">points</div>
-            <div className="small text-center">{fighter.bohurtTable.points}</div>
+            <div className="small text-center">{fighter.profightTable.points}</div>
           </div>
           { ((clubAdmin === fighter.club_id) || admin) &&
-          <div className="col-sm-1 col-2 update-ranking">
-            <UpdateBohurt events={this.props.events} fighter={fighter} />
-          </div>
-          }
+            <div className="col-sm-1 col-2 update-ranking">
+              <UpdateProfight events={this.props.events} fighter={fighter} />
+            </div>
+            }
         </div>
         <hr className="hidden-sm-up" />
         <div className="row hidden-sm-up">
           <div className="col-2">
             <div className="small text-center">win</div>
-            <div className="small text-center">{fighter.bohurtTable.won}</div>
-          </div>
-          <div className="col-3">
-            <div className="small text-center">last man</div>
-            <div className="small text-center">{fighter.bohurtTable.lastMan}</div>
+            <div className="small text-center">{fighter.profightTable.win}</div>
           </div>
           <div className="col-2">
-            <div className="small text-center">suicide</div>
-            <div className="small text-center">{fighter.bohurtTable.suicide}</div>
+            <div className="small text-center">loss</div>
+            <div className="small text-center">{fighter.profightTable.loss}</div>
           </div>
           <div className="col-2">
-            <div className="small text-center">down</div>
-            <div className="small text-center">{fighter.bohurtTable.down}</div>
+            <div className="small text-center">ko</div>
+            <div className="small text-center">{fighter.profightTable.ko}</div>
           </div>
           <div className="col-2">
-            <div className="small text-center">ratio</div>
-            <div className="small text-center">{userHelper.ratioBohurt(fighter)}%</div>
+            <div className="small text-center">FC I</div>
+            <div className="small text-center">{fighter.profightTable.fc1}</div>
+          </div>
+          <div className="col-2">
+            <div className="small text-center">FC II</div>
+            <div className="small text-center">{fighter.profightTable.fc2}</div>
+          </div>
+          <div className="col-2">
+            <div className="small text-center">FCIII</div>
+            <div className="small text-center">{fighter.profightTable.fc3}</div>
           </div>
         </div>
       </List.Item>
     ));
   }
+
 
   render() {
     return (
@@ -89,30 +96,36 @@ class Bohurt extends Component {
           <div className="row">
             <div className="col-sm-12 col-12">
               <p className="category-points">
-                <span className="text-green">2pts</span> - Won and standing |
-                <span className="text-green">1pt</span> - Last man standing |
-                <span className="text-red">-3pts</span> - Suicide
+                <span className="text-green">4pts</span> - KO |
+                <span className="text-green">3pts</span> - Win |
+                <span className="text-green">1pt</span> - Lost |
+                <span className="text-green">10pts</span> - FC I Win |
+                <span className="text-green">6pts</span> - FC II Win |
+                <span className="text-green">3pts</span> - FC III Win
               </p>
             </div>
           </div>
           <List.Item>
             <div className="row hidden-xs-down">
               <div className="col-sm-1" />
-              <div className="col-sm-4 " />
+              <div className="col-sm-3 " />
               <div className="col-sm-1 text-center">
-                Win
+                            Win
               </div>
               <div className="col-sm-1 text-center">
-                Last
+                            Loss
               </div>
               <div className="col-sm-1 text-center">
-                Suicide
+                            KO
               </div>
               <div className="col-sm-1 text-center ">
-                Down
+                            FC I
               </div>
               <div className="col-sm-1 text-center">
-                Ratio
+                            FC II
+              </div>
+              <div className="col-sm-1 text-center">
+                            FC III
               </div>
               <div className="col-sm-1 text-center">
                 Points
@@ -131,4 +144,4 @@ function mapStateToProps(state) {
   return { currentUser: state.currentUser };
 }
 
-export default connect(mapStateToProps)(Bohurt);
+export default connect(mapStateToProps)(Profight);

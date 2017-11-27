@@ -6,9 +6,9 @@ import {withRouter} from 'react-router-dom';
 import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-import LastRecords from './partials/lastRecords';
+import LastRecords from './../partials/lastRecords';
 
-class UpdateTriathlon extends Component{
+class UpdatePolearm extends Component{
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class UpdateTriathlon extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.storeRanking(values,'triathlon');
+        this.props.storeRanking(values,'polearm');
         this.setState({modalOpen:false});
     }
 
@@ -40,14 +40,14 @@ class UpdateTriathlon extends Component{
                 };
             }
         });
-
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
+
         return(
-            <Modal closeIcon size={'tiny'}  open={this.state.modalOpen} onClose={this.handleClose} trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
-                    { (this.props.fighter.triathlon.length > 0 ) &&
-                    <LastRecords category="triathlon" fighter={this.props.fighter}/>
+                    { (this.props.fighter.polearm.length  > 0 ) &&
+                    <LastRecords category="polearm" fighter={this.props.fighter}/>
                     }
                     </Modal.Header>
                 <Modal.Content image>
@@ -101,4 +101,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'UpdateTriathlon'})(connect(null,{storeRanking})(UpdateTriathlon)));
+export default withRouter(reduxForm({validate:validate, form: 'UpdateSwordShield'})(connect(null,{storeRanking})(UpdatePolearm)));

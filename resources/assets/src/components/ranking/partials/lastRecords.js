@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { Button, Modal, List, Accordion,Icon } from 'semantic-ui-react';
 import { Field, reduxForm,change } from 'redux-form';
 import {withRouter} from 'react-router-dom';
-import { updateRanking} from '../../../../actions/ranking';
+import { updateRanking} from '../../../actions/ranking';
 import _ from 'lodash';
-import { input } from '../../../../helpers/input';
-import { stringHelper } from '../../../../helpers/string';
+import { input } from '../../../helpers/input';
+import { stringHelper } from '../../../helpers/string';
 
 class LastRecords extends Component{
     constructor(props) {

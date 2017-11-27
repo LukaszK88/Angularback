@@ -6,9 +6,9 @@ import {withRouter} from 'react-router-dom';
 import { storeRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
-import LastRecords from './partials/lastRecords';
+import LastRecords from './../partials/lastRecords';
 
-class UpdateSwordBuckler extends Component{
+class UpdateProfight extends Component{
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class UpdateSwordBuckler extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        this.props.storeRanking(values,'sword_buckler');
+        this.props.storeRanking(values,'profight');
         this.setState({modalOpen:false});
     }
 
@@ -42,12 +42,11 @@ class UpdateSwordBuckler extends Component{
         });
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
-
         return(
-            <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
-                    { (this.props.fighter.sword_buckler.length  > 0 ) &&
-                    <LastRecords category="sword_buckler" fighter={this.props.fighter}/>
+                    { (this.props.fighter.profight.length  > 0 ) &&
+                    <LastRecords category="profight" fighter={this.props.fighter}/>
                     }
                     </Modal.Header>
                 <Modal.Content image>
@@ -57,17 +56,57 @@ class UpdateSwordBuckler extends Component{
                                 label="Win"
                                 name="win"
                                 value={this.state.value}
-                                max={20}
+                                max={1}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
                             />
                             <br/>
                             <Field
-                                label="Lost"
+                                label="KO"
+                                name="ko"
+                                value={this.state.value}
+                                max={1}
+                                min={0}
+                                onChange={value => this.setState({ value })}
+                                component={input.renderSlider}
+                            />
+                            <br/>
+                            <Field
+                                label="Loss"
                                 name="loss"
                                 value={this.state.value}
-                                max={20}
+                                max={1}
+                                min={0}
+                                onChange={value => this.setState({ value })}
+                                component={input.renderSlider}
+                            />
+                            <br/>
+                            <Field
+                                label="First Class I"
+                                name="fc_1"
+                                value={this.state.value}
+                                max={1}
+                                min={0}
+                                onChange={value => this.setState({ value })}
+                                component={input.renderSlider}
+                            />
+                            <br/>
+                            <Field
+                                label="First Class II"
+                                name="fc_2"
+                                value={this.state.value}
+                                max={1}
+                                min={0}
+                                onChange={value => this.setState({ value })}
+                                component={input.renderSlider}
+                            />
+                            <br/>
+                            <Field
+                                label="First Class III"
+                                name="fc_3"
+                                value={this.state.value}
+                                max={1}
                                 min={0}
                                 onChange={value => this.setState({ value })}
                                 component={input.renderSlider}
@@ -101,4 +140,4 @@ function validate(values) {
     return errors;
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'UpdateSwordShield'})(connect(null,{storeRanking})(UpdateSwordBuckler)));
+export default withRouter(reduxForm({validate:validate, form: 'updateProfight'})(connect(null,{storeRanking})(UpdateProfight)));
