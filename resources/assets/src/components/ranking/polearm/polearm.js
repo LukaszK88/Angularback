@@ -14,7 +14,7 @@ class Polearm extends Component {
     return _.map(fighters, (fighter, index) => (
       <List.Item>
         <div className="row">
-          {index + 1}
+          <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">
             <Image avatar src={userHelper.getImage(fighter)} />
           </div>
@@ -25,13 +25,13 @@ class Polearm extends Component {
             </List.Content>
           </div>
 
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down align-center">
             {fighter.polearmTable.win}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.polearmTable.loss}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.polearmTable.points}
           </div>
           <div className="col-2 hidden-sm-up">

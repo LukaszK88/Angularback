@@ -1,7 +1,45 @@
+@font-face {
+  font-family: 'ring';
+  src: url(./resources/fonts/RINGM.TTF) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'medieval';
+  src: url(./resources/fonts/Medieval.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.ui.menu{
+  font-family: 'ring'!important;
+}
+.textField{
+  font-family: 'ring'!important;
+}
+.ui.modal>.header{
+  font-family: 'ring'!important;
+}
+
+.ui.card>.content>.header{
+  font-family: 'ring'!important;
+}
+.menuDrawerItem{
+  font-family: 'ring'!important;
+}
+
+.ui.list>.item .header{
+  font-family: 'ring'!important;
+}
+
+.ui.button{
+  font-family: 'ring'!important;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'ring'!important;
 
 }
 

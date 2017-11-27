@@ -45,7 +45,7 @@ class TabsComp extends Component {
     this.props.fetchEvents();
     this.props.fetchLeaderboard();
     this.props.setActiveSeason('2017');
-    this.props.setActiveCategory('Profight');
+    this.props.setActiveCategory('Total');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,7 +106,7 @@ class TabsComp extends Component {
 
     return (
       <DefaultLayout>
-        <div className="row">
+        <div className="row topRow">
           <div className="col-4">
             <Button
               onClick={() => this.handleToggle()}
@@ -119,15 +119,15 @@ class TabsComp extends Component {
               docked={false}
               open={this.state.open}
             >
-              <MenuItem onClick={() => this.switchCategory('Total')}>Total</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Leaderboard')}>Leaderboard</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Bohurt')}>Bohurt</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Profight')}>Profight</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Sword&Shield')}>Sword&Shield</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Longsword')}>Longsword</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Sword&Buckler')}>Sword&Buckler</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Triathlon')}>Triathlon</MenuItem>
-              <MenuItem onClick={() => this.switchCategory('Polearm')}>Polearms</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Total')}>Total</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Leaderboard')}>Leaderboard</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Bohurt')}>Bohurt</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Profight')}>Profight</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Sword&Shield')}>Sword&Shield</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Longsword')}>Longsword</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Sword&Buckler')}>Sword&Buckler</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Triathlon')}>Triathlon</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Polearm')}>Polearms</MenuItem>
             </Drawer>
           </div>
           <div className="col-4">
@@ -164,8 +164,8 @@ class TabsComp extends Component {
               docked={false}
               open={this.state.openSecondary}
             >
-              <MenuItem>2017</MenuItem>
-              <MenuItem>2018</MenuItem>
+              <MenuItem className="menuDrawerItem">2017</MenuItem>
+              <MenuItem className="menuDrawerItem">2018</MenuItem>
             </Drawer>
           </div>
         </div>

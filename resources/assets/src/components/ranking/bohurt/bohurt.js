@@ -16,7 +16,7 @@ class Bohurt extends Component {
     return _.map(fighters, (fighter, index) => (
       <List.Item>
         <div className="row">
-          {index + 1}
+          <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">
             <Image avatar src={userHelper.getImage(fighter)} />
           </div>
@@ -27,22 +27,22 @@ class Bohurt extends Component {
             </List.Content>
           </div>
 
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down align-center">
             {fighter.bohurtTable.won}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.bohurtTable.lastMan}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.bohurtTable.suicide}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.bohurtTable.down}
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {userHelper.ratioBohurt(fighter)}%
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down">
+          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             {fighter.bohurtTable.points}
           </div>
           <div className="col-2 hidden-sm-up">

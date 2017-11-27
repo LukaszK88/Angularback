@@ -10,7 +10,7 @@ class Total extends Component {
     return _.map(fighters, (fighter, index) => (
       <List.Item>
         <div className="row">
-          {index + 1}
+          <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">
             <Image avatar src={userHelper.getImage(fighter)} />
           </div>
@@ -20,7 +20,7 @@ class Total extends Component {
               <Link to={`/club/${fighter.club.id}`}>{fighter.club.name}</Link>
             </List.Content>
           </div>
-          <div className="col-sm-1 col-2 ">
+          <div className="col-sm-1 col-2 align-center">
             {fighter.total_points}
           </div>
         </div>

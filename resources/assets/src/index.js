@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch, Redirect  } from 'react-router-dom';
 import promise from 'redux-promise';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './index.css';
+import './css/global.css';
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 import reducers from './reducers';
