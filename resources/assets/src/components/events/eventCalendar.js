@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import FlashMessages from './../helpers/message';
+import FlashMessages from './../../helpers/message';
 import NavbarComp from '../home/partials/navbar';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';

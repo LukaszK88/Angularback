@@ -4,8 +4,8 @@ import  NavbarComp from '../../home/partials/navbar';
 import { fetchUser } from '../../../actions';
 import { fetchAchievements } from '../../../actions/ranking';
 import { baseUrl } from '../../../index';
-import FlashMessages from '../../helpers/message';
-import { fetchEvents,fetchUserEvents } from '../../../actions/events'
+import FlashMessages from '../../../helpers/message';
+import { fetchEvents,fetchUserEvents } from '../../../actions/events';
 import UserImage from './partials/userImage';
 import ProfileInfo from './partials/profileInfo';
 import Achievements from './partials/achievements';

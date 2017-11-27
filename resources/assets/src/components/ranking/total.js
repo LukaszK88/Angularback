@@ -1,59 +1,51 @@
-import React,{Component} from 'react';
-import { connect } from 'react-redux'
-import { userHelper } from '../../helpers/user';
-import { Header, Image, Table,Icon} from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Image, List } from 'semantic-ui-react';
 import _ from 'lodash';
-import {Link} from 'react-router-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Link } from 'react-router-dom';
+import { userHelper } from '../../helpers/user';
 
-class Total extends Component{
+class Total extends Component {
+  renderFighters() {
+    const fighters = _.orderBy(this.props.fighters, ['total_points'], ['desc']);
+    return _.map(fighters, (fighter, index) => (
+      <List.Item>
+        <div className="row">
+          {index + 1}
+          <div className="col-sm-1 col-2">
+            <Image avatar src={userHelper.getImage(fighter)} />
+          </div>
+          <div className="col-sm-9 col-6 ">
+            <List.Content>
+              <List.Header><Link to={`/profile/${fighter.id}`}> {fighter.name}</Link></List.Header>
+              <Link to={`/club/${fighter.club.id}`}>{fighter.club.name}</Link>
+            </List.Content>
+          </div>
+          <div className="col-sm-1 col-2 ">
+            {fighter.total_points}
+          </div>
+        </div>
 
-    nameLink = (cell, row) => {
-        return (
-            <Header as='h4' image>
-                <Image src={userHelper.getImage(row)} shape='rounded' size='mini' />
-                <Header.Content>
-                    <Link to={`/profile/${row.id}`}>  {row.name} </Link>
-                    <Header.Subheader><Link to={`/club/${row.club.id}`}>{row.club.name}</Link></Header.Subheader>
-                </Header.Content>
-            </Header>
-        )
-    }
+      </List.Item>
+    ));
+  }
 
-    renderCaret = (direction, fieldName) => {
-        if (direction === 'asc') {
-            return (
-                <Icon name='chevron up'/>
-            );
-        }
-        if (direction === 'desc') {
-            return (
-                <Icon name='chevron down'/>
-            );
-        }
-        return (
-            <span> <Icon name='chevron up'/>    <Icon name='chevron down'/></span>
-        );
-    }
-
-
-
-    render(){
-
-        let fighters = _.orderBy(this.props.fighters,['total_points'],['desc']);
-        return(
-            <div>
-                <BootstrapTable containerClass="table-responsive-custom" data={ fighters } hover pagination multiColumnSort={ 2 }>
-                    <TableHeaderColumn  dataField='name' dataFormat={ this.nameLink } isKey>Fighter name</TableHeaderColumn>
-                    <TableHeaderColumn width="20%" dataField='total_points' caretRender={this.renderCaret} dataSort={ true }>Points</TableHeaderColumn>
-                </BootstrapTable>
+  render() {
+    return (
+      <List celled size="large" relaxed="very">
+        <List.Item>
+          <div className="row">
+            <div className="col-sm-1 col-2" />
+            <div className="col-sm-9 col-6" />
+            <div className="col-sm-1 col-2">
+              Points
             </div>
-        )
-    }
+          </div>
+
+        </List.Item>
+        {this.renderFighters()}
+      </List>
+    );
+  }
 }
 
-function mapStateToProps(state) {
-    return {};
-}
-
-export default connect(mapStateToProps)(Total);
+export default Total;

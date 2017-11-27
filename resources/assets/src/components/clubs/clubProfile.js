@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import  NavbarComp from '../home/partials/navbar';
-import FlashMessages from '../helpers/message';
+import FlashMessages from '../../helpers/message';
 import {fetchClub,fetchClubs} from '../../actions/clubs';
 import { Card, Icon, Image, List,Button } from 'semantic-ui-react'
 import { userHelper } from '../../helpers/user';

@@ -43,7 +43,7 @@ class UpdateBohurt extends Component{
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon size="large" onClick={this.handleOpen} name="edit"></Icon>}>
                 <Modal.Header>Update {this.props.fighter.name}
                     { (this.props.fighter.bohurt.length  > 0 ) &&
                     <LastRecords category="bohurt" fighter={this.props.fighter}/>

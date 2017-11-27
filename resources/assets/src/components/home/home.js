@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import  NavbarComp from './partials/navbar';
-import FlashMessages from '../helpers/message';
+import FlashMessages from '../../helpers/message';
 import { Sticky } from 'semantic-ui-react'
 
 

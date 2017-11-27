@@ -187,10 +187,13 @@ table a {
   color:black!important;
 }
 
+.club-dropdown{
+  width: 100%!important;
+}
 
 @media (max-width: 752px){
   .club-dropdown{
-    min-width: 150px!important;
+    width: 100%!important;
   }
 }
 .page-item.active .page-link {
@@ -202,17 +205,17 @@ table a {
   color: black!important;
 }
 
-.navbar-brand{
-  transition: linear 1s;
-}
+/*.navbar-brand{*/
+  /*transition: linear 1s;*/
+/*}*/
 
-.navbar-brand:hover{
-  -webkit-transform: rotateY(360deg);     /* Chrome and other webkit browsers */
-  -moz-transform: rotateY(360deg);        /* FF */
-  -o-transform: rotateY(360deg);          /* Opera */
-  -ms-transform: rotateY(360deg);         /* IE9 */
-  transform: rotateY(360deg);
-}
+/*.navbar-brand:hover{*/
+  /*-webkit-transform: rotateY(360deg);     !* Chrome and other webkit browsers *!*/
+  /*-moz-transform: rotateY(360deg);        !* FF *!*/
+  /*-o-transform: rotateY(360deg);          !* Opera *!*/
+  /*-ms-transform: rotateY(360deg);         !* IE9 *!*/
+  /*transform: rotateY(360deg);*/
+/*}*/
 
 .fake-link{
   text-decoration: underline!important;
@@ -241,4 +244,8 @@ table a {
 }
 .tabs-registration .ui.tabular.menu .item{
   width:50%;
+}
+
+.ui.celled.list>.item:first-child{
+  border-top:0!important;
 }

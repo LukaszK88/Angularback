@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {fetchEventsByType} from '../../actions/events';
-import FlashMessages from './../helpers/message';
+import FlashMessages from '../../helpers/message';
 import NavbarComp from '../home/partials/navbar';
 import { Feed, Icon, Flag, Card } from 'semantic-ui-react'
 import _ from 'lodash';
@@ -18,7 +18,7 @@ class EventsList extends Component{
 
        let events = _.orderBy(eventsList,['date'],['asc']);
         return _.map(events,(event) => {
-            if(event.future == true && event.make_page){
+            if(event.future == true && event.make_page && event.make_page != '0'){
                 if((this.props.currentUser.isLoggedIn && (event.club_id == this.props.currentUser.user.club_id)) || (event.global)) {
 
                     return (

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import FlashMessages from './../helpers/message';
+import FlashMessages from '../../helpers/message';
 import NavbarComp from '../home/partials/navbar';
 import { List, Card, Flag, Button, Icon,Header } from 'semantic-ui-react'
 import AddEvent from './addEvent';
@@ -26,7 +26,7 @@ class Events extends Component{
                 <Flag name={row.location} />
                 <Header.Content>
                     {/*<Link to={`/profile/${row.id}`}>  {row.name} </Link>*/}
-                    {((row.make_page) && ((row.global) || row.club_id == currentUser.user.club_id)) ?
+                    {((row.make_page && row.make_page != '0') && ((row.global) || row.club_id == currentUser.user.club_id)) ?
                         <a className="fake-link"> <Link to={`/event/${row.id}`}> {row.title} </Link></a>
                         :
                         `${row.title}`

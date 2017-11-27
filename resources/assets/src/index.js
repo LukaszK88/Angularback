@@ -38,12 +38,8 @@ import MyCalendar from './components/events/eventCalendar';
 
 const createStoreWithMiddleware = createStore(reducers,
     composeWithDevTools(
-        /* logger must be the last middleware in chain to log actions */
         applyMiddleware(thunk, promise)
     )
-    // compose(applyMiddleware(thunk,promise),
-    //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    // )
 );
 injectTapEventPlugin();
 

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import FlashMessages from './../../helpers/message';
+import FlashMessages from '../../../helpers/message';
 import NavbarComp from '../../home/partials/navbar';
 import { Header, List,Flag, Card, Radio, Button, Icon } from 'semantic-ui-react'
 import _ from 'lodash';

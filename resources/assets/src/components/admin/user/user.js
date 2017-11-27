@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import FlashMessages from './../../helpers/message';
+import FlashMessages from './../../../helpers/message';
 import {fetchUsersAdmin,takeAdminAction,fetchUsers, deleteUser,getUserRoles,updateUserRole} from '../../../actions/admin';
 import NavbarComp from '../../home/partials/navbar';
 import { Header, Table,Image, Card, Radio, Button, Icon } from 'semantic-ui-react'

@@ -40,20 +40,27 @@ class InfoEvent extends Component{
             values.make_page = false;
 
         }
-        geocodeByAddress(this.state.address)
-            .then(results => getLatLng(results[0]))
-            .then(latLng => {
-                values.lat = latLng.lat;
-                values.lng = latLng.lng;
-                this.props.updateEvent(values);
-                if(values.end) {
-                    this.setState({showDatePicker: false});
-                }
-                this.handleClose();
+        if(this.state.address != '') {
+            geocodeByAddress(this.state.address)
+                .then(results => getLatLng(results[0]))
+                .then(latLng => {
+                    values.lat = latLng.lat;
+                    values.lng = latLng.lng;
+                    this.props.updateEvent(values);
+                    if (values.end) {
+                        this.setState({showDatePicker: false});
+                    }
+                    this.handleClose();
 
-            })
-            .catch(error => console.error('Error', error));
-
+                })
+                .catch(error => console.error('Error', error));
+        }else{
+            this.props.updateEvent(values);
+            if (values.end) {
+                this.setState({showDatePicker: false});
+            }
+            this.handleClose();
+        }
 
     }
 

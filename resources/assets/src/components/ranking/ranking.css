@@ -1,0 +1,14 @@
+.category-points{
+    padding-top:10px;
+    padding-bottom: 5px;
+}
+
+@media (max-width: 575px) {
+    .category-points{
+        font-size: x-small;
+    }
+}
+
+.update-ranking{
+    margin-right: -15px;
+}

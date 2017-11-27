@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {fetchEvent,notGoingToEvent} from '../../actions/events';
 import  NavbarComp from '../home/partials/navbar';
-import FlashMessages from '../helpers/message';
+import FlashMessages from '../../helpers/message';
 import { Card, Icon, Image, List,Button, Flag ,Feed} from 'semantic-ui-react'
 import { stringHelper } from '../../helpers/string';
 import _ from 'lodash';

@@ -37,7 +37,7 @@ class LoginModal extends Component{
                 <Modal.Header>Login </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
-                        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
                                 label="Username"
                                 name="username"
