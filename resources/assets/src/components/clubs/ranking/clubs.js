@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DefaultLayout from '../../../layouts/defaultLayout';
-import { Header, Image, List, Flag, Button } from 'semantic-ui-react';
+import { Image, List, Flag, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { fetchClubs, fetchClubsByCountry } from '../../../actions/clubs';
-import NavbarComp from '../../home/partials/navbar';
-import FlashMessages from '../../../helpers/message';
-import { input } from '../../../helpers/input';
-import { Tooltip } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { config } from '../../../config';
 

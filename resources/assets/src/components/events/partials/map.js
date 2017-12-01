@@ -1,24 +1,23 @@
-import React,{Component} from 'react';
 /* global google */
-export default class GoogleMaps extends Component{
+import React from 'react';
+import { compose, withProps } from 'recompose';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
-    componentDidMount(){
-        const googleMap = new google.maps;
-        const uluru = {lat: this.props.lat, lng:this.props.lng};
-        console.log(uluru);
-        var map = googleMap.Map(this.refs.map, {
-            zoom:15,
-            center:uluru
-        })
+const GoogleMaps = compose(
+  withProps({
+    googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places',
+    loadingElement: <div style={{ height: '100%' }} />,
+    containerElement: <div style={{ height: '400px' }} />,
+    mapElement: <div style={{ height: '100%' }} />,
+  }),
+  withScriptjs,
+  withGoogleMap,
+)(props =>
+  (<GoogleMap
+    defaultZoom={8}
+    defaultCenter={{ lat: props.lat, lng: props.lng }}
+  >
+     <Marker position={{ lat: props.lat, lng: props.lng }} />
+   </GoogleMap>));
 
-        var marker = googleMap.Marker({
-            position: uluru,
-            map: map
-        });
-    }
-
-    render(){
-        return <div style={{height:'250px',width:'100%'}} ref="map"></div>
-    }
-
-}
+export default GoogleMaps;

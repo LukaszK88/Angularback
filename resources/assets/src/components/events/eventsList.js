@@ -1,102 +1,95 @@
-import React,{Component} from 'react';
-import { connect } from 'react-redux'
-import {fetchEventsByType} from '../../actions/events';
-import FlashMessages from '../../helpers/message';
-import NavbarComp from '../home/partials/navbar';
-import { Feed, Icon, Flag, Card } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchEventsByType } from '../../actions/events';
+import DefaultLayout from '../../layouts/defaultLayout';
+import { Feed, Icon, Flag, Card } from 'semantic-ui-react';
 import _ from 'lodash';
 import { stringHelper } from '../../helpers/string';
-import {Link} from 'react-router-dom';
-import  Countdown from 'react-cntdwn';
-class EventsList extends Component{
-    componentDidMount(){
-        this.props.fetchEventsByType(1);
-    }
+import { Link } from 'react-router-dom';
+import Countdown from 'react-cntdwn';
 
-    renderFutureEvents(){
-        const{eventsList} = this.props.events;
+class EventsList extends Component {
+  componentDidMount() {
+    this.props.fetchEventsByType(1);
+  }
 
-       let events = _.orderBy(eventsList,['date'],['asc']);
-        return _.map(events,(event) => {
-            if(event.future == true && event.make_page && event.make_page != '0'){
-                if((this.props.currentUser.isLoggedIn && (event.club_id == this.props.currentUser.user.club_id)) || (event.global)) {
+  renderFutureEvents() {
+    const { eventsList } = this.props.events;
 
-                    return (
-                        <Feed.Event key={event.id}>
-                            <Feed.Label > <Flag name={event.location}/></Feed.Label>
-                            <Feed.Content>
-                                <Feed.Summary>
-                                    <Feed.User><Link to={`/event/${event.id}`}>  {event.title}</Link></Feed.User> Added
+    const events = _.orderBy(eventsList, ['date'], ['asc']);
+    return _.map(events, (event) => {
+      if (event.future == true && event.make_page && event.make_page != '0') {
+        if ((this.props.currentUser.isLoggedIn && (event.club_id == this.props.currentUser.user.club_id)) || (event.global)) {
+          return (
+            <Card fluid style={{background:'#cdc38e'}}>
+              <Card.Content>
+            <Feed.Event key={event.id}>
+              <Feed.Label > <Flag name={event.location} /></Feed.Label>
+              <Feed.Content>
+                <Feed.Summary>
+                  <Feed.User><Link to={`/event/${event.id}`}>  {event.title}</Link></Feed.User> Added
                                     by: {event.user.name}
 
-                                    <Feed.Date>
-                                        <Countdown targetDate={new Date(event.date)}
-                                                   format={{
+                  <Feed.Date>
+                    <Countdown
+                      targetDate={new Date(event.date)}
+                      format={{
                                                        day: 'DD',
                                                        hour: 'HH',
                                                        minute: 'MM',
-                                                       second: 'SS'
+                                                       second: 'SS',
                                                    }}
-                                                   interval={1000}
-                                                   timeSeparator={':'}
-                                                   leadingZero
-                                        />
-                                    </Feed.Date>
-                                    <Feed.Date>
+                      interval={1000}
+                      timeSeparator=":"
+                      leadingZero
+                    />
+                  </Feed.Date>
+                  <Feed.Date>
                                         To go!
-                                    </Feed.Date>
-                                </Feed.Summary>
-                                <Feed.Extra text>
-                                    {event.category.length > 0 ? `${event.category.length} Categories` : 'no Categories'}
-                                </Feed.Extra>
-                                <Feed.Meta>
-                                    <Feed.Like>
-                                        <Icon name='users' size="large"/>
-                                        {event.attendance.length > 0 ? event.attendance.length : '0'}
-                                    </Feed.Like>
-                                </Feed.Meta>
-                            </Feed.Content>
+                  </Feed.Date>
+                </Feed.Summary>
+                <Feed.Extra text>
+                  {event.category.length > 0 ? `${event.category.length} Categories` : 'no Categories'}
+                </Feed.Extra>
+                <Feed.Meta>
+                  <Feed.Like>
+                    <Icon name="users" size="large" />
+                    {event.attendance.length > 0 ? event.attendance.length : '0'}
+                  </Feed.Like>
+                </Feed.Meta>
+              </Feed.Content>
 
-                        </Feed.Event>
-                    )
-                }
-            }
-        })
-    }
+            </Feed.Event>
+              </Card.Content>
+            </Card>
+          );
+        }
+      }
+    });
+  }
 
 
-    render(){
-        return(
-            <div>
-                <FlashMessages/>
-                <NavbarComp/>
-                <div className="wc-bg">
-
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-9">
-                            <Card fluid>
-                                <Card.Content>
-                                    <Feed size='large'>
-                                        {this.renderFutureEvents()}
-                                    </Feed>
-                                </Card.Content>
-                            </Card>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <DefaultLayout>
+        <div className="row">
+          <div className="col-md-9">
+            <Feed size="large">
+              {this.renderFutureEvents()}
+            </Feed>
+          </div>
+        </div>
+      </DefaultLayout>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    return { events:state.events,
-        currentUser:state.currentUser
-    };
+  return {
+    events: state.events,
+    currentUser: state.currentUser,
+  };
 }
 
 
-
-export default connect(mapStateToProps,{fetchEventsByType})(EventsList);
+export default connect(mapStateToProps, { fetchEventsByType })(EventsList);

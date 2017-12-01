@@ -10,8 +10,6 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <script src="https://use.fontawesome.com/2366dec5b4.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZL8hldYGTo0ymhzX1EzubBnquVU7ttE4&libraries=places"></script>
-
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -39,5 +37,6 @@
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
 <script type="text/javascript" src="{{asset('js/index.js')}}"></script>
+
 </body>
 </html>

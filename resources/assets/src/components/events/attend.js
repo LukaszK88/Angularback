@@ -77,7 +77,7 @@ class Attend extends Component{
 
         return(
 
-            <Modal closeIcon size="tiny" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} basic color='green'>Attend</Button>}>
+            <Modal closeIcon size="tiny" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} basic color='black'>Attend</Button>}>
                 <Modal.Header>Attend Categories</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
