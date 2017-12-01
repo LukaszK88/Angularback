@@ -17,7 +17,7 @@ class Profight extends Component {
         <div className="row">
           <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">
-            <Image avatar src={userHelper.getImage(fighter)} />
+            <Image className="blackBorder" avatar src={userHelper.getImage(fighter)} />
           </div>
           <div className="col-sm-3 col-6 ">
             <List.Content>
@@ -27,27 +27,27 @@ class Profight extends Component {
           </div>
 
           <div className="col-sm-1 text-center hidden-xs-down align-center">
-            {fighter.profightTable.win}
+            <div className="rankingRecordText">{fighter.profightTable.win}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.loss}
+            <div className="rankingRecordText">{fighter.profightTable.loss}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.ko}
+            <div className="rankingRecordText">{fighter.profightTable.ko}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.fc1}
+            <div className="rankingRecordText">{fighter.profightTable.fc1}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.fc2}
+            <div className="rankingRecordText">{fighter.profightTable.fc2}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.fc3}
+            <div className="rankingRecordText">{fighter.profightTable.fc3}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.profightTable.points}
+            <div className="rankingRecordText">{fighter.profightTable.points}</div>
           </div>
-          <div className="col-2 hidden-sm-up">
+          <div className="col-2 hidden-sm-up rankingRecordText">
             <div className="small text-center">points</div>
             <div className="small text-center">{fighter.profightTable.points}</div>
           </div>
@@ -58,7 +58,7 @@ class Profight extends Component {
             }
         </div>
         <hr className="hidden-sm-up" />
-        <div className="row hidden-sm-up">
+        <div className="row hidden-sm-up rankingRecordText">
           <div className="col-2">
             <div className="small text-center">win</div>
             <div className="small text-center">{fighter.profightTable.win}</div>
@@ -106,7 +106,7 @@ class Profight extends Component {
             </div>
           </div>
           <List.Item>
-            <div className="row hidden-xs-down">
+            <div className="row hidden-xs-down rankingRecordText">
               <div className="col-sm-1" />
               <div className="col-sm-3 " />
               <div className="col-sm-1 text-center">

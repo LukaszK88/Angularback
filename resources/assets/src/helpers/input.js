@@ -67,6 +67,7 @@ field.input.onChange(data.value);
           {...field.input}
           hintText={field.label}
           floatingLabelText={field.label}
+          underlineStyle={{borderColor:'black'}}
           fullWidth
           errorText={field.meta.touched ? field.meta.error : ''}
         />

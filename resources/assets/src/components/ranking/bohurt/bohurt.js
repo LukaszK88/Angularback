@@ -28,24 +28,24 @@ class Bohurt extends Component {
           </div>
 
           <div className="col-sm-1 text-center hidden-xs-down align-center">
-            {fighter.bohurtTable.won}
+            <div className="rankingRecordText">{fighter.bohurtTable.won}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.bohurtTable.lastMan}
+            <div className="rankingRecordText">{fighter.bohurtTable.lastMan}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.bohurtTable.suicide}
+            <div className="rankingRecordText">{fighter.bohurtTable.suicide}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.bohurtTable.down}
+            <div className="rankingRecordText">{fighter.bohurtTable.down}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {userHelper.ratioBohurt(fighter)}%
+            <div className="rankingRecordText">{userHelper.ratioBohurt(fighter)}%</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            {fighter.bohurtTable.points}
+            <div className="rankingRecordText">{fighter.bohurtTable.points}</div>
           </div>
-          <div className="col-2 hidden-sm-up">
+          <div className="col-2 hidden-sm-up rankingRecordText">
             <div className="small text-center">points</div>
             <div className="small text-center">{fighter.bohurtTable.points}</div>
           </div>
@@ -56,7 +56,7 @@ class Bohurt extends Component {
           }
         </div>
         <hr className="hidden-sm-up" />
-        <div className="row hidden-sm-up">
+        <div className="row hidden-sm-up rankingRecordText">
           <div className="col-2">
             <div className="small text-center">win</div>
             <div className="small text-center">{fighter.bohurtTable.won}</div>
@@ -96,7 +96,7 @@ class Bohurt extends Component {
             </div>
           </div>
           <List.Item>
-            <div className="row hidden-xs-down">
+            <div className="row hidden-xs-down rankingRecordText">
               <div className="col-sm-1" />
               <div className="col-sm-4 " />
               <div className="col-sm-1 text-center">

@@ -12,7 +12,7 @@ class Total extends Component {
         <div className="row">
           <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">
-            <Image avatar src={userHelper.getImage(fighter)} />
+            <Image className="blackBorder"  avatar src={userHelper.getImage(fighter)} />
           </div>
           <div className="col-sm-9 col-6 ">
             <List.Content>
@@ -21,7 +21,7 @@ class Total extends Component {
             </List.Content>
           </div>
           <div className="col-sm-1 col-2 align-center">
-            {fighter.total_points}
+            <div className="rankingRecordText">{fighter.total_points}</div>
           </div>
         </div>
 
@@ -33,7 +33,7 @@ class Total extends Component {
     return (
       <List celled size="large" relaxed="very">
         <List.Item>
-          <div className="row">
+          <div className="row rankingRecordText">
             <div className="col-sm-1 col-2" />
             <div className="col-sm-9 col-6" />
             <div className="col-sm-1 col-2">

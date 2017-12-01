@@ -11,6 +11,16 @@
   font-weight: normal;
   font-style: normal;
 }
+.ui.segment {
+  background: none!important;
+}
+.ui.modal>.content{
+  background:#d5cf95!important ;
+}
+
+.ui.celled.list>.item{
+  border-top: 1px solid rgba(2, 2, 2, 0.6)!important;
+}
 .ui.menu{
   font-family: 'ring'!important;
 }
@@ -35,15 +45,31 @@
 .ui.button{
   font-family: 'ring'!important;
 }
+html {
+  height: 100%;
+}
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'ring'!important;
+  position: relative;
+  -webkit-background-size: cover!important;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./resources/img/mainBackground.jpg')!important;
+  min-height: 100% !important;
 
 }
 
-.bg {
+.bg-faded{
+  background-color: transparent!important;
+}
+
+
+.leftDrawerBg {
   position: relative;
   width: 100%;
   -webkit-background-size: cover;
@@ -51,11 +77,30 @@ body {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('./img/wcbg.png');
-  text-align: center;
-  color: white;
+  background-image: url('./resources/img/drawerBg2.png');
+}
 
-  padding: 200px 15px 200px;
+
+.oldBg {
+  position: relative;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./resources/img/drawerBg.png');
+}
+
+.bg {
+  position: relative;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./resources/img/Cool-Light-Grey-background-fantastic-imago-creative-studio-video-production.jpg');
+  min-height:100%;
 }
 
 .bad-bg{

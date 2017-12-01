@@ -114,6 +114,7 @@ class TabsComp extends Component {
             >{this.props.ranking.category}
             </Button>
             <Drawer
+              containerClassName="bg"
               width={150}
               onRequestChange={open => this.setState({ open })}
               docked={false}
@@ -158,6 +159,7 @@ class TabsComp extends Component {
             >2017
             </Button>
             <Drawer
+              containerClassName="bg"
               width={80}
               openSecondary
               onRequestChange={openSecondary => this.setState({ openSecondary })}

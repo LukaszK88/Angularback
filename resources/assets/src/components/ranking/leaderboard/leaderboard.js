@@ -19,7 +19,7 @@ class Leaderboard extends Component {
       <List.Item>
         <div className="row">
           <div className="col-sm-1 col-2">
-            <Image avatar src={userHelper.getImage(row)} />
+            <Image className="blackBorder" avatar src={userHelper.getImage(row)} />
           </div>
           <div className="col-sm-8 col-5 ">
             <List.Content>
@@ -28,10 +28,10 @@ class Leaderboard extends Component {
             </List.Content>
           </div>
 
-          <div className="col-sm-1 col-3 leaderboardCategory">
+          <div className="col-sm-1 col-3 leaderboardCategory rankingRecordText">
             {row.category}
           </div>
-          <div className="col-sm-1 col-2 text-center align-center">
+          <div className="col-sm-1 col-2 text-center align-center rankingRecordText">
             {row.max_points}
           </div>
         </div>
@@ -43,7 +43,7 @@ class Leaderboard extends Component {
     return (
       <List celled size="large" relaxed="very" verticalAlign="middle">
         <List.Item>
-          <div className="row ">
+          <div className="row rankingRecordText ">
             <div className="col-sm-1 col-2" />
             <div className="col-sm-8 col-5" />
             <div className="col-sm-1 col-3 text-center">
