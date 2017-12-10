@@ -94,7 +94,7 @@ class EventPage extends Component {
       <DefaultLayout>
         <div className="row">
           <div className="col-md-8">
-            <Card fluid style={{ backgroundColor: 'rgb(205, 195, 142)' }} >
+            <Card fluid >
               <Card.Content >
                 <Card.Header>
                   {event.title} in <Flag name={event.location} />

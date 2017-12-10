@@ -68,10 +68,7 @@ Route::delete('/event-attend/{eventId}/{userId}','EventsController@notGoing');
 
 
 
-
 Route::get('/event-user/{userId}','EventsController@showUserEvents');
-
-
 Route::get('/events/{type}','EventsController@getEventsByType');
 
 

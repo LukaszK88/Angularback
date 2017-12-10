@@ -30,20 +30,12 @@ class UpdateAchievement extends Component{
 
     handleClose = () => this.setState({ modalOpen: false });
 
-    findEvent(){
-        return _.find(this.props.events,(event) => {
-           return event.id == this.props.achievement.event_id;
-        });
-    }
-
     render(){
 
-        const filterEmptyOut = _.filter(this.findEvent(),(event)=> {
-            return event != undefined;
-        });
         const handleSubmit = this.props.handleSubmit;
+        const event = _.find(this.props.events,['id',this.props.achievement.event_id]);
 
-        const categories = _.map(filterEmptyOut.category,category => {
+        const categories = _.map(event.category,category => {
             return {
                 key: category.id,
                 value: category.name,

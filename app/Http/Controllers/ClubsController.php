@@ -114,6 +114,7 @@ class ClubsController extends ApiController
         if($captain instanceof MessageBag) return $this->responseNotFound($captain);
 
         $data['founder'] = $data['email'];
+
         $club = Club::create($data);
 
         User::where(User::COL_ID,$captain->id)

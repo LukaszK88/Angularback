@@ -21,13 +21,15 @@ class EventsList extends Component {
       if (event.future == true && event.make_page && event.make_page != '0') {
         if ((this.props.currentUser.isLoggedIn && (event.club_id == this.props.currentUser.user.club_id)) || (event.global)) {
           return (
-            <Card fluid style={{background:'#cdc38e'}}>
+            <Card fluid >
+
               <Card.Content>
             <Feed.Event key={event.id}>
+              <Link to={`/event/${event.id}`}>
               <Feed.Label > <Flag name={event.location} /></Feed.Label>
               <Feed.Content>
                 <Feed.Summary>
-                  <Feed.User><Link to={`/event/${event.id}`}>  {event.title}</Link></Feed.User> Added
+                  <Feed.User>  {event.title}</Feed.User> Added
                                     by: {event.user.name}
 
                   <Feed.Date>
@@ -58,9 +60,10 @@ class EventsList extends Component {
                   </Feed.Like>
                 </Feed.Meta>
               </Feed.Content>
-
+              </Link>
             </Feed.Event>
               </Card.Content>
+
             </Card>
           );
         }

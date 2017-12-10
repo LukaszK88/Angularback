@@ -34,7 +34,8 @@ class AddAchievement extends Component{
         const error = !!(field.meta.touched && field.meta.error);
         return(
             <div>
-                <label>Search by Year or Exact Tournament Name and Year</label><br/>
+                <label>Search by Year <br/>
+                    or Exact Tournament Name and Year</label><br/>
                 <Dropdown fluid search selection  error={error} className={field.className} { ...field.input }  onChange={(param,data) => {field.input.onChange(data.value);this.selectEvent(data.value)}} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
                 <div style={{color:'red'}} className="text-help">
                     { field.meta.touched ? field.meta.error : '' }

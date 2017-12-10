@@ -166,8 +166,8 @@ class TabsComp extends Component {
               docked={false}
               open={this.state.openSecondary}
             >
+              <MenuItem className="menuDrawerItem">Total</MenuItem>
               <MenuItem className="menuDrawerItem">2017</MenuItem>
-              <MenuItem className="menuDrawerItem">2018</MenuItem>
             </Drawer>
           </div>
         </div>

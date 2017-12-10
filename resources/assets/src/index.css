@@ -11,6 +11,10 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.navbar-light .navbar-toggler{
+  border-color: black!important;
+}
 .ui.segment {
   background: none!important;
 }

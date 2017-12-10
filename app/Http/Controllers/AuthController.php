@@ -100,24 +100,4 @@ class AuthController extends ApiController
         User::where(User::COL_USERNAME,$username)->update([User::COL_LAST_LOGIN => Carbon::now()]);
     }
 
-//    public function google2(Request $request)
-//    {
-//        $data = $request->all();
-//
-//        $user = User::where(User::COL_USERNAME,$data['email'])->first();
-//        if($user){
-//            return $this->tokenCreated(JWTAuth::fromUser($user), 'You are logged in with google!');
-//        }else{
-//
-//            $user = User::create([
-//                'username' => $data['email'],
-//                'google' => $data['uid'],
-//                'google_picture' => $data['image'],
-//                'name' => $data['name']
-//            ]);
-//            Mail::to($user->username)->send(new Registration($user));
-//            return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
-//        }
-//    }
-
 }
