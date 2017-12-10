@@ -24,9 +24,10 @@ export default class PerformanceCharts extends Component {
 
     handleClose = () => this.setState({ modalOpen: false });
   render() {
+
     return (
         <Modal  closeIcon size="large" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Icon style={{color:'green'}} onClick={this.handleOpen} size="large" name="bar chart"/>}>
-            <Modal.Header>{this.props.club.club.name} Score Overview</Modal.Header>
+            <Modal.Header>{this.props.club.name} Score Overview</Modal.Header>
             <Modal.Content image>
                 <Modal.Description>
                     <Tab className="table-responsive-custom"  panes={this.state.tabs} />

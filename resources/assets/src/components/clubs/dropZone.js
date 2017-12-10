@@ -49,8 +49,8 @@ class DropZone extends Component {
                       { this.state.imgPreview  &&
                       <Image src={this.state.imgPreview}/>}
                { !this.state.imgPreview  &&
-               <Image src={club.club.logo}/> }
-               { (!this.state.imgPreview && !club.club.logo)  &&
+               <Image src={club.logo}/> }
+               { (!this.state.imgPreview && !club.logo)  &&
                <Image src={config.url.base + 'storage/profile_placeholder.png'}/> }
            </Dropzone>
             }
@@ -58,14 +58,14 @@ class DropZone extends Component {
             {(!currentUser.isLoggedIn) &&
 
               <div>
-                  <Image src={club.club.logo}/>
+                  <Image src={club.logo}/>
               </div>
             }
 
             {(currentUser.isLoggedIn && currentUser.clubAdmin != clubId) &&
 
             <div>
-                <Image src={club.club.logo}/>
+                <Image src={club.logo}/>
             </div>
             }
 

@@ -26,16 +26,16 @@ class Profile extends Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, currentUser } = this.props;
 
-    if (!profile) {
+    if (!profile || !currentUser) {
       return <div>Loading...</div>;
     }
 
     return (
       <DefaultLayout>
         <div className="row">
-          <UserImage profile={profile} currentUser={this.props.currentUser} />
+          <UserImage profile={profile} currentUser={currentUser} />
           <ProfileInfo profile={profile} />
           <Achievements profile={profile} currentUser={this.props.currentUser} />
         </div>

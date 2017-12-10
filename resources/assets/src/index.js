@@ -27,7 +27,7 @@ import Profile from './components/ranking/profile/profile';
 import Events from './components/admin/events';
 import AdminUsers from './components/admin/user/user';
 import AdminClubs from './components/admin/club/club';
-import ClubProfile from './components/clubs/clubProfile';
+import ClubPage from './pages/ClubPage';
 import ClubsRanking from './components/clubs/ranking/clubs';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
@@ -64,7 +64,7 @@ ReactDOM.render(
         <BrowserRouter history={history}>
             <Switch>
                 <Route path="/profile/:userId" component={Profile}/>
-                <Route path="/club/:clubId" component={ClubProfile}/>
+                <Route path="/club/:clubId" component={ClubPage}/>
                 <Route path="/event/:eventId" component={EventPage}/>
                 <Route path="/events" component={EventsList}/>
                 <Route path="/my-events/:userId" component={MyCalendar}/>

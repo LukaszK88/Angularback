@@ -5,6 +5,7 @@ import { Image } from 'semantic-ui-react';
 import { userHelper } from '../../../../helpers/user';
 import { uploadProfileImage } from '../../../../actions';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class DropZone extends Component {
   constructor(props) {
@@ -31,12 +32,13 @@ class DropZone extends Component {
 
   render() {
     const { profile, currentUser } = this.props;
-
+    console.log(currentUser);
+    console.log(profile);
     return (
       <div>
         {(currentUser && profile) &&
           <div>
-            {(currentUser.user) &&
+            {(!_.isEmpty(currentUser.user)) &&
               <div>
                 {(currentUser.user.id == profile.user.id) &&
                 <Dropzone id="upload" name="file" style={{width: 'max-width'}} onDrop={this.onDrop.bind(this)}>
@@ -62,7 +64,9 @@ class DropZone extends Component {
         {(!currentUser.isLoggedIn) &&
 
           <div>
-            <Image src={userHelper.getImage(profile.user)} />
+            {(!_.isEmpty(profile.user)) &&
+            <Image src={userHelper.getImage(profile.user)}/>
+            }
           </div>
             }
 
