@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'ring';
-  src: url(./resources/fonts/RINGM.TTF) format('truetype');
+  src: url(./resources/fonts/RINGM.ttf) format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -57,14 +57,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'ring'!important;
-  position: relative;
-  -webkit-background-size: cover!important;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-  background-position: center;
+  position: relative!important;
+  background-repeat: repeat repeat!important;
   background-image: url('./resources/img/mainBackground.jpg')!important;
-  min-height: 100% !important;
 
 }
 

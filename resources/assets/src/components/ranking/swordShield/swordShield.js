@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Image, List } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
-import UpdateSwordShield from './swordShield';
+import UpdateSwordShield from './swordShieldUpdate';
 import { Link } from 'react-router-dom';
 
 class SwordShield extends Component {
@@ -51,7 +51,7 @@ class SwordShield extends Component {
             <div className="small text-center">{fighter.swordShieldTable.win}</div>
           </div>
           <div className="col-6">
-            <div className="small text-center">last man</div>
+            <div className="small text-center">lost</div>
             <div className="small text-center">{fighter.swordShieldTable.loss}</div>
           </div>
         </div>
@@ -75,13 +75,13 @@ class SwordShield extends Component {
               <div className="col-sm-1" />
               <div className="col-sm-7 " />
               <div className="col-sm-1 text-center">
-                          Win
+                Win
               </div>
               <div className="col-sm-1 text-center">
-                          Lost
+                Lost
               </div>
               <div className="col-sm-1 text-center">
-                          Points
+                Points
               </div>
             </div>
 

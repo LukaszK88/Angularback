@@ -51,7 +51,7 @@ class Triathlon extends Component {
             <div className="small text-center">{fighter.triathlonTable.win}</div>
           </div>
           <div className="col-6">
-            <div className="small text-center">last man</div>
+            <div className="small text-center">lost</div>
             <div className="small text-center">{fighter.triathlonTable.loss}</div>
           </div>
         </div>

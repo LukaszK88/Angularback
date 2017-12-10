@@ -11,3 +11,4 @@ const { mix } = require('laravel-mix');
  |
  */
 mix.react('resources/assets/src/index.js', 'public/js');
+

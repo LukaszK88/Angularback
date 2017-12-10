@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List, Image } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
-import UpdateSwordBuckler from './swordBuckler';
+import UpdateSwordBuckler from './swordBucklerUpdate';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 
@@ -52,7 +52,7 @@ class SwordBuckler extends Component {
             <div className="small text-center">{fighter.swordBucklerTable.win}</div>
           </div>
           <div className="col-6">
-            <div className="small text-center">last man</div>
+            <div className="small text-center">lost</div>
             <div className="small text-center">{fighter.swordBucklerTable.loss}</div>
           </div>
         </div>

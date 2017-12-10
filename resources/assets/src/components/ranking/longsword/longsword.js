@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { List, Image } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
-import UpdateLongsword from './longsword';
+import UpdateLongsword from './longswordUpdate';
 
 class Longsword extends Component {
   renderFighters() {
@@ -51,7 +51,7 @@ class Longsword extends Component {
             <div className="small text-center">{fighter.longswordTable.win}</div>
           </div>
           <div className="col-6">
-            <div className="small text-center">last man</div>
+            <div className="small text-center">lost</div>
             <div className="small text-center">{fighter.longswordTable.loss}</div>
           </div>
         </div>
