@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ClubActivated;
 use App\Mail\ClubCaptainRegistration;
+use App\Mail\ClubFighterRegistration;
 use App\Mail\ClubRegistration;
 use App\Models\Club;
 use App\Models\User;
@@ -92,7 +93,7 @@ class ClubsController extends ApiController
         if($clubFighter instanceof MessageBag) return $this->responseNotFound($clubFighter);
 
         // email fighter
-
+        Mail::to($clubFighter->username)->send(new ClubFighterRegistration($clubFighter));
         return $this->responseCreated('Fighter added');
     }
 
