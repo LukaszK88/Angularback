@@ -16,7 +16,14 @@ export const userHelper = {
   },
 
 
-  ratioBohurt: (user) => {
-    return Math.ceil(Math.abs((((user.bohurtTable.down + user.bohurtTable.suicide) / (user.bohurtTable.won + user.bohurtTable.lastMan)) * 100) - 100));
+  ratioBohurt: user => Math.ceil(Math.abs((((user.bohurtTable.down + user.bohurtTable.suicide) / (user.bohurtTable.won + user.bohurtTable.lastMan)) * 100) - 100)),
+
+  isClubAdmin: (currentUser, clubId) => {
+    if (currentUser.clubAdmin !== null) {
+      if (currentUser.clubAdmin === clubId) {
+        return true;
+      }
+    }
+    return false;
   },
 };

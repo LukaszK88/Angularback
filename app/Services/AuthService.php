@@ -23,4 +23,21 @@ class AuthService
 
         return $user;
     }
+
+    public function registerClubUser($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|unique:users,username',
+        ]);
+
+        if ($validator->fails()) return $validator->errors();
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'username' => $request->input('email'),
+            'club_id' => $request->input('club_id')
+        ]);
+
+        return $user;
+    }
 }

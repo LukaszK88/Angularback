@@ -26,7 +26,8 @@ Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserE
 
 //AUTH
 Route::post('/user-store','AuthController@store');
-Route::post('/user/authenticate','AuthController@authenticate');
+Route::post('/user/authenticate','AuthController@authenticateLogin');
+Route::post('/user/authenticatePassword/{createPassword}','AuthController@authenticatePassword');
 Route::post('/login/facebook','AuthController@facebook');
 Route::post('/login-facebook','AuthController@facebook2');
 Route::post('/login-google','AuthController@google2');
@@ -83,6 +84,8 @@ Route::post('/club-logo/{id}','ClubsController@storeClubLogo');
 Route::get('/clubs-all','ClubsController@getAllClubs');
 Route::get('/clubs-by-country/{country}','ClubsController@getClubsByCountry');
 Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
+Route::post('/club-fighter','ClubsController@registerClubFighter');
+
 //BLOG
 Route::resource('/post','PostsController');
 Route::get('/posts/{type}','PostsController@getPostsOfType');

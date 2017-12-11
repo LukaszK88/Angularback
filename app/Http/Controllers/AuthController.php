@@ -28,10 +28,9 @@ class AuthController extends ApiController
         return $this->responseCreated('Registration successful, you will hear back from us once your account is activated');
     }
 
-    public function authenticate(Request $request)
+    public function authenticateLogin(Request $request)
     {
         $email = $request->input('username');
-        $password = $request->input('password');
         $user = User::where('username', '=', $email)->first();
 
         if (!$user)
@@ -39,7 +38,7 @@ class AuthController extends ApiController
             return $this->responseNotFound('Wrong username');
         }else {
 
-            if($user->status == 0){
+            if ($user->status == 0) {
                 return $this->responseNotFound('Your account is not active');
             }elseif ($user->status == 2){
                 return $this->responseNotFound('Your account is blocked');
@@ -54,17 +53,34 @@ class AuthController extends ApiController
                                                  use your Google account to log in');
                 }
 
-                $token = JWTAuth::attempt(['username'=>$email, 'password' => $password]);
-
-                if ($token) {
-                    $this->recordLogin($email);
-                    return $this->tokenCreated($token, 'You are logged in!');
-
-                } else {
-                    return $this->responseNotFound('Wrong combination');
+                if (!$user->password || !isset($user->password)) {
+                    return $this->respond(['password' => 1]);
                 }
             }
+
+            return $this->respond(['password' => 0]);
         }
+    }
+
+    public function authenticatePassword(Request $request, bool $createPassword)
+    {
+        $password = $request->input('password');
+        $username = $request->input('username');
+
+        if ($createPassword){
+            User::where('username',$username)->update([
+                'password' => bcrypt($password)
+            ]);
+        }
+
+        $token = JWTAuth::attempt(['username' => $username, 'password' => $password]);
+
+        if ($token) {
+            $this->recordLogin($request->input('username'));
+            return $this->tokenCreated($token, 'You are logged in!');
+        }
+        return $this->responseNotFound('Wrong combination');
+
     }
 
     public function facebook2(Request $request)

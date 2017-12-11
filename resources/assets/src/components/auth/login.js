@@ -2,24 +2,36 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { loginUser, loginWithFacebook } from '../../actions';
+import { checkUsername, loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import { input } from '../../helpers/input';
 import ForgotPassword from './forgotPassword';
 import FacebookProvider, { Login } from 'react-facebook';
 import { loading } from '../../actions/config';
+import PasswordModal from './password';
 
 class LoginModal extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            modalOpen: false
+          modalOpen: false,
+          passwordModal:false,
+          username:null,
+          createPassword:false,
         };
     }
     onSubmit(values){
         this.props.loading(true);
-        this.props.loginUser(values);
-
+        this.props.checkUsername(values, (response) => {
+          if(response.status === 200){
+            console.log(response);
+            this.setState({ passwordModal:true });
+            this.setState({ username:values.username });
+            if(response.data.password === 1) {
+              this.setState({ createPassword:true })
+            }
+          }
+        });
     }
 
     handleOpen = () => {
@@ -27,6 +39,15 @@ class LoginModal extends Component{
     };
 
     handleClose = () => this.setState({ modalOpen: false });
+
+    handlePasswordOpen() {
+      this.setState({ passwordModal: true });
+    };
+
+    handlePasswordClose() {
+      this.setState({ passwordModal: false });
+      this.setState({ createPassword:false })
+    }
 
 
     render(){
@@ -42,12 +63,6 @@ class LoginModal extends Component{
                                 label="Username"
                                 name="username"
                                 type="text"
-                                component={input.renderField}
-                            />
-                            <Field
-                                label="Password"
-                                name="password"
-                                type="password"
                                 component={input.renderField}
                             />
                             <Button.Group className="hidden-md-up" size="tiny">
@@ -73,7 +88,13 @@ class LoginModal extends Component{
                             </Button.Group>
                             <Button.Group className="hidden-md-down">
 
-                                <Button loading={this.props.config.loading}  color={'black'} type="submit">Login</Button>
+                               <PasswordModal
+                                 username={this.state.username}
+                                 passwordModal={this.state.passwordModal}
+                                 handleOpen={() => this.handlePasswordOpen()}
+                                 handleClose={() => this.handlePasswordClose()}
+                                 createPassword={this.state.createPassword}
+                               />
                                 <Button.Or />
 
                                 <FacebookProvider appId="1884018281856728">
@@ -117,9 +138,6 @@ function validate(values) {
     if(values.username && !regExp.test(values.username)){
         errors.username = "Username should be a valid email";
     }
-    if(!values.password){
-        errors.password = "Password should not be empty";
-    }
 
     return errors;
 }
@@ -128,4 +146,4 @@ function mapStateToProps(state) {
     return {config:state.config };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook,loading})(LoginModal)));
+export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{checkUsername,loginWithFacebook,loading})(LoginModal)));

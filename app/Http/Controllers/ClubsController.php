@@ -86,14 +86,14 @@ class ClubsController extends ApiController
         return $this->respond($clubs);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function registerClubFighter(Request $request, AuthService $authService)
     {
+        $clubFighter = $authService->registerClubUser($request);
+        if($clubFighter instanceof MessageBag) return $this->responseNotFound($clubFighter);
 
+        // email fighter
+
+        return $this->responseCreated('Fighter added');
     }
 
     /**
@@ -166,17 +166,6 @@ class ClubsController extends ApiController
         $club['bronze'] = $bronze;
 
         return $this->respond($club);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
