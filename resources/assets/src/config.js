@@ -6,9 +6,9 @@ export const config = {
      // base:'http://www.medievalclubs.com/api/'
   },
   url: {
-    // base: 'http://localhost:3000/',
+    base: 'http://localhost:3000/',
     // base: 'http://www.whitecompanyy.com/'
-     base: 'http://www.medievalclubs.com/'
+    // base: 'http://www.medievalclubs.com/'
   },
   select: {
     categories: [

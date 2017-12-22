@@ -31,7 +31,7 @@ class Bohurt extends Component {
             <div className="rankingRecordText">{fighter.bohurtTable.won}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            <div className="rankingRecordText">{fighter.bohurtTable.lastMan}</div>
+            <div className="rankingRecordText">{fighter.bohurtTable.last}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             <div className="rankingRecordText">{fighter.bohurtTable.suicide}</div>
@@ -63,7 +63,7 @@ class Bohurt extends Component {
           </div>
           <div className="col-3">
             <div className="small text-center">last man</div>
-            <div className="small text-center">{fighter.bohurtTable.lastMan}</div>
+            <div className="small text-center">{fighter.bohurtTable.last}</div>
           </div>
           <div className="col-2">
             <div className="small text-center">suicide</div>

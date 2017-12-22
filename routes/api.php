@@ -34,16 +34,10 @@ Route::post('/login-google','AuthController@google2');
 Route::post('/login/google', 'AuthController@google');
 
 //RANKING
-Route::get('/fighters/{clubId}/{date?}','RankingController@getFighters');
+Route::get('/fighters/{clubId}/{year?}','RankingController@getFighters');
 Route::get('/fighter/{id}','RankingController@getFighter');
-Route::get('/fighters-leaderboard','RankingController@getTableData');
-Route::post('/fighters/bohurt','RankingController@saveBohurt');
-Route::post('/fighters/profight','RankingController@saveProfight');
-Route::post('/fighters/sword_shield','RankingController@saveSwordShield');
-Route::post('/fighters/longsword','RankingController@saveLongsword');
-Route::post('/fighters/sword_buckler','RankingController@saveSwordBuckler');
-Route::post('/fighters/polearm','RankingController@savePolearm');
-Route::post('/fighters/triathlon','RankingController@saveTriathlon');
+Route::get('/fighters-leaderboard','RankingController@getLeaderboardTableData');
+Route::post('/fighters/{category}','RankingController@saveRankingRecord');
 Route::post('/fighters-update/{category}/{recordId}/{userId}','RankingController@updateRankingRecord');
 
 //TODO work on REST

@@ -83,8 +83,10 @@ class TabsComp extends Component {
     this.props.fetchFighters(clubId);
   }
 
-  reFetchFightersByDate(date) {
-    this.props.fetchFighters(this.state.clubId, date);
+  reFetchFightersByYear(year) {
+    this.props.fetchFighters(this.state.clubId, year);
+    this.props.setActiveSeason(year);
+    this.handleToggleSecondary();
   }
 
   switchCategory(category) {
@@ -156,7 +158,7 @@ class TabsComp extends Component {
               className="float-right"
               onClick={() => this.handleToggleSecondary()}
               color="black"
-            >2017
+            >{this.props.ranking.season}
             </Button>
             <Drawer
               containerClassName="bg"
@@ -166,8 +168,13 @@ class TabsComp extends Component {
               docked={false}
               open={this.state.openSecondary}
             >
-              <MenuItem className="menuDrawerItem">Total</MenuItem>
-              <MenuItem className="menuDrawerItem">2017</MenuItem>
+              <MenuItem
+                onClick={() => this.props.fetchFighters(this.state.clubId)}
+                className="menuDrawerItem">
+                Total
+              </MenuItem>
+              <MenuItem onClick={() => this.reFetchFightersByYear('2018')} className="menuDrawerItem">2018</MenuItem>
+              <MenuItem onClick={() => this.reFetchFightersByYear('2017')} className="menuDrawerItem">2017</MenuItem>
             </Drawer>
           </div>
         </div>

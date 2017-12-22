@@ -36,13 +36,13 @@ class Profight extends Component {
             <div className="rankingRecordText">{fighter.profightTable.ko}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            <div className="rankingRecordText">{fighter.profightTable.fc1}</div>
+            <div className="rankingRecordText">{fighter.profightTable.fc_1}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            <div className="rankingRecordText">{fighter.profightTable.fc2}</div>
+            <div className="rankingRecordText">{fighter.profightTable.fc_2}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
-            <div className="rankingRecordText">{fighter.profightTable.fc3}</div>
+            <div className="rankingRecordText">{fighter.profightTable.fc_3}</div>
           </div>
           <div className="col-sm-1 text-center hidden-xs-down borderLeft">
             <div className="rankingRecordText">{fighter.profightTable.points}</div>
@@ -73,15 +73,15 @@ class Profight extends Component {
           </div>
           <div className="col-2">
             <div className="small text-center">FC I</div>
-            <div className="small text-center">{fighter.profightTable.fc1}</div>
+            <div className="small text-center">{fighter.profightTable.fc_1}</div>
           </div>
           <div className="col-2">
             <div className="small text-center">FC II</div>
-            <div className="small text-center">{fighter.profightTable.fc2}</div>
+            <div className="small text-center">{fighter.profightTable.fc_2}</div>
           </div>
           <div className="col-2">
             <div className="small text-center">FCIII</div>
-            <div className="small text-center">{fighter.profightTable.fc3}</div>
+            <div className="small text-center">{fighter.profightTable.fc_3}</div>
           </div>
         </div>
       </List.Item>

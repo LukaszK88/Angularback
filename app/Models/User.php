@@ -42,6 +42,24 @@ class User extends Authenticatable
             TCOL_CLUB = self::TABLE.'.'.self::COL_CLUB_ID,
             TCOL_ID = self::TABLE.'.'.self::COL_ID;
 
+    const REL_BOHURT = 'bohurt',
+        REL_SWORD_SHIELD = 'swordShield',
+        REL_PROFIGHT = 'profight',
+        REL_SWORD_BUCKLER = 'swordBuckler',
+        REL_LONGSWORD = 'longsword',
+        REL_POLEARM = 'polearm',
+        REL_TRIATHLON = 'triathlon',
+        REL_EVENT = 'event',
+        REL_CLUB = 'club';
+
+    const RREL_BOHURT_EVENT = 'bohurt.event',
+        RREL_SWORD_SHIELD_EVENT = 'swordShield.event',
+        RREL_PROFIGHT_EVENT = 'profight.event',
+        RREL_SWORD_BUCKLER_EVENT = 'swordBuckler.event',
+        RREL_LONGSWORD_EVENT = 'longsword.event',
+        RREL_POLEARM_EVENT = 'polearm.event',
+        RREL_TRIATHLON_EVENT = 'triathlon.event';
+
     protected $fillable=[
         self::COL_NAME,
         self::COL_USERNAME,
