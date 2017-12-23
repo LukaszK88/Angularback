@@ -29,6 +29,12 @@ class RankingController extends ApiController
         $this->rankingTransformer = $rankingTransformer;
     }
 
+    /**
+     * @param null $clubId
+     * @param $year
+     * get all fighters records with ranking relationships
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getFighters($clubId = null, $year)
     {
         $rawFightersData = $this->fighter->getAllByDateAndClub($clubId,$year);
@@ -38,6 +44,11 @@ class RankingController extends ApiController
         return $this->respond($data);
     }
 
+    /**
+     * @param $id
+     * get individual fighter record with ranking relationships plus age
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getFighter($id)
     {
         $fighter = $this->fighter->getById($id);
@@ -48,13 +59,17 @@ class RankingController extends ApiController
         return $this->respond($fighter);
     }
 
+    /**
+     * mine leaderboard table data
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLeaderboardTableData()
     {
         $data = [];
-        $leaderBoardTables = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
-        foreach ($leaderBoardTables as $leaderBoardTable){
-            $data[$leaderBoardTable] = (array)$this->fighter->getMaxPointsPerCategory($leaderBoardTable);
-            $data[$leaderBoardTable]['category'] = $leaderBoardTable;
+        $categories = ['bohurts','profights', 'sword_shield', 'sword_buckler', 'longswords', 'polearm', 'triathlon'];
+        foreach ($categories as $category){
+            $data[$category] = (array)$this->fighter->getMaxPointsPerCategory($category);
+            $data[$category]['category'] = $category;
         }
 
         $data = array_map(function($data){
@@ -79,6 +94,14 @@ class RankingController extends ApiController
         return $this->respond($data);
     }
 
+    /**
+     * @param Request $request
+     * @param $category
+     * @param $recordId
+     * @param $userId
+     * update single fighter ranking record
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateRankingRecord(Request $request, $category, $recordId, $userId)
     {
         $data = $request->all();
@@ -91,6 +114,12 @@ class RankingController extends ApiController
         return  $this->responseCreated('Record Updated');
     }
 
+    /**
+     * @param Request $request
+     * @param $category
+     * create ranking record
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function saveRankingRecord(Request $request, $category)
     {
         $record = $this->rankingService->createRecord($request, $category);

@@ -128,7 +128,7 @@ class RankingService
 
     public function prepareFighterDataForRanking($fighter)
     {
-        $fighter['total_points'] = intval($fighter->total_points);
+        // $fighter['total_points'] = intval($fighter->total_points);
         $fighter['bohurtTable'] = $this->sumCategoryRecords($fighter,'bohurt',['last','fights','won','suicide','points','down']);
         $fighter['profightTable'] = $this->sumCategoryRecords($fighter,'profight',['loss','fights','win','ko','fc_1','fc_2','fc_3','points']);
         $fighter['swordShieldTable'] = $this->sumCategoryRecords($fighter,'swordShield',self::STANDARD_RANKING_COLUMNS);
@@ -136,7 +136,15 @@ class RankingService
         $fighter['longswordTable'] = $this->sumCategoryRecords($fighter,'longsword',self::STANDARD_RANKING_COLUMNS);
         $fighter['polearmTable'] = $this->sumCategoryRecords($fighter,'polearm',self::STANDARD_RANKING_COLUMNS);
         $fighter['triathlonTable'] = $this->sumCategoryRecords($fighter,'triathlon',self::STANDARD_RANKING_COLUMNS);
-
+        $fighter['total_points'] = (
+            $fighter['bohurtTable']['points'] +
+            $fighter['profightTable']['points'] +
+            $fighter['swordShieldTable']['points'] +
+            $fighter['swordBucklerTable']['points'] +
+            $fighter['longswordTable']['points'] +
+            $fighter['polearmTable']['points'] +
+            $fighter['triathlonTable']['points']
+        );
         return $fighter;
     }
 

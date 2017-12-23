@@ -72,7 +72,7 @@ export function fetchAchievements(userId) {
   };
 }
 
-export function fetchFighters(clubId = 0, date = 0, currentPage = 1) {
+export function fetchFighters(clubId = 0, date = (new Date()).getFullYear(), currentPage = 1) {
   const request = axios.get(`${API}fighters/${clubId}/${date}?page=${currentPage}`);
 
   return {

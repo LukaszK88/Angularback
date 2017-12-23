@@ -34,7 +34,7 @@ class TabsComp extends Component {
       navClass: '',
       open: false,
       openSecondary: false,
-      clubId: null,
+      clubId: 0,
       tooltipOpen: false,
     };
   }
@@ -44,8 +44,6 @@ class TabsComp extends Component {
     this.props.fetchFighters();
     this.props.fetchEvents();
     this.props.fetchLeaderboard();
-    this.props.setActiveSeason('2017');
-    this.props.setActiveCategory('Total');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,8 +82,13 @@ class TabsComp extends Component {
   }
 
   reFetchFightersByYear(year) {
-    this.props.fetchFighters(this.state.clubId, year);
-    this.props.setActiveSeason(year);
+    if (year === 'total') {
+      this.props.fetchFighters(this.state.clubId);
+      this.props.setActiveSeason('Total');
+    } else {
+      this.props.fetchFighters(this.state.clubId, year);
+      this.props.setActiveSeason(year);
+    }
     this.handleToggleSecondary();
   }
 
@@ -169,8 +172,9 @@ class TabsComp extends Component {
               open={this.state.openSecondary}
             >
               <MenuItem
-                onClick={() => this.props.fetchFighters(this.state.clubId)}
-                className="menuDrawerItem">
+                onClick={() => this.reFetchFightersByYear('total')}
+                className="menuDrawerItem"
+              >
                 Total
               </MenuItem>
               <MenuItem onClick={() => this.reFetchFightersByYear('2018')} className="menuDrawerItem">2018</MenuItem>

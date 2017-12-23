@@ -4,7 +4,12 @@ import {
   ACTIVE_SEASON,
 } from '../actions/types';
 
-export default function (state = null, action) {
+const initState = {
+  season: (new Date()).getFullYear(),
+  category: 'Total',
+}
+
+export default function (state = initState, action) {
   switch (action.type) {
     case ACTIVE_SEASON:
       return { ...state, season: action.payload };
