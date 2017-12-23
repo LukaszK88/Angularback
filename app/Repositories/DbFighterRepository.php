@@ -89,7 +89,7 @@ class DbFighterRepository implements FighterRepositoryInterface
             ->findOrFail($id);
     }
 
-    public function getAllByDateAndClub($clubId,$year)
+    public function getAllByDateAndClub($clubId,$year = 0)
     {
         return $this->getAllFighters($clubId,$year)->get();
     }

@@ -4,7 +4,7 @@ namespace App\Contracts\Repositories;
 
 interface FighterRepositoryInterface
 {
-    public function getAllByDateAndClub($clubId,$year);
+    public function getAllByDateAndClub($clubId,$year = 0);
 
     public function getById($id);
 

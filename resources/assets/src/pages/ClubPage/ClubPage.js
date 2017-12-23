@@ -37,7 +37,7 @@ class ClubPage extends Component {
               <ClubInfo club={club}/>
             </div>
             <div className="row">
-              <ClubFighters currentUser={this.props.currentUser} club={club}/>
+              <ClubFighters currentUser={this.props.currentUser} club={club} />
             </div>
           </div>
           {club.description &&

@@ -25,7 +25,7 @@ const ProfileCard = ({
     </Card.Content>
     <Card.Content extra>
       <Icon name="users" size="large" />
-      {club.users ? club.users.length : ''}
+      {club.fighters ? club.fighters.length : ''}
       <div className="float-right">
         <PerformanceCharts club={club} clubs={clubs} />
       </div>

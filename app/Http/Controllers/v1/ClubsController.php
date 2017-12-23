@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Contracts\Repositories\ClubRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Mail\ClubActivated;
 use App\Mail\ClubCaptainRegistration;
 use App\Mail\ClubFighterRegistration;
@@ -19,12 +20,14 @@ use Illuminate\Support\MessageBag;
 class ClubsController extends ApiController
 {
     protected $clubService,
-            $club;
+            $club,
+            $user;
 
-    public function __construct(ClubService $clubService, ClubRepositoryInterface $club)
+    public function __construct(ClubService $clubService, ClubRepositoryInterface $club, UserRepositoryInterface $user)
     {
         $this->clubService = $clubService;
         $this->club = $club;
+        $this->user = $user;
     }
 
     /**
@@ -43,45 +46,44 @@ class ClubsController extends ApiController
         return $this->respond($clubs);
     }
 
+    /**
+     * get all clubs for admin purposes
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllClubs()
     {
-        $clubs = Club::all();
+        $clubs = $this->club->getAll();
 
         return $this->respond($clubs);
     }
 
-    public function takeClubAdminAction($action,Request $request)
+    /**
+     * @param $action
+     * @param Request $request
+     * approve/decline incoming club request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function takeClubAdminAction($action, Request $request)
     {
+        // todo pass id trough api param?
         $club = $request->all();
 
         if($action == 'approve'){
-            Club::where(Club::COL_ID,$club['id'])->update([Club::COL_ACTIVE => 1]);
+            $this->club->setActive(1,$club['id']);
             //email
             Mail::to($club['founder'])->send(new ClubActivated($club));
         }else if($action == 'decline'){
-            Club::where(Club::COL_ID,$club['id'])->update([Club::COL_ACTIVE => null]);
+            $this->club->setActive(null,$club['id']);
         }
-
         return $this->respond('Action taken');
     }
 
-    public function getClubsByCountry($country)
-    {
-        $clubs = Club::where(Club::COL_COUNTRY,$country)->where(Club::COL_ACTIVE,1)->get();
-
-        $total_points = 0;
-        foreach ($clubs as $club){
-            foreach ($club->users as $user){
-                $total_points += $user->total_points;
-            }
-
-            $club['total_points'] = $total_points;
-            $total_points = 0;
-        }
-
-        return $this->respond($clubs);
-    }
-
+    /**
+     * @param Request $request
+     * @param AuthService $authService
+     * register new club fighter
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function registerClubFighter(Request $request, AuthService $authService)
     {
         $clubFighter = $authService->registerClubUser($request);
@@ -93,16 +95,15 @@ class ClubsController extends ApiController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param AuthService $authService
+     * save new club, register captain and set him as club admin
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, AuthService $authService)
     {
         $data = $request->all();
-
-        $club = Club::where(Club::COL_NAME,$data['name'])->first();
+        $club = $this->club->findByName($data['name']);
 
         if($club) return $this->responseCreated('Club already exists');
 
@@ -111,13 +112,10 @@ class ClubsController extends ApiController
 
         $data['founder'] = $data['email'];
 
-        $club = Club::create($data);
+        $club = $this->club->create($data);
 
-        User::where(User::COL_ID,$captain->id)
-            ->update([
-                User::COL_CLUB_ADMIN_ID => $club->id,
-                User::COL_CLUB_ID => $club->id
-            ]);
+        $this->user->setUserAsClubAdmin($captain->id,$club->id);
+
         //email captain
         Mail::to($data['email'])->send(new ClubCaptainRegistration($data));
         Mail::to(config('app.myEmail'))->send(new ClubRegistration($data));
@@ -126,56 +124,29 @@ class ClubsController extends ApiController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * get club with fighters and all relevant club page info
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $club = Club::with('users')->where(Club::COL_ID,$id)->first();
+        $club = Club::where(Club::COL_ID,$id)->first();
 
-        $totalFights = 0;
-        $totalPoints = 0;
-        $gold = 0;
-        $silver = 0;
-        $bronze = 0;
-        foreach ($club->users as $user){
-
-            $gold += $user->achievement->where('place','1st')->count();
-            $silver += $user->achievement->where('place','2nd')->count();
-            $bronze += $user->achievement->where('place','3rd')->count();
-            $totalPoints += $user->total_points;
-            $totalFights += $user->bohurt->sum('fights');
-            $totalFights += $user->profight->sum('fights');
-            $totalFights += $user->swordBuckler->sum('fights');
-            $totalFights += $user->swordShield->sum('fights');
-            $totalFights += $user->longsword->sum('fights');
-            $totalFights += $user->triathlon->sum('fights');
-            $totalFights += $user->polearm->sum('fights');
-        }
-
-        $club['total_points'] = $totalPoints;
-        $club['total_fights'] = $totalFights;
-        $club['gold'] = $gold;
-        $club['silver'] = $silver;
-        $club['bronze'] = $bronze;
+        $this->clubService->getClubPageInfo($club);
 
         return $this->respond($club);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $data = $request->all();
 
-        Club::where(Club::COL_ID,$id)->update($data);
+        $this->club->update($id,$data);
 
         return $this->respondWithMessage('Club Info Updated!');
     }

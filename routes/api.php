@@ -77,7 +77,6 @@ Route::get('/clubs/{country}/{year}','ClubsController@getClubs');
 Route::resource('/clubs','ClubsController');
 Route::post('/club-logo/{id}','ClubsController@storeClubLogo');
 Route::get('/clubs-all','ClubsController@getAllClubs');
-Route::get('/clubs-by-country/{country}','ClubsController@getClubsByCountry');
 Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 Route::post('/club-fighter','ClubsController@registerClubFighter');
 

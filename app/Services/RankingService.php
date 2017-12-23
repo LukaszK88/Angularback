@@ -140,6 +140,15 @@ class RankingService
         return $fighter;
     }
 
+    public function sumTotalFights($fighter):int
+    {
+        $totalFights = 0;
+        foreach (self::RANKING_CATEGORIES as $category){
+            $totalFights += $this->sumCategoryRecords($fighter,$category,['fights'])['fights'];
+        }
+        return $totalFights;
+    }
+
     public function sumTotalPoints($fighter)
     {
         $totalPoints = 0;

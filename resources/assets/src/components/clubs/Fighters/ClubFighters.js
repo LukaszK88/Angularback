@@ -13,7 +13,7 @@ class ClubFighters extends Component {
   renderClubFighters() {
     const { club } = this.props;
 
-    return _.map(club.users, fighter => (
+    return _.map(club.fighters, fighter => (
       <List.Item key={fighter.id}>
         <List.Content floated="right" />
         <List.Content floated="left">
