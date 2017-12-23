@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
 use App\Contracts\Repositories\FighterRepositoryInterface;
 use App\Http\Transformers\RankingTransformer;
@@ -108,8 +108,7 @@ class RankingController extends ApiController
 
         $user = User::find($userId);
 
-        $newRecord = $this->rankingService->updateRecord($data,$category,$recordId,$user);
-        $this->fighter->addTotalPoints($newRecord->user_id, $newRecord->points);
+        $this->rankingService->updateRecord($data,$category,$recordId,$user);
 
         return  $this->responseCreated('Record Updated');
     }
@@ -126,7 +125,6 @@ class RankingController extends ApiController
 
         if($record){
             $this->fighter->updateFightsAndPoints($record,$category);
-            $this->fighter->addTotalPoints($record->user_id, $record->points);
         }
         return $this->responseCreated('Fighter record updated');
     }

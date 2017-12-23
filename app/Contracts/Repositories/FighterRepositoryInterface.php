@@ -8,8 +8,6 @@ interface FighterRepositoryInterface
 
     public function getById($id);
 
-    public function addTotalPoints($userId, $points);
-
     public function updateFightsAndPoints($record, $category);
 
     public function getMaxPointsPerCategory($category);

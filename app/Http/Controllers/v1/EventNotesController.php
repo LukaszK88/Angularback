@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
-use App\Models\Comment;
+use App\Models\EventNote;
 use Illuminate\Http\Request;
 
-class CommentsController extends ApiController
+class EventNotesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -35,11 +35,9 @@ class CommentsController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $note = EventNote::create($request->all());
 
-        $comment = Comment::create($data);
-
-        return $this->respondWithMessageAndData('Comment Added', $comment);
+        return $this->respond($note);
     }
 
     /**
@@ -73,9 +71,11 @@ class CommentsController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        Comment::findOrFail($id)->update($request->all());
+       $note = EventNote::where(EventNote::COL_ID,$id);
 
-        return $this->responseCreated('Comment updated');
+       $note->update($request->all());
+
+       return $this->responseCreated('Note updated');
     }
 
     /**
@@ -86,8 +86,8 @@ class CommentsController extends ApiController
      */
     public function destroy($id)
     {
-        Comment::findOrFail($id)->delete();
+        EventNote::where(EventNote::COL_ID,$id)->delete();
 
-        return $this->responseDeleted('Comment Deleted');
+        return $this->responseDeleted('Note deleted');
     }
 }

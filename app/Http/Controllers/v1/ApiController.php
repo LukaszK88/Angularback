@@ -1,7 +1,5 @@
 <?php
-namespace App\Http\Controllers;
-
-
+namespace App\Http\Controllers\v1;
 
 use Symfony\Component\HttpFoundation\Response as CodeResponse;
 

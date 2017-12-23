@@ -1,7 +1,7 @@
 export const config = {
   API: {
     // local
-     base: 'http://127.0.0.1:8000/api/',
+     base: 'http://127.0.0.1:8000/api/v1/',
     // prod
      // base:'http://www.medievalclubs.com/api/'
   },

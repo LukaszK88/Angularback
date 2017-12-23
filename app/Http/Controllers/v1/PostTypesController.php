@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
-use App\Models\CommentReply;
+use App\Models\PostType;
 use Illuminate\Http\Request;
 
-class CommentReplyController extends ApiController
+class PostTypesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class CommentReplyController extends ApiController
      */
     public function index()
     {
-        //
+        $types = PostType::all();
+
+        return $this->respond($types);
     }
 
     /**
@@ -37,9 +39,11 @@ class CommentReplyController extends ApiController
     {
         $data = $request->all();
 
-        $reply = CommentReply::create($data);
+        $data['slug'] = strtolower($request->input('type'));
 
-        return $this->respondWithMessageAndData('Reply Added', $reply);
+        $postType = PostType::create($data);
+
+        return $this->respond($postType);
     }
 
     /**
@@ -73,9 +77,7 @@ class CommentReplyController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        CommentReply::findOrFail($id)->update($request->all());
-
-        return $this->responseCreated('Reply updated');
+        //
     }
 
     /**
@@ -86,8 +88,8 @@ class CommentReplyController extends ApiController
      */
     public function destroy($id)
     {
-        CommentReply::findOrFail($id)->delete();
+        $postType = PostType::where(PostType::COL_ID,$id)->delete();
 
-        return $this->responseDeleted('Reply Deleted');
+        return $this->respond($postType);
     }
 }

@@ -76,15 +76,6 @@ class DbFighterRepository implements FighterRepositoryInterface
         ]);
     }
 
-    public function addTotalPoints($userId, $points)
-    {
-        $user = User::find($userId);
-
-        return $user->update([
-            'total_points' => ($user->total_points + $points)
-        ]);
-    }
-
     public function getById($id)
     {
         return User::with(User::RREL_BOHURT_EVENT)
