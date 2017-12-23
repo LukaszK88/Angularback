@@ -38,7 +38,7 @@ class ClubFighters extends Component {
         }
         <Card.Content>
           <Card.Header className="text-center" >
-            Clubs Fighters
+            Club Fighters
           </Card.Header>
           <List divided verticalAlign="middle">
             {this.renderClubFighters()}
