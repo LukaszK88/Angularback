@@ -98,38 +98,52 @@ class DbFighterRepository implements FighterRepositoryInterface
      * @param $clubId
      * @param $year
      * get all fighters with all necessary relationships for ranking display
+     * based on clubId and records are filtered by specified year
      * @return mixed
      */
     private function getAllFighters($clubId, $year)
     {
        return User::with([User::REL_BOHURT => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
-
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
         ->with([User::REL_PROFIGHT => function($query) use ($year){
             $query->with(User::REL_EVENT);
-            $query->whereRaw('year(`created_at`) = '.$year.'');
+            $query->when($year, function ($q) use ($year) {
+                return $q-> whereRaw('year(`created_at`) = '.$year.'');
+            });
         }])
        ->with([User::REL_SWORD_SHIELD => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
        ->with([User::REL_LONGSWORD => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
        ->with([User::REL_SWORD_BUCKLER => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
        ->with([User::REL_POLEARM => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
        ->with([User::REL_TRIATHLON => function($query) use ($year){
            $query->with(User::REL_EVENT);
-           $query->whereRaw('year(`created_at`) = '.$year.'');
+           $query->when($year, function ($q) use ($year) {
+               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+           });
        }])
        ->with(User::REL_CLUB)
        ->whereNotNull(User::COL_NAME)

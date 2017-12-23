@@ -29,7 +29,7 @@ class Clubs extends Component {
           <div className="col-sm-8 col-5 ">
             <List.Content>
               <List.Header><Link to={`/club/${club.id}`}> {club.name}</Link></List.Header>
-              {club.users.length ? `${club.users.length} Fighters` : 'No Fighters'}
+              {club.fighters > 0 ? `${club.fighters} Fighters` : 'No Fighters'}
             </List.Content>
           </div>
           <div className="col-sm-1 col-2 text-center align-center">

@@ -14,6 +14,7 @@ use App\Models\User;
 class RankingService
 {
     const STANDARD_RANKING_COLUMNS = ['loss','fights','win','points'];
+    const RANKING_CATEGORIES = ['bohurt','profight','triathlon','swordShield','swordBuckler','polearm','longsword'];
 
     protected   $bohurt,
         $profight,
@@ -128,7 +129,6 @@ class RankingService
 
     public function prepareFighterDataForRanking($fighter)
     {
-        // $fighter['total_points'] = intval($fighter->total_points);
         $fighter['bohurtTable'] = $this->sumCategoryRecords($fighter,'bohurt',['last','fights','won','suicide','points','down']);
         $fighter['profightTable'] = $this->sumCategoryRecords($fighter,'profight',['loss','fights','win','ko','fc_1','fc_2','fc_3','points']);
         $fighter['swordShieldTable'] = $this->sumCategoryRecords($fighter,'swordShield',self::STANDARD_RANKING_COLUMNS);
@@ -136,19 +136,20 @@ class RankingService
         $fighter['longswordTable'] = $this->sumCategoryRecords($fighter,'longsword',self::STANDARD_RANKING_COLUMNS);
         $fighter['polearmTable'] = $this->sumCategoryRecords($fighter,'polearm',self::STANDARD_RANKING_COLUMNS);
         $fighter['triathlonTable'] = $this->sumCategoryRecords($fighter,'triathlon',self::STANDARD_RANKING_COLUMNS);
-        $fighter['total_points'] = (
-            $fighter['bohurtTable']['points'] +
-            $fighter['profightTable']['points'] +
-            $fighter['swordShieldTable']['points'] +
-            $fighter['swordBucklerTable']['points'] +
-            $fighter['longswordTable']['points'] +
-            $fighter['polearmTable']['points'] +
-            $fighter['triathlonTable']['points']
-        );
+        $fighter['total_points'] = $this->sumTotalPoints($fighter);
         return $fighter;
     }
 
-    private function sumCategoryRecords($fighter,$relationship,Array $columns)
+    public function sumTotalPoints($fighter)
+    {
+        $totalPoints = 0;
+        foreach (self::RANKING_CATEGORIES as $category){
+            $totalPoints += $fighter[$category]->sum('points');
+        }
+        return $totalPoints;
+    }
+
+    public function sumCategoryRecords($fighter,$relationship,Array $columns)
     {
         foreach ($columns as $key => $col){
             $columns[$col] = $fighter[$relationship]->sum($col);

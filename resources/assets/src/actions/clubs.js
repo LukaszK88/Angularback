@@ -5,8 +5,8 @@ import { addFlashMessage } from './flashMessages';
 import request from 'superagent';
 import { loading } from './config';
 
-export function fetchClubs() {
-  const request = axios.get(`${API}clubs`);
+export function fetchClubs($country = 0, $year = 0) {
+  const request = axios.get(`${API}clubs/${$country}/${$year}`);
 
   return {
     type: FETCH_CLUBS,

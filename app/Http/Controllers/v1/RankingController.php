@@ -37,6 +37,7 @@ class RankingController extends ApiController
      */
     public function getFighters($clubId = null, $year)
     {
+        // yar must be optional
         $rawFightersData = $this->fighter->getAllByDateAndClub($clubId,$year);
 
         $data = $this->rankingService->prepareFightersDataForRanking($rawFightersData);

@@ -73,6 +73,7 @@ Route::get('/event-attendees/{eventId}','EventsController@getEventAttendees');
 Route::get('/event-attending/{userId}','EventsController@getEventsAttendedByUser');
 
 //Clubs
+Route::get('/clubs/{country}/{year}','ClubsController@getClubs');
 Route::resource('/clubs','ClubsController');
 Route::post('/club-logo/{id}','ClubsController@storeClubLogo');
 Route::get('/clubs-all','ClubsController@getAllClubs');

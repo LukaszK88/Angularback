@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Contracts\Repositories\ClubRepositoryInterface;
 use App\Mail\ClubActivated;
 use App\Mail\ClubCaptainRegistration;
 use App\Mail\ClubFighterRegistration;
@@ -9,6 +10,7 @@ use App\Mail\ClubRegistration;
 use App\Models\Club;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Services\ClubService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -16,34 +18,27 @@ use Illuminate\Support\MessageBag;
 
 class ClubsController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected $clubService,
+            $club;
+
+    public function __construct(ClubService $clubService, ClubRepositoryInterface $club)
     {
-        $clubs = Club::where(Club::COL_ACTIVE,1)->get();
+        $this->clubService = $clubService;
+        $this->club = $club;
+    }
 
-        $total_points = 0;
-        $total_fights = 0;
-        foreach ($clubs as $club){
-            foreach ($club->users as $user){
-                $total_points += $user->total_points;
-                $total_fights += $user->bohurt->sum('fights');
-                $total_fights += $user->profight->sum('fights');
-                $total_fights += $user->swordBuckler->sum('fights');
-                $total_fights += $user->swordShield->sum('fights');
-                $total_fights += $user->longsword->sum('fights');
-                $total_fights += $user->triathlon->sum('fights');
-                $total_fights += $user->polearm->sum('fights');
-            }
+    /**
+     * @param $country
+     * @param $year
+     * get all active clubs by country and club if specified,
+     * with calculated total points and fights
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getClubs($country = 0, $year = 0)
+    {
+        $clubs = $this->club->getClubsByCountry($country);
 
-            $club['total_fights'] = $total_fights;
-            $club['total_points'] = $total_points;
-            $total_points = 0;
-            $total_fights = 0;
-        }
+        $this->clubService->sumPointsAndFightsClubFighters($clubs,$year);
 
         return $this->respond($clubs);
     }
@@ -183,17 +178,6 @@ class ClubsController extends ApiController
         Club::where(Club::COL_ID,$id)->update($data);
 
         return $this->respondWithMessage('Club Info Updated!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function storeClubLogo(Request $request, $id, Club $club)
