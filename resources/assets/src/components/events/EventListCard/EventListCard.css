@@ -1,0 +1,59 @@
+.eventListTitleContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin:0 2px;
+}
+
+.eventListCardTitle{
+    font-size: 18px;
+}
+
+.eventListCardHost{
+    font-size: 13px;
+}
+
+.eventListCountdownContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin:0 2px;
+}
+
+.eventListCardCountdown{
+    font-size: 15px;
+}
+
+.eventListCardCountdownText{
+    font-size: 13px;
+    margin-left: 4px;
+}
+
+.eventListCategoriesContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin:0 2px;
+}
+
+.eventListCardAttendance{
+    font-size: 18px;
+    margin-left: 4px;
+    color: black;
+}
+
+.eventListCardCategories{
+    color: black;
+    font-size: 15px;
+}
+
+.eventListCardClub{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 13px;
+}

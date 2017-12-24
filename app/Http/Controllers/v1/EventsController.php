@@ -33,6 +33,22 @@ class EventsController extends ApiController
 
     }
 
+    public function getFutureEvents()
+    {
+        $events = Event::
+            join(EventType::TABLE,EventType::TABLE.'.'.EventType::COL_ID,'=',Event::TCOL_EVENT_TYPE_ID)
+            ->select('events.*',EventType::TCOL_TYPE)
+            ->whereDate(Event::COL_DATE,'>=',Carbon::now())
+            ->with(['category','user','attendance.user','club'])
+            ->get();
+
+        foreach ($events as $event) {
+            $event['countdown'] = ((Carbon::parse($event['date'])->timestamp) - Carbon::now()->timestamp);
+        }
+
+        return $this->respond($events);
+    }
+
     //TODO event list
     public function getEventsByType($type)
     {
@@ -65,15 +81,6 @@ class EventsController extends ApiController
         return $this->respond($events);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -129,16 +136,6 @@ class EventsController extends ApiController
         return $this->respond($eventAttendees);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

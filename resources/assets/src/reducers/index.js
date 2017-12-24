@@ -3,7 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import FighterReducer from './reucerFightersRanking';
 import LeaderboardReducer from './reducerLeaderboard';
 import CurrentUserReducer from './currentUser';
-import EventsReducer from './events/reducerEvent';
+import EventsReducer from './reducerEvent';
 import UserReducer from './reducerUserProfile';
 import FlashMessage from './flashMessages';
 import ClubsReducer from './reducerClubs';
