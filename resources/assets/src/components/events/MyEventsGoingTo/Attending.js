@@ -26,7 +26,7 @@ class Attending extends Component {
             <List.Content>
 
               <List.Header>
-                <a><Link to={`/event/${attending.event.id}`}>{attending.event.title}</Link></a>
+                <Link to={`/event/${attending.event.id}`}>{attending.event.title}</Link>
                 <Countdown
                   targetDate={new Date(attending.event.date)}
                   format={{
@@ -52,15 +52,21 @@ class Attending extends Component {
   }
 
   render() {
+    console.log(this.props.attendence);
     return (
       <Card fluid>
         <Card.Content>
           <Card.Header className="text-center">
             You are going to
           </Card.Header>
+          {(this.props.attendence === undefined || this.props.attendence.length === 0) &&
+          <p className="text-center">To attend an event head to <Link className="fake-link" to="/events">Events</Link> and select one you are interested in</p>
+          }
+          {(this.props.attendence !== undefined && this.props.attendence.length > 0) &&
           <List divided verticalAlign="middle">
             {this.renderMyEvents()}
           </List>
+          }
         </Card.Content>
       </Card>
     );

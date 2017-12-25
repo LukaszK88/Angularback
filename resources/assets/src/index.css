@@ -303,7 +303,6 @@ table a {
 }
 .fake-link:hover{
   cursor: pointer;
-  font-weight: 600;
   text-decoration: underline;
 }
 

@@ -32,14 +32,14 @@ class Hosting extends Component {
     return _.map(_.orderBy(this.props.eventsHosted, ['created_at'], ['desc']), event => (
       <List.Item>
         <div className="row hostingEventListItemContainer">
-          <div className="col-sm-5">
+          <div className="col-sm-5 col-5">
             <Icon name="fort awesome" />
             <Link to={`/event/${event.id}`}> {event.title}</Link>
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-4 col-4">
             {event.club !== null ? event.club.name : 'Global'}
           </div>
-          <div className="col-sm-3">
+          <div className="col-sm-3 col-3">
             <Popup
               trigger={<Icon name="info" />}
               flowing
@@ -106,9 +106,14 @@ class Hosting extends Component {
           <Card.Header className="text-center">
             Hosting
           </Card.Header>
+          {(this.props.eventsHosted.length === 0) &&
+          <p className="text-center">To create an event head to <Link className="fake-link" to="/events">Events</Link></p>
+          }
+          {(this.props.eventsHosted.length > 0) &&
           <List divided verticalAlign="middle">
             {this.renderEvents()}
           </List>
+          }
         </Card.Content>
       </Card>
     );
