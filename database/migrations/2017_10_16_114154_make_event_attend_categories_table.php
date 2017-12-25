@@ -13,17 +13,17 @@ class MakeEventAttendCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_attend_categories', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('event_attend_id')->unsigned();
-            $table->timestamps();
-            $table->foreign('event_attend_id')
-                ->references('id')
-                ->on('event_attend')
-                ->onDelete('cascade');
-        });
+//        Schema::create('event_attend_categories', function (Blueprint $table) {
+//            $table->engine = 'InnoDB';
+//            $table->increments('id');
+//            $table->string('name');
+//            $table->integer('event_attend_id')->unsigned();
+//            $table->timestamps();
+//            $table->foreign('event_attend_id')
+//                ->references('id')
+//                ->on('event_attend')
+//                ->onDelete('cascade');
+//        });
     }
 
     /**
@@ -33,7 +33,7 @@ class MakeEventAttendCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('event_attend_categories');
+      //  Schema::drop('event_attend_categories');
 
     }
 }

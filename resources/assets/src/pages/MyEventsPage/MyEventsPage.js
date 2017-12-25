@@ -11,14 +11,14 @@ import _ from 'lodash';
 BigCalendar.momentLocalizer(moment);
 
 class MyEventsPage extends Component {
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.currentUser.user.id !== undefined) {
-  //
-  //   }
-  // }
-
   componentDidMount() {
     this.props.fetchUserHostedEvents(this.props.match.params.userId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentUser.isLoggedIn === false) {
+      this.props.history.push('/ranking');
+    }
   }
 
   goToEvent(event) {

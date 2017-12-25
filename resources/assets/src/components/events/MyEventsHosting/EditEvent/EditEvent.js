@@ -2,128 +2,121 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon, Radio } from 'semantic-ui-react';
 import { Field, reduxForm, change } from 'redux-form';
-import { updateEvent } from '../../../../actions/events';
+import { updateEvent, getEventTypes } from '../../../../actions/events';
 import _ from 'lodash';
-import { Tooltip } from 'reactstrap';
 import { input } from '../../../../helpers/input';
 import { config } from '../../../../config';
-import { stringHelper } from '../../../../helpers/string';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import moment from 'moment';
 
 class EditEvent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      address: '',
       modalOpen: false,
-      showDatePicker: false,
-      value: 50,
     };
+    this.onChange = address => this.setState({ address });
   }
 
   onSubmit(values) {
     values.user_id = this.props.currentUser.user.id;
     values.id = this.props.event.id;
-    if (values.radioGroup == 'club_id') {
+    if (values.club_id === true) {
       values.club_id = this.props.currentUser.user.club_id;
-      values.global = false;
-    } else if (values.radioGroup == 'global') {
-      values.global = true;
+    } else {
       values.club_id = null;
     }
-    delete values.radioGroup;
-    this.props.updateEvent(values);
-    this.setState({ showDatePicker: false });
-    this.handleClose();
+    if (this.state.address !== '') {
+      geocodeByAddress(this.state.address)
+        .then(results => getLatLng(results[0]))
+        .then((latLng) => {
+          values.lat = latLng.lat;
+          values.lng = latLng.lng;
+          this.props.updateEvent(values);
+          this.handleClose();
+        });
+    } else {
+      this.props.updateEvent(values);
+      this.handleClose();
+    }
   }
 
-  radioGroupValue() {
-    return this.props.event.global ? 'global' : 'club_id';
+  componentDidMount() {
+    this.props.getEventTypes();
   }
 
-  handleOpen() {
-    this.props.reset();
+  handleOpen = () => {
 
-    this.props.dispatch(change('editEventForm', 'title', this.props.event.title));
-    this.props.dispatch(change('editEventForm', 'location', this.props.event.location));
-    this.props.dispatch(change('editEventForm', 'radioGroup', this.radioGroupValue()));
+      this.props.reset();
 
+      this.props.dispatch(change('editEventForm', 'title', this.props.event.title));
+      this.props.dispatch(change('editEventForm', 'location', this.props.event.location));
+      this.props.dispatch(change('editEventForm', 'event_type_id', this.props.event.event_type_id));
+      this.props.dispatch(change('editEventForm', 'club_id', this.props.event.club_id !== null));
+      this.props.dispatch(change('editEventForm', 'body', this.props.event.body));
+      this.props.dispatch(change('editEventForm', 'date', new Date(this.props.event.date)));
     this.setState({ modalOpen: true });
   }
 
-  renderRadio(field) {
-    return (
-      <div>
-        <Radio
-          slider
-          {...field.input}
-          label={field.label}
-          value={field.radioValue}
-          checked={field.input.value === field.radioValue}
-          onChange={(e, { value }) => field.input.onChange(value)}
 
-        />
-        <div style={{ color: 'red' }} className="text-help">
-          { field.meta.touched ? field.meta.error : '' }
-        </div>
-      </div>
-    );
-  }
-
-  handleClose() {
+  handleClose = () => {
     this.setState({ modalOpen: false });
-  }
+  };
 
   render() {
+    const eventTypes = _.map(this.props.eventTypes, type => ({ key: type.id, value: type.id, text: type.type }));
+
     const locations = _.map(config.select.locations, location => ({
       key: location.name, value: location.countryCode, text: location.name, flag: location.countryCode,
     }));
 
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.onChange,
+    };
+
     const handleSubmit = this.props.handleSubmit;
 
     return (
-
-      <Modal
-        closeIcon
-        size="mini"
-        open={this.state.modalOpen}
-        onClose={() => this.handleClose()}
-        trigger={
-          <Button onClick={() => this.handleOpen()} size="tiny">Edit Event</Button>
-             }
-      >
+      <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose}
+             trigger={
+               <Button className="greenEmptyButton" onClick={this.handleOpen}size="tiny">Edit</Button>
+             }>
         <Modal.Header>Edit Event</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+          <Field
+            label="Event Title *"
+            name="title"
+            placeholder="Event Title"
+            type="text"
+            component={input.renderField}
+          />
+          <br />
+          <div className="row">
+            <div className="col-sm-6">
               <Field
-                label="Event Title *"
-                name="title"
-                placeholder="Event Title"
-                type="text"
-                component={input.renderField}
+                label="Club only"
+                name="club_id"
+                component={input.renderSwitchCheckbox}
               />
-              <br />
-              <div className="row">
-                <div className="col-sm-6">
-                  <Field
-                    label="Global Event"
-                    name="radioGroup"
-                    radioValue="global"
-                    component={this.renderRadio}
-                  />
-                </div>
-                <div className="col-sm-6">
-                  <Field
-                    label="Club only"
-                    name="radioGroup"
-                    radioValue="club_id"
-                    component={this.renderRadio}
-                  />
-                </div>
-              </div>
-              <br />
-              <p>{this.props.event.type}</p>
-              <br />
+            </div>
+          </div>
+          <br />
+          <div className="row">
+            <div className="col-sm-6">
+              <Field
+                label="Event Type"
+                name="event_type_id"
+                placeholder="Select Event Type"
+                options={eventTypes}
+                component={input.renderSelect}
+              />
+            </div>
+            <div className="col-sm-6">
               <Field
                 label="Event Location"
                 name="location"
@@ -131,16 +124,38 @@ class EditEvent extends Component {
                 options={locations}
                 component={input.renderSelect}
               />
-              <br />
-
+            </div>
+          </div>
+          <br />
+          <div className="row">
+            <div className="col-sm-6">
               <Field
-                label="Event Date"
+                label="Event Start"
                 name="date"
                 component={input.renderDatepicker}
               />
+            </div>
+            <div className="col-sm-6">
+              <Field
+                label="Event End"
+                name="end"
+                component={input.renderDatepicker}
+              />
+            </div>
+          </div>
+          <br />
+          <Field
+            label="Description"
+            name="body"
+            component={input.renderTextField}
+          />
+          <br />
+          <label>Tournament location</label>
+          <PlacesAutocomplete inputProps={inputProps} />
+          <br />
 
-              <Button color="black" type="submit">Submit</Button>
-            </form>
+          <Button color="black" type="submit">Submit</Button>
+        </form>
           </Modal.Description>
         </Modal.Content>
       </Modal>
@@ -160,16 +175,16 @@ function validate(values) {
   if (!values.date) {
     errors.date = 'Event date is mandatory';
   }
-  if (!values.radioGroup) {
-    errors.radioGroup = 'Select one option';
-  }
 
   return errors;
 }
 
 
 function mapStateToProps(state) {
-  return { currentUser: state.currentUser };
+  return {
+    currentUser: state.currentUser,
+    eventTypes: state.events.eventTypes,
+  };
 }
 
 let InitializeFromStateForm = reduxForm({
@@ -177,6 +192,6 @@ let InitializeFromStateForm = reduxForm({
   form: 'editEventForm',
 })(EditEvent);
 
-InitializeFromStateForm = connect(mapStateToProps, { updateEvent })(InitializeFromStateForm);
+InitializeFromStateForm = connect(mapStateToProps, { updateEvent, getEventTypes })(InitializeFromStateForm);
 
 export default InitializeFromStateForm;

@@ -6,3 +6,16 @@
 .myEventsHostingEditButtons{
     font-size: 11px!important;
 }
+
+.myEventsHostingEditButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.hostingEventListItemContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

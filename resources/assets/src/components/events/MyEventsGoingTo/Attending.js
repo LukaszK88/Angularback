@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { List, Icon, Flag, Card } from 'semantic-ui-react';
 import _ from 'lodash';
-
 import { Link } from 'react-router-dom';
 import Countdown from 'react-cntdwn';
 

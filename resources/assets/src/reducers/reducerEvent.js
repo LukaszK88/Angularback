@@ -6,6 +6,7 @@ import {
   FETCH_EVENTS_BY_TYPE,
   FETCH_FUTURE_EVENTS,
   FETCH_USER_HOSTED_EVENTS,
+  UPDATE_EVENT,
 } from '../actions/types';
 
 const initialState = {
@@ -28,7 +29,7 @@ export default function (state = initialState, action) {
     case FETCH_EVENT:
       return { ...state, event: action.payload.data };
     case DELETE_EVENT:
-      return { ...state, events: { ...state }.events.filter(event => event.id !== action.payload.id) };
+      return { ...state, eventsHosted: { ...state }.eventsHosted.filter(event => event.id !== action.payload.id) };
     case FETCH_EVENT_TYPES:
       return { ...state, eventTypes: action.payload.data };
     case FETCH_EVENTS:

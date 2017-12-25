@@ -157,31 +157,17 @@ class EventsController extends ApiController
         return $this->respond($eventAttendees);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $event = Event::where(Event::COL_ID,$id);
+
         $data = $request->all();
-        if($event){
-            $event->update($data);
-//TODO delete on false
-//        foreach ($data['categories'] as $category => $key){
-//
-//            EventCategories::updateOrCreate([EventCategories::COL_EVENT_ID => $id,EventCategories::COL_NAME => $category],
-//                [
-//                    EventCategories::COL_EVENT_ID => $event->id,
-//                    EventCategories::COL_NAME => $category
-//                ]);
-//        }
-        return $this->respond($data);
-        }
+
+        if(!$event) return $this->respondWithError('Event not found');
+
+        $event->update($data);
+
+        return $this->respond('Event Updated');
     }
 
     /**
@@ -229,22 +215,5 @@ class EventsController extends ApiController
     {
         EventAttendence::where(EventAttendence::COL_EVENT_ID,$eventId)->where(EventAttendence::COL_USER_ID,$userId)->delete();
     }
-
-//    public function storeEventAttendedCategories($eventAttendId,Request $request)
-//    {
-//        foreach ($request->all() as $category => $key){
-//            if($key === true) {
-//                EventAttendCategory::updateOrCreate([
-//                    EventAttendCategory::COL_EVENT_ATTEND_ID => $eventAttendId,
-//                    EventAttendCategory::COL_NAME => $category
-//                ]);
-//            }elseif ($key === false){
-//                EventAttendCategory::where(EventAttendCategory::COL_EVENT_ATTEND_ID,$eventAttendId)
-//                    ->where(EventAttendCategory::COL_NAME, $category)
-//                    ->delete();
-//            }
-//        }
-//        return $this->responseCreated('Categories attended');
-//    }
 
 }

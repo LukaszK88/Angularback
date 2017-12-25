@@ -10,6 +10,7 @@ import {
   FETCH_EVENTS_BY_TYPE,
   FETCH_FUTURE_EVENTS,
   FETCH_USER_HOSTED_EVENTS,
+  UPDATE_EVENT,
 } from './types';
 import { addFlashMessage } from './flashMessages';
 
@@ -78,7 +79,11 @@ export function attendEvent(data, eventId, userId) {
 export function updateEvent(event) {
   return axios.put(`${API}event/${event.id}`, event).then(response => (dispatch) => {
     dispatch(addFlashMessage('success', 'Event updated'));
-    dispatch(fetchEvents());
+    dispatch(fetchUserHostedEvents(event.user_id));
+    dispatch({
+      type: UPDATE_EVENT,
+      payload: event,
+    });
   });
 }
 
@@ -119,6 +124,6 @@ export function fetchUserEvents(userClubId) {
 export function addEventCategories(categories) {
   return axios.post(`${API}event-categories`, categories).then(response => (dispatch) => {
     dispatch(addFlashMessage('success', 'Categories added'));
-    dispatch(fetchEvents());
+    dispatch(fetchUserHostedEvents(categories.user_id));
   });
 }

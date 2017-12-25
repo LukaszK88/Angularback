@@ -1,22 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List, Icon, Flag, Card, Image, Popup, Grid, Button } from 'semantic-ui-react';
+import { List, Icon, Card, Popup, Grid, Button } from 'semantic-ui-react';
 import { stringHelper } from '../../../helpers/string';
 import EditEvent from './EditEvent';
-
+import { EditCategories } from '../../events';
+import { deleteEvent } from '../../../actions/events';
+import { ConfirmDelete } from '../../../components';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import './Hosting.css';
 
 class Hosting extends Component {
-  renderEvents() {
-    return _.map(this.props.eventsHosted, event => (
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      isOpen: null,
+    };
+  }
+
+  handleOpen(event) {
+    this.setState({ isOpen: event.id });
+  }
+
+  handleClose() {
+    this.setState({ isOpen: null });
+  }
+
+  renderEvents() {
+    return _.map(_.orderBy(this.props.eventsHosted, ['created_at'], ['desc']), event => (
       <List.Item>
-        <div className="row">
+        <div className="row hostingEventListItemContainer">
           <div className="col-sm-5">
             <Icon name="fort awesome" />
-            {event.title}
+            <Link to={`/event/${event.id}`}> {event.title}</Link>
           </div>
           <div className="col-sm-4">
             {event.club !== null ? event.club.name : 'Global'}
@@ -42,26 +60,36 @@ class Hosting extends Component {
               <List verticalAlign="middle">
                 <List.Item>
                   <List.Icon name="calendar" />
-                  <List.Content>{stringHelper.limitTo(event.date,10)}</List.Content>
+                  <List.Content>{stringHelper.limitTo(event.date, 10)}</List.Content>
                 </List.Item>
               </List>
             </Popup>
             <Popup
-              trigger={<Button className="superMiniButton">edit</Button>}
+              style={{ zIndex: '10' }}
+              trigger={<Button onClick={() => this.handleClose()} className="superMiniButton whiteButton">edit</Button>}
               flowing
+              on="click"
+              open={this.state.isOpen === event.id}
+              onOpen={() => this.handleOpen(event)}
               hoverable
             >
-              <Grid className="myEventsHostingEditButtons" centered divided columns={3}>
-                <Grid.Column textAlign="center">
+              <div className="myEventsHostingEditButtonsContainer" >
+                <div className="myEventsHostingEditButtons">
                   <EditEvent event={event} currentUser={this.props.currentUser} />
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Button size="tiny">Edit Categories</Button>
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Button size="tiny">Cancel Event</Button>
-                </Grid.Column>
-              </Grid>
+                </div>
+                <div className="myEventsHostingEditButtons">
+                  <EditCategories event={event} />
+                </div>
+                <div className="myEventsHostingEditButtons">
+                  <ConfirmDelete
+                    content="This action is irreversible"
+                    action={() => this.props.deleteEvent(event)}
+                    header="Are you sure?"
+                    triggerTitle="delete"
+                    triggerClass="redEmptyButton"
+                  />
+                </div>
+              </div>
             </Popup>
           </div>
         </div>
@@ -72,7 +100,6 @@ class Hosting extends Component {
 
   render() {
     // todo will need two apis for past future as data grows
-
     return (
       <Card fluid>
         <Card.Content>
@@ -88,8 +115,4 @@ class Hosting extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { };
-}
-
-export default connect(mapStateToProps)(Hosting);
+export default connect(null, { deleteEvent })(Hosting);
