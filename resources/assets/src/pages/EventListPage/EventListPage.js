@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchFutureEvents } from '../../actions/events';
 import DefaultLayout from '../../layouts/defaultLayout';
-import { EventListCard } from '../../components/events';
+import { EventListCard, AddEvent } from '../../components/events';
 import { Feed } from 'semantic-ui-react';
 import _ from 'lodash';
 
@@ -22,7 +22,6 @@ class EventListPage extends Component {
 
   renderFutureEvents() {
     const { eventsFuture } = this.props;
-
     const events = this.filterEventsForClubUser(eventsFuture);
 
     return _.map(_.orderBy(events, ['date'], ['asc']), event => (
@@ -31,8 +30,17 @@ class EventListPage extends Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
+
     return (
       <DefaultLayout>
+        {(isLoggedIn) &&
+        <div className="row">
+          <div className="col-md-12">
+            <AddEvent/>
+          </div>
+        </div>
+        }
         <div className="row">
           <div className="col-md-8">
             <Feed style={{ marginTop:10 }} size="large">
@@ -49,6 +57,7 @@ function mapStateToProps(state) {
   return {
     eventsFuture: state.events.eventsFuture,
     currentUserClubId: state.currentUser.user.club_id,
+    isLoggedIn: state.currentUser.isLoggedIn,
   };
 }
 

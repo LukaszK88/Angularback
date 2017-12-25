@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Card, Icon, Image, List, Button, Flag, Feed } from 'semantic-ui-react';
 import { stringHelper } from '../../../../helpers/string';
 import { notGoingToEvent } from '../../../../actions/events';
-import Attend from '../../attend';
+import Attend from '../AttendModal';
 import _ from 'lodash';
 
 class EventPageCard extends Component {

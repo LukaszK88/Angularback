@@ -13,7 +13,6 @@ const EventListCard = ({
   <Card fluid >
     <Card.Content style={{ padding: '5px 5px' }}>
       <Feed.Event>
-
         <Feed.Content >
           <Feed.Summary>
             <div className="row eventListTitleContainer">
@@ -53,7 +52,7 @@ const EventListCard = ({
                 >
                   <List>
                     {_.map(event.category, category => (
-                      <List.Item>
+                      <List.Item key={category.id}>
                         <List.Icon name="shield" />
                         <List.Content>{category.name}</List.Content>
                       </List.Item>
@@ -79,7 +78,7 @@ const EventListCard = ({
               >
                 <List horizontal>
                   {_.map(event.attendance, attendee => (
-                    <List.Item>
+                    <List.Item key={attendee.id}>
                       <Popup
                         trigger={<Image avatar src={userHelper.getImage(attendee)} />}
                         flowing

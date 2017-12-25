@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Contracts\Repositories\CategoryRepositoryInterface;
+use App\Contracts\Repositories\EventRepositoryInterface;
 use App\Models\Event;
 use App\Models\EventAttendCategory;
 use App\Models\EventAttendence;
@@ -14,6 +16,15 @@ use Illuminate\Http\Request;
 
 class EventsController extends ApiController
 {
+    protected $event,
+        $category;
+
+    public function __construct(EventRepositoryInterface $event, CategoryRepositoryInterface $category)
+    {
+        $this->event = $event;
+        $this->category = $category;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -74,27 +85,36 @@ class EventsController extends ApiController
         return $this->respond($types);
     }
 
-    public function getEventsAttendedByUser($userId, Event $event){
-
+    public function getEventsAttendedByUser($userId, Event $event)
+    {
         $events = $event->getAttendingEvents($userId);
 
         return $this->respond($events);
     }
 
+    public function getUserHostedEvents($userId)
+    {
+        $events = $this->event->getUserHosted($userId);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+        return $this->respond($events);
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();
+        //remove categories before event save
+        // todo validation on unique event identifier
+        // todo add to separate table just for achievements and data gathering
+        $categories = $data['categories'];
+        unset($data['categories']);
+        $event = $this->event->create($data);
 
-        $event = Event::create($data);
-
-        return $this->respond($event);
+        if(!$event) return $this->respondWithError('Event did not save');
+        // if cat is here we can save it
+        foreach ($categories as $categoryName => $value){
+            $this->category->create($categoryName,$event->id);
+        }
+        return $this->respond('Event and categories saved');
     }
 
     /**
@@ -116,6 +136,7 @@ class EventsController extends ApiController
         return $this->respond($event);
     }
 
+    // todo this is by club
     public function showUserEvents($userClubId)
     {
         $events = Event::where(User::COL_CLUB_ID,$userClubId)

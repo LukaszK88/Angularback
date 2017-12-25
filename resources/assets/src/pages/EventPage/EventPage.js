@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DefaultLayout from '../../layouts/defaultLayout';
 import { fetchEvent } from '../../actions/events';
-import GoogleMap from '../../components/events/partials/map';
-import { EventPageCard, EventPageAttendance } from '../../components/events/EventPageContent';
+import { EventPageCard, EventPageAttendance, EventPageMap } from '../../components/events/EventPageContent';
 
 class EventPage extends Component {
   componentDidMount() {
@@ -35,7 +34,7 @@ class EventPage extends Component {
           {(event.lng && event.lat) &&
           <div className="row">
             <div className="col-md-8">
-              <GoogleMap lng={parseFloat(event.lng)} lat={parseFloat(event.lat)} />
+              <EventPageMap lng={parseFloat(event.lng)} lat={parseFloat(event.lat)} />
             </div>
           </div>
         }

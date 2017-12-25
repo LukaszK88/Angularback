@@ -4,9 +4,9 @@ import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm,change } from 'redux-form';
 import _ from 'lodash';
 import { Tooltip } from 'reactstrap';
-import { input } from '../../helpers/input';
-import { config } from '../../config';
-import {attendEvent} from '../../actions/events';
+import { input } from '../../../../helpers/input';
+import { config } from '../../../../config';
+import {attendEvent} from '../../../../actions/events';
 
 class Attend extends Component{
     constructor(props) {

@@ -35,7 +35,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import PrivateRoute from './components/auth/privateRoute';
 import EventPage from './pages/EventPage';
 import EventListPage from './pages/EventListPage';
-import MyCalendar from './components/events/eventCalendar';
+import MyEventsPage from './pages/MyEventsPage';
 
 const createStoreWithMiddleware = createStore(
   reducers,
@@ -66,7 +66,7 @@ ReactDOM.render(
           <Route path="/club/:clubId" component={ClubPage} />
           <Route path="/event/:eventId" component={EventPage} />
           <Route path="/events" component={EventListPage} />
-          <Route path="/my-events/:userId" component={MyCalendar} />
+          <Route path="/my-events/:userId" component={MyEventsPage} />
           <PrivateRoute path="/events-admin" component={Events} />
           <PrivateRoute admin path="/users" component={AdminUsers} />
           <PrivateRoute admin path="/clubs-admin" component={AdminClubs} />

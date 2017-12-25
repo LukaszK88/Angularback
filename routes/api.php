@@ -56,6 +56,7 @@ Route::resource('/event','EventsController');
 Route::resource('/event/notes','EventNotesController');
 
 Route::get('/events-future','EventsController@getFutureEvents');
+Route::get('/events-host/{userId}','EventsController@getUserHostedEvents');
 
 //EVENTS CAEGORIES
 Route::resource('/event-categories','EventCategoriesController');
