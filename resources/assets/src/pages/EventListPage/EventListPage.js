@@ -35,7 +35,7 @@ class EventListPage extends Component {
       <DefaultLayout>
         <div className="row">
           <div className="col-md-8">
-            <Feed size="large">
+            <Feed style={{ marginTop:10 }} size="large">
               {this.renderFutureEvents()}
             </Feed>
           </div>

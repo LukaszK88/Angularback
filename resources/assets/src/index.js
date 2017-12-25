@@ -33,7 +33,7 @@ import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import PrivateRoute from './components/auth/privateRoute';
-import EventPage from './components/events/eventPage';
+import EventPage from './pages/EventPage';
 import EventListPage from './pages/EventListPage';
 import MyCalendar from './components/events/eventCalendar';
 
