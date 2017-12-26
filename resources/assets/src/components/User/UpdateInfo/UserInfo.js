@@ -80,7 +80,12 @@ class UpdateUser extends Component{
 
         return(
 
-            <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<span className={this.props.class}  onClick={this.handleOpen}>Personal Info <Icon name="info"/></span>}>
+            <Modal
+              closeIcon
+              size="mini"
+              open={this.state.modalOpen}
+              onClose={this.handleClose}
+              trigger={<span className={this.props.class}  onClick={this.handleOpen}>Personal Info </span>}>
                 <Modal.Header>Info</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

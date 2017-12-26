@@ -4,12 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import LoginModal from '../auth/login';
 import { logout } from '../../actions';
-import { Icon, Image } from 'semantic-ui-react';
-import DropdownMenu from 'react-dd-menu';
-import { UpdateUserInfo } from '../../components/';
-import ChangePassword from '../auth/changePassword';
+import { Image } from 'semantic-ui-react';
 import { config } from '../../config';
-import ClubInfo from '../clubs/clubInfo';
 import { JoinClub } from '../index';
 
 
@@ -41,62 +37,6 @@ class NavbarComp extends Component {
 
   logout() {
     this.props.logout();
-  }
-
-  renderLoggedIn() {
-    const {
-      user, admin, clubAdmin, editor,
-    } = this.props.currentUser;
-    if (user) {
-      const menuOptions = {
-        isOpen: this.state.isMenuOpen,
-        close: this.close,
-        toggle: <a className="nav-link" onClick={this.toggleDropdown}>{user.username} <Icon name="chevron down" /></a>,
-        align: 'right',
-        closeOnInsideClick: false,
-        closeOnOutsideClick: false,
-      };
-      return (
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/ranking">Ranking</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/ranking-clubs">Clubs</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/events">Events</Link>
-          </li>
-          <DropdownMenu as="li" className="nav-item" {...menuOptions}>
-
-            <li><Link to={`/profile/${user.id}`}>Profile Page <Icon name="drivers license outline" /></Link></li>
-            { user.club_id != 0 &&
-            <li><Link to={`/club/${user.club_id}`}>Club Page <Icon name="drivers license outline" /></Link>
-            </li>
-                        }
-            <li><Link to={`/my-events/${user.id}`}>My Events<Icon name="calendar" /></Link></li>
-            <li><UpdateUserInfo /></li>
-            <li><ChangePassword /></li>
-            {(admin) &&
-            <li><Link to="/events-admin">Manage events <Icon name="fort awesome" /></Link></li>
-                        }
-            {(admin || clubAdmin) &&
-            <li><ClubInfo club={user.club} /></li>
-                        }
-            { admin &&
-            <li><Link to="/users">Manage users <Icon name="users" /></Link></li>
-                        }
-            { admin &&
-            <li><Link to="/clubs-admin">Manage clubs <Icon name="users" /></Link></li>
-                        }
-          </DropdownMenu>
-
-          <li className="nav-item">
-            <a className="nav-link" onClick={this.logout.bind(this)}>Logout</a>
-          </li>
-        </ul>
-      );
-    }
   }
 
   renderLoggedOut() {
@@ -131,7 +71,7 @@ class NavbarComp extends Component {
         <Link className="navbar-brand" to="/"><Image size="tiny" src={`${config.url.base}/storage/swords_black.png`} /></Link>
 
         <div className={`${!this.state.isOpen ? 'collapse' : ''} navbar-collapse`}>
-          { this.props.currentUser.isLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}
+          {this.renderLoggedOut()}
         </div>
       </nav>
     );

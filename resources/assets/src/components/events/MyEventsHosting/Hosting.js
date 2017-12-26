@@ -33,7 +33,12 @@ class Hosting extends Component {
       <List.Item>
         <div className="row hostingEventListItemContainer">
           <div className="col-sm-5 col-5">
+            {event.event_type_id === 1 &&
             <Icon name="fort awesome" />
+            }
+            {event.event_type_id === 2 &&
+            <Icon name="shield" />
+            }
             <Link to={`/event/${event.id}`}> {event.title}</Link>
           </div>
           <div className="col-sm-4 col-4">
@@ -53,7 +58,12 @@ class Hosting extends Component {
               </List>
               <List verticalAlign="middle">
                 <List.Item>
-                  <List.Icon name="fort awesome" />
+                  {event.event_type_id === 1 &&
+                  <Icon name="fort awesome" />
+                  }
+                  {event.event_type_id === 2 &&
+                  <Icon name="shield" />
+                  }
                   <List.Content>{event.type}</List.Content>
                 </List.Item>
               </List>
