@@ -66,11 +66,7 @@ Route::resource('/event-categories','EventCategoriesController');
 Route::post('/event-attend/{eventId}/{userId}','EventsController@attendEvent');
 Route::delete('/event-attend/{eventId}/{userId}','EventsController@notGoing');
 
-
-
-Route::get('/event-user/{userId}','EventsController@showUserEvents');
 Route::get('/events/{type}','EventsController@getEventsByType');
-
 
 Route::get('/event-types','EventsController@getEventTypes');
 Route::post('/event-attend-categories/{eventAttendId}','EventsController@storeEventAttendedCategories');

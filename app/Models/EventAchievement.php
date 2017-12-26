@@ -28,6 +28,16 @@ class EventAchievement extends Model
         self::COL_UEAID,
     ];
 
+    public function achievement()
+    {
+        return $this->hasMany(Achievement::class, 'event_id','event_id');
+    }
+
+    public function category()
+    {
+        return $this->hasMany(EventCategories::class, 'event_id', 'event_id');
+    }
+
     public function club()
     {
         return $this->belongsTo(Club::class, self::COL_CLUB_ID,'id');

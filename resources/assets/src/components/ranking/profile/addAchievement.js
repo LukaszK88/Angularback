@@ -19,7 +19,7 @@ class AddAchievement extends Component{
     }
 
     onSubmit(values){
-        values.event_id = this.state.selectedEvent.id;
+        values.event_id = this.state.selectedEvent.event_id;
         values.user_id = this.props.currentUser.user.id;
         this.props.addAchievement(values);
         this.setState({modalOpen:false});
@@ -50,13 +50,13 @@ class AddAchievement extends Component{
 
     renderCategories(){
         if(this.state.selectedEvent){
-            return _.map(this.state.selectedEvent.category, category => {
-                return {
-                    key: category.id,
-                    value: category.name,
-                    text: category.name
-                };
-            });
+          return _.map(this.state.selectedEvent.category, category => {
+            return {
+              key: category.id,
+              value: category.name,
+              text: category.name
+            };
+          });
         }
     }
 
@@ -68,15 +68,13 @@ class AddAchievement extends Component{
         const places = config.select.places;
         const categories = this.renderCategories();
 
-        const events = _.map(this.props.events,event => {
-
+        const events = _.map(_.filter(this.props.events,(e) => { return e.category.length !== 0}),event => {
             return {
-                key: event.location,
-                value: event,
-                flag: event.location,
-                text: `${event.title} ${event.date.substring(0, 4)}`
+              key: event.location,
+              value: event,
+              flag: event.location,
+              text: `${event.title} ${event.date.substring(0, 4)}`
             };
-
         });
 
         return(

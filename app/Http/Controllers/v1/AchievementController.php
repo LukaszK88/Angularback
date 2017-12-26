@@ -27,15 +27,7 @@ class AchievementController extends ApiController
             $userId = $this->request->query('id');
         }
         if($userId){
-            $achievements = Achievement::with('event')->where(Achievement::COL_USER_ID,$userId)->get();
-
-            $countires = Achievement::
-                with(['event' =>function($query) {
-                    $query->select('id',Event::COL_LOCATION);
-                }])
-                ->where(Achievement::COL_USER_ID,$userId)
-                ->groupBy(Achievement::COL_EVENT_ID)
-                ->get();
+            $achievements = Achievement::with('eventAchievement.category')->where(Achievement::COL_USER_ID,$userId)->get();
 
             $response = [
                 'data' => [
@@ -44,9 +36,7 @@ class AchievementController extends ApiController
                         'gold' => $achievements->where("place","1st")->count(),
                         'silver' => $achievements->where("place","2nd")->count(),
                         'bronze' => $achievements->where("place","3rd")->count(),
-                        'countries' => $countires
                     ]
-
                 ]
             ];
             return $this->respond($response);

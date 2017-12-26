@@ -13,7 +13,7 @@ import {
 } from '../ranking';
 import { Button } from 'semantic-ui-react';
 import { fetchFighters, fetchLeaderboard, setActiveCategory, setActiveSeason } from '../../actions/ranking';
-import { fetchEvents } from '../../actions/events';
+import { fetchEventsAchievements } from '../../actions/events';
 import { fetchClubs } from '../../actions/clubs';
 import { Field, reduxForm, change } from 'redux-form';
 import _ from 'lodash';
@@ -42,7 +42,7 @@ class TabsComp extends Component {
   componentDidMount() {
     this.props.fetchClubs();
     this.props.fetchFighters();
-    this.props.fetchEvents();
+    this.props.fetchEventsAchievements();
     this.props.fetchLeaderboard();
   }
 
@@ -198,49 +198,49 @@ class TabsComp extends Component {
             }
             {this.props.ranking.category === 'Bohurt' &&
             <Bohurt
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Profight' &&
             <Profight
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Sword&Shield' &&
             <SwordShield
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Longsword' &&
             <Longsword
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Sword&Buckler' &&
             <SwordBuckler
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Triathlon' &&
             <Triathlon
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
             {this.props.ranking.category === 'Polearm' &&
             <Polearm
-              events={this.props.events}
+              events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
@@ -255,7 +255,7 @@ class TabsComp extends Component {
 function mapStateToProps(state) {
   return {
     ranking: state.ranking,
-    events: state.events,
+    eventsAchievements: state.events.eventsAchievements,
     clubs: state.clubs,
     currentUser: state.currentUser,
     leaderboard: state.leaderboard,
@@ -264,7 +264,7 @@ function mapStateToProps(state) {
 
 export default reduxForm({ form: 'filterClubs' })(connect(mapStateToProps, {
   fetchFighters,
-  fetchEvents,
+  fetchEventsAchievements,
   fetchClubs,
   fetchLeaderboard,
   addFlashMessage,

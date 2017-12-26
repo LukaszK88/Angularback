@@ -11,6 +11,7 @@ import {
   FETCH_FUTURE_EVENTS,
   FETCH_USER_HOSTED_EVENTS,
   UPDATE_EVENT,
+  FETCH_EVENTS_ACHIEVEMENTS,
 } from './types';
 import { addFlashMessage } from './flashMessages';
 
@@ -126,4 +127,13 @@ export function addEventCategories(categories) {
     dispatch(addFlashMessage('success', 'Categories added'));
     dispatch(fetchUserHostedEvents(categories.user_id));
   });
+}
+
+export function fetchEventsAchievements() {
+  const request = axios.get(`${API}events-achievements`);
+
+  return {
+    type: FETCH_EVENTS_ACHIEVEMENTS,
+    payload: request,
+  };
 }

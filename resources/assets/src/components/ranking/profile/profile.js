@@ -4,7 +4,7 @@ import DefaultLayout from '../../../layouts/defaultLayout';
 import { fetchUser } from '../../../actions';
 import { fetchAchievements } from '../../../actions/ranking';
 import { baseUrl } from '../../../index';
-import { fetchEvents, fetchUserEvents } from '../../../actions/events';
+import { fetchEvents, fetchEventsAchievements } from '../../../actions/events';
 import UserImage from './partials/userImage';
 import ProfileInfo from './partials/profileInfo';
 import Achievements from './partials/achievements';
@@ -12,16 +12,14 @@ import Achievements from './partials/achievements';
 class Profile extends Component {
   componentWillReceiveProps(newProps) {
     if (this.props.match.params.userId !== newProps.match.params.userId) {
-      console.log('test');
       this.props.fetchUser(newProps.match.params.userId);
       this.props.fetchAchievements(newProps.match.params.userId);
     }
   }
 
   componentDidMount() {
-    this.props.fetchUser(this.props.match.params.userId, (response) => {
-      this.props.fetchUserEvents(response.data.club_id);
-    });
+    this.props.fetchUser(this.props.match.params.userId);
+    this.props.fetchEventsAchievements();
     this.props.fetchAchievements(this.props.match.params.userId);
   }
 
@@ -35,9 +33,9 @@ class Profile extends Component {
     return (
       <DefaultLayout>
         <div className="row">
-          <UserImage profile={profile} currentUser={currentUser} />
+          <UserImage user={this.props.user} profile={profile} currentUser={currentUser} />
           <ProfileInfo profile={profile} />
-          <Achievements profile={profile} currentUser={this.props.currentUser} />
+          <Achievements events={this.props.eventsAchievements} profile={profile} currentUser={this.props.currentUser} />
         </div>
       </DefaultLayout>
     );
@@ -46,13 +44,14 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.profile.user,
     profile: state.profile,
     currentUser: state.currentUser,
-    events: state.events,
+    eventsAchievements: state.events.eventsAchievements,
   };
 }
 
 
 export default connect(mapStateToProps, {
-  fetchUser, fetchAchievements, fetchEvents, fetchUserEvents,
+  fetchUser, fetchAchievements, fetchEvents, fetchEventsAchievements,
 })(Profile);

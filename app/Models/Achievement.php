@@ -33,6 +33,11 @@ class Achievement extends Model
         return $this->belongsTo(Event::class);
     }
 
+    public function eventAchievement()
+    {
+        return $this->belongsTo(EventAchievement::class,'event_id','event_id');
+    }
+
     public function user()
     {
         return $this->belongsToMany(User::class);

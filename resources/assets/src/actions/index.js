@@ -44,9 +44,8 @@ export function updateUser(data) {
   });
 }
 
-export function fetchUser(userId, callback) {
+export function fetchUser(userId) {
   return axios.get(`${API}fighter/${userId}`).then((response) => {
-    callback(response);
     return (dispatch) => {
       // dispatch(addFlashMessage('success', response.data.message));
       dispatch({

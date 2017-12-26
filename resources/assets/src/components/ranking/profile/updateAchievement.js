@@ -33,8 +33,8 @@ class UpdateAchievement extends Component{
     render(){
 
         const handleSubmit = this.props.handleSubmit;
-        const event = _.find(this.props.events,['id',parseInt(this.props.achievement.event_id)]);
-        const categories = _.map(event.category,category => {
+
+        const categories = _.map(this.props.achievement.event_achievement.category,category => {
             return {
                 key: category.id,
                 value: category.name,

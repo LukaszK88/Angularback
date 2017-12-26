@@ -17,7 +17,9 @@ class MigrateEventsToEventAchievements extends Migration
         $events = \App\Models\Event::all();
 
         foreach ($events as $event){
-            $eventAchievementService->createEntry($event);
+            if($event->event_type_id === 1) {
+                $eventAchievementService->createEntry($event);
+            }
         }
     }
 

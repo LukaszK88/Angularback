@@ -7,6 +7,7 @@ import {
   FETCH_FUTURE_EVENTS,
   FETCH_USER_HOSTED_EVENTS,
   UPDATE_EVENT,
+  FETCH_EVENTS_ACHIEVEMENTS,
 } from '../actions/types';
 
 const initialState = {
@@ -16,10 +17,13 @@ const initialState = {
   eventsList: null,
   eventsFuture: null,
   eventsHosted: [],
+  eventsAchievements: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case FETCH_EVENTS_ACHIEVEMENTS:
+      return { ...state, eventsAchievements: action.payload.data };
     case FETCH_USER_HOSTED_EVENTS:
       return { ...state, eventsHosted: action.payload.data };
     case FETCH_FUTURE_EVENTS:

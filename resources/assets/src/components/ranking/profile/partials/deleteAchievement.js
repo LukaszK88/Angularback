@@ -24,7 +24,7 @@ render(){
     const {achievement} = this.props;
         return(
             <Modal open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Icon onClick={this.handleOpen} size="large" name="delete"></Icon>} basic size='small'>
-                <Header icon='trash outline' content={`Delete ${achievement.event.title} Achievement`} />
+                <Header icon='trash outline' content={`Delete ${achievement.event_achievement.title} Achievement`} />
                 <Modal.Content>
                     <p>Are you sure?</p>
                 </Modal.Content>

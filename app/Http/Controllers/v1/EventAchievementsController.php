@@ -8,7 +8,7 @@ class EventAchievementsController extends ApiController
 {
     public function index()
     {
-        $eventsAchievements = EventAchievement::all();
+        $eventsAchievements = EventAchievement::with(['event.eventType','category'])->get();
 
         return $this->respond($eventsAchievements);
     }

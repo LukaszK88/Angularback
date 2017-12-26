@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 export default class ProfileInfo extends Component {
   renderFlags() {
     const { profile } = this.props;
-    if (profile.achievements) {
-      return _.map(this.props.profile.achievements.data.achievement.countries, achievement => (
-        <Flag name={achievement.event.location} />
+    if (profile.achievements !== null) {
+      const countries = _.map(profile.achievements.data.data, event => ({ location: event.event_achievement.location }));
+      return _.map(_.uniqBy(countries, 'location'), country => (
+        <Flag name={country.location} />
       ));
     }
   }
-
 
   render() {
     const { profile } = this.props;

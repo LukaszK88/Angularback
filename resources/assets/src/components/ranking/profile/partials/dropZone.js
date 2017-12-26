@@ -31,16 +31,15 @@ class DropZone extends Component {
   }
 
   render() {
-    const { profile, currentUser } = this.props;
-    console.log(currentUser);
-    console.log(profile);
+    const { user, currentUser } = this.props;
+
     return (
       <div>
-        {(currentUser && profile) &&
+        {(currentUser && user) &&
           <div>
-            {(!_.isEmpty(currentUser.user)) &&
+            {(!_.isEmpty(currentUser.user) && (!_.isEmpty(user))) &&
               <div>
-                {(currentUser.user.id == profile.user.id) &&
+                {(currentUser.user.id === user.id) &&
                 <Dropzone id="upload" name="file" style={{width: 'max-width'}} onDrop={this.onDrop.bind(this)}>
                     <Tooltip
                       placement="bottom"
@@ -54,7 +53,7 @@ class DropZone extends Component {
                   {this.state.imgPreview &&
                   <Image src={this.state.imgPreview}/>}
                   {!this.state.imgPreview &&
-                  <Image src={userHelper.getImage(profile.user)}/>}
+                  <Image src={userHelper.getImage(user)}/>}
                 </Dropzone>
                 }
               </div>
@@ -64,16 +63,16 @@ class DropZone extends Component {
         {(!currentUser.isLoggedIn) &&
 
           <div>
-            {(!_.isEmpty(profile.user)) &&
-            <Image src={userHelper.getImage(profile.user)}/>
+            {(!_.isEmpty(user)) &&
+            <Image src={userHelper.getImage(user)}/>
             }
           </div>
             }
 
-        {(currentUser.isLoggedIn && currentUser.user.id != profile.user.id) &&
+        {(currentUser.isLoggedIn && currentUser.user.id != user.id) &&
 
         <div>
-          <Image src={userHelper.getImage(profile.user)} />
+          <Image src={userHelper.getImage(user)} />
         </div>
             }
 

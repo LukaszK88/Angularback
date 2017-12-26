@@ -6,6 +6,7 @@ use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Contracts\Repositories\EventAchievementInterface;
 use App\Contracts\Repositories\EventRepositoryInterface;
 use App\Models\Event;
+use App\Models\EventAchievement;
 use App\Models\EventAttendCategory;
 use App\Models\EventAttendence;
 use App\Models\EventCategories;
@@ -117,7 +118,9 @@ class EventsController extends ApiController
         $event = $this->event->create($data);
         if(!$event) return $this->respondWithError('Event did not save');
         //store event Achievement location
-        $this->eventAchievementService->createEntry($event);
+        if($event->event_type_id === 1) {
+            $this->eventAchievementService->createEntry($event);
+        }
         // if cat is here we can save it
         foreach ($categories as $categoryName => $value){
             $this->category->create($categoryName,$event->id);
@@ -142,20 +145,6 @@ class EventsController extends ApiController
             ->first();
 
         return $this->respond($event);
-    }
-
-    // todo this is by club
-    public function showUserEvents($userClubId)
-    {
-        $events = Event::where(User::COL_CLUB_ID,$userClubId)
-            ->orWhere(Event::COL_GLOBAL,'=',true)
-            ->with('user')
-            ->with('eventType')
-            ->with('category')
-            ->has('category')
-            ->get();
-
-        return $this->respond($events);
     }
 
     public function getEventAttendees($eventId, EventAttendence $eventAttendence)

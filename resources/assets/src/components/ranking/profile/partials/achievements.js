@@ -23,23 +23,22 @@ class Achievements extends Component {
 
   renderAchievements() {
     const { profile } = this.props;
-    if (profile.achievements && profile.events) {
+    if (profile.achievements) {
       const achievements = _.orderBy(profile.achievements.data.data, ['event.date'], ['desc']);
-
       return _.map(achievements, achievement => (
         <List.Item>
           <List.Icon dangerouslySetInnerHTML={{ __html: achievement.cup }} />
           <List.Content>
-            <List.Header><Flag name={achievement.event.location} />{achievement.event.title}</List.Header>
+            <List.Header><Flag name={achievement.event_achievement.location} />{achievement.event_achievement.title}</List.Header>
             <List.Description>
-              {achievement.category} | {achievement.place} | {stringHelper.limitTo(achievement.event.date, 10)}
+              {achievement.category} | {achievement.place} | {stringHelper.limitTo(achievement.event_achievement.date, 10)}
             </List.Description>
           </List.Content>
           { this.isCurrentlyLoggedInUser() &&
           <DeleteConfirmation achievement={achievement} />
                         }
           { this.isCurrentlyLoggedInUser() &&
-          <UpdateAchievement events={this.props.profile.events} achievement={achievement} />
+          <UpdateAchievement events={this.props.events} achievement={achievement} />
                         }
         </List.Item>
       ));
@@ -53,7 +52,7 @@ class Achievements extends Component {
             <Card.Header>
                         Achievements
               {this.isCurrentlyLoggedInUser() &&
-                <AddAchievement events={this.props.profile.events} />
+                <AddAchievement events={this.props.events} />
                         }
               <Card.Meta>
                 <div className="row">
