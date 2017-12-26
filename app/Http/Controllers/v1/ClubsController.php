@@ -105,7 +105,7 @@ class ClubsController extends ApiController
         $data = $request->all();
         $club = $this->club->findByName($data['name']);
 
-        if($club) return $this->responseCreated('Club already exists');
+        if($club) return $this->respondWithError('Club already exists');
 
         $captain = $authService->registerUser($request,$data['email'],$data['password']);
         if($captain instanceof MessageBag) return $this->responseNotFound($captain);

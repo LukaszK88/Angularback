@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import LoginModal from '../../auth/login';
-import Signup from '../../auth/singup';
-import { logout } from '../../../actions';
+import LoginModal from '../auth/login';
+import { logout } from '../../actions';
 import { Icon, Image } from 'semantic-ui-react';
 import DropdownMenu from 'react-dd-menu';
-import UpdateUser from './userInfo';
-import ChangePassword from '../../auth/changePassword';
-import { config } from '../../../config';
-import ClubInfo from '../../clubs/clubInfo';
+import { UpdateUserInfo } from '../../components/';
+import ChangePassword from '../auth/changePassword';
+import { config } from '../../config';
+import ClubInfo from '../clubs/clubInfo';
+import { JoinClub } from '../index';
 
 
 class NavbarComp extends Component {
@@ -75,7 +75,7 @@ class NavbarComp extends Component {
             </li>
                         }
             <li><Link to={`/my-events/${user.id}`}>My Events<Icon name="calendar" /></Link></li>
-            <li><UpdateUser /></li>
+            <li><UpdateUserInfo /></li>
             <li><ChangePassword /></li>
             {(admin) &&
             <li><Link to="/events-admin">Manage events <Icon name="fort awesome" /></Link></li>
@@ -115,7 +115,7 @@ class NavbarComp extends Component {
           <LoginModal />
         </li>
         <li className="nav-item">
-          <Signup />
+          <JoinClub />
         </li>
       </ul>
     );

@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import FlashMessages from './../../../helpers/message';
 import {fetchUsersAdmin,takeAdminAction,fetchUsers, deleteUser,getUserRoles,updateUserRole} from '../../../actions/admin';
-import NavbarComp from '../../home/partials/navbar';
+import { Navbar } from '../../../components';
 import { Header, Table,Image, Card, Radio, Button, Icon } from 'semantic-ui-react'
 import _ from 'lodash';
 import {userHelper} from '../../../helpers/user';
@@ -205,7 +205,7 @@ class AdminUsers extends Component{
         return(
             <div>
                 <FlashMessages/>
-                <NavbarComp/>
+                <Navbar/>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">

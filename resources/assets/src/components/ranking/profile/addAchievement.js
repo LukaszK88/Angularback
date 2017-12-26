@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal,Select,Dropdown } from 'semantic-ui-react';
+import { Button, Modal, Dropdown } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {addAchievement} from '../../../actions/ranking';
 import _ from 'lodash';

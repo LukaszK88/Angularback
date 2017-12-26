@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavbarComp from '../components/home/partials/navbar';
+import { Navbar } from '../components';
 import FlashMessages from '../helpers/message';
 
 class DefaultLayout extends Component {
@@ -7,7 +7,7 @@ class DefaultLayout extends Component {
     return (
       <div>
         <FlashMessages />
-        <NavbarComp />
+        <Navbar />
         <div>
           <div className="container-fluid">
             {this.props.children}

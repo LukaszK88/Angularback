@@ -18,7 +18,8 @@ class AuthService
 
         $user = User::create([
             'username' => $username,
-            'password' => bcrypt($password)
+            'password' => bcrypt($password),
+            'club_id' => $request->input('club_id') ?? 0
         ]);
 
         return $user;

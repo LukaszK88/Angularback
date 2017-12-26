@@ -19,7 +19,7 @@ import { Field, reduxForm, change } from 'redux-form';
 import _ from 'lodash';
 import { Tooltip } from 'reactstrap';
 import { addFlashMessage } from '../../actions/flashMessages';
-import UpdateUser from '../home/partials/userInfo';
+import { UpdateUserInfo } from '../index';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import DefaultLayout from '../../layouts/defaultLayout';
@@ -50,7 +50,7 @@ class TabsComp extends Component {
     if (this.state.clubId == null && nextProps.currentUser.isLoggedIn) {
       if (nextProps.currentUser.user.club == null) {
         if (!nextProps.currentUser.user.name || nextProps.currentUser.user.club_id == 0) {
-          this.props.addFlashMessage('success', 'Update your club and name to be displayed', <UpdateUser class="fake-link" />);
+          this.props.addFlashMessage('success', 'Update your club and name to be displayed', <UpdateUserInfo class="fake-link" />);
         }
         this.props.dispatch(change('filterClubs', 'club_id', 0));
         this.props.fetchFighters(0);

@@ -18,7 +18,6 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import createHistory from 'history/createBrowserHistory';
-import Home from './components/home/home';
 import TabsComp from './components/ranking/tabs';
 import thunk from 'redux-thunk';
 import setAuthorizationToken from './utils/setAuthorizationToken';
@@ -73,7 +72,6 @@ ReactDOM.render(
           <Route path="/ranking-clubs" component={ClubsRanking} />
           <Route path="/ranking" component={TabsComp} />
           <Redirect from="/" to="/ranking" />
-          <Route path="/" component={Home} />
         </Switch>
       </BrowserRouter>
     </Provider>

@@ -4,7 +4,7 @@ import DefaultLayout from '../../../layouts/defaultLayout';
 import { Image, List, Flag, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { fetchClubs, fetchClubsByCountry } from '../../../actions/clubs';
+import { fetchClubs } from '../../../actions/clubs';
 import { setActiveSeason } from '../../../actions/ranking';
 import { Field, reduxForm } from 'redux-form';
 import { config } from '../../../config';
@@ -170,6 +170,5 @@ function mapStateToProps(state) {
 export default
 reduxForm({ form: 'filterClubsByCountry' })(connect(mapStateToProps, {
   fetchClubs,
-  fetchClubsByCountry,
   setActiveSeason,
 })(Clubs));
