@@ -94,7 +94,7 @@ class Clubs extends Component {
     return (
       <DefaultLayout>
         <div className="row">
-          <div className="col-sm-4 offset-sm-4">
+          <div className="col-sm-4 offset-sm-4 col-8">
             <div id="select" className="club-dropdown">
               <Field
                 label="Filter by Country"

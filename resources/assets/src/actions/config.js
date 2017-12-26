@@ -1,4 +1,11 @@
-import { ADD_LOADING, SET_CURRENT_MODAL } from './types';
+import { ADD_LOADING, SET_CURRENT_MODAL, SET_ACTIVE_MENU_ITEM } from './types';
+
+export function setActiveMenuItem(menuItem) {
+  return {
+    type: SET_ACTIVE_MENU_ITEM,
+    payload: menuItem,
+  };
+}
 
 export function loading(set) {
   return {

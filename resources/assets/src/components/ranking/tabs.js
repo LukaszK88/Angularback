@@ -111,7 +111,7 @@ class TabsComp extends Component {
 
     return (
       <DefaultLayout>
-        <div className="row topRow">
+        <div className="row">
           <div className="col-4">
             <Button
               onClick={() => this.handleToggle()}

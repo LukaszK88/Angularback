@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
 import { Navbar, SideNavbar } from '../components';
+import { Icon } from 'semantic-ui-react'
 import FlashMessages from '../helpers/message';
 import { connect } from 'react-redux';
+import * as classNames from 'classnames';
+
+import './DefaultLayout.css';
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mobileNavToggle: false,
+    };
+  }
+
+  toggleMobileNav() {
+    this.setState({ mobileNavToggle: !this.state.mobileNavToggle });
+  }
+
   render() {
     return (
       <div>
@@ -13,13 +29,24 @@ class DefaultLayout extends Component {
         }
         <div>
           <div className="container-fluid">
+            <div className="row sideMenuToggleButton">
+              <Icon className="toggleBurger" onClick={() => this.toggleMobileNav()} size="large" name="content"/>
+              {this.state.mobileNavToggle &&
+                <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle}/>
+              }
+            </div>
             <div className="row">
-              <div className={!this.props.isLoggedIn ? 'col-12' : 'col-11'}>
+              <div
+                style={{ marginTop:(!this.props.isLoggedIn ? '5px' : '15px')}}
+                className={
+                  classNames(!this.props.isLoggedIn ? 'col-12' : 'col-sm-11 col-12')
+                }
+              >
                 {this.props.children}
               </div>
               {this.props.isLoggedIn &&
-              <div className="col-1 noMargin">
-                <SideNavbar/>
+              <div className="col-sm-1 hidden-sm-down noMargin">
+                <SideNavbar toggleMobileNav={() => this.toggleMobileNav()}  mobileNavToggle={this.state.mobileNavToggle}/>
               </div>
               }
             </div>

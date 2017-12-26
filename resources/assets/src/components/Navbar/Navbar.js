@@ -65,11 +65,7 @@ class NavbarComp extends Component {
     return (
 
       <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-        <button onClick={this.toggle} className="navbar-toggler navbar-toggler-right" type="button" >
-          <span className="navbar-toggler-icon" />
-        </button>
         <Link className="navbar-brand" to="/"><Image size="tiny" src={`${config.url.base}/storage/swords_black.png`} /></Link>
-
         <div className={`${!this.state.isOpen ? 'collapse' : ''} navbar-collapse`}>
           {this.renderLoggedOut()}
         </div>

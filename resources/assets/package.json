@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha.6",
+    "classnames": "^2.2.5",
     "draft-js": "^0.10.3",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
