@@ -23,7 +23,6 @@ Route::get('/user-roles','UsersController@getUserRoles');
 Route::post('/storePhoto/{id}', 'UsersController@storeUserPhoto');
 Route::get('/user/event-info/{eventAttendId}/{userId}','UsersController@getUserEventInfo');
 
-
 //AUTH
 Route::post('/user-store','AuthController@store');
 Route::post('/user/authenticate','AuthController@authenticateLogin');
@@ -58,7 +57,10 @@ Route::resource('/event/notes','EventNotesController');
 Route::get('/events-future','EventsController@getFutureEvents');
 Route::get('/events-host/{userId}','EventsController@getUserHostedEvents');
 
-//EVENTS CAEGORIES
+//EVENTS ACHIEVEMENTS LOCATIONS
+Route::resource('/events-achievements','EventAchievementsController');
+
+//EVENTS CATEGORIES
 Route::resource('/event-categories','EventCategoriesController');
 
 Route::post('/event-attend/{eventId}/{userId}','EventsController@attendEvent');

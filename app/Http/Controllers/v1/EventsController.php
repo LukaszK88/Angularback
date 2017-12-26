@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Contracts\Repositories\CategoryRepositoryInterface;
+use App\Contracts\Repositories\EventAchievementInterface;
 use App\Contracts\Repositories\EventRepositoryInterface;
 use App\Models\Event;
 use App\Models\EventAttendCategory;
@@ -11,18 +12,25 @@ use App\Models\EventCategories;
 use App\Models\EventType;
 use App\Models\Image;
 use App\Models\User;
+use App\Services\EventAchievementService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventsController extends ApiController
 {
     protected $event,
+        $eventAchievementService,
         $category;
 
-    public function __construct(EventRepositoryInterface $event, CategoryRepositoryInterface $category)
+    public function __construct(
+        EventRepositoryInterface $event,
+        CategoryRepositoryInterface $category,
+        EventAchievementService $eventAchievementService
+    )
     {
         $this->event = $event;
         $this->category = $category;
+        $this->eventAchievementService = $eventAchievementService;
     }
 
     /**
@@ -104,12 +112,12 @@ class EventsController extends ApiController
         $data = $request->all();
         //remove categories before event save
         // todo validation on unique event identifier
-        // todo add to separate table just for achievements and data gathering
         $categories = $data['categories'];
         unset($data['categories']);
         $event = $this->event->create($data);
-
         if(!$event) return $this->respondWithError('Event did not save');
+        //store event Achievement location
+        $this->eventAchievementService->createEntry($event);
         // if cat is here we can save it
         foreach ($categories as $categoryName => $value){
             $this->category->create($categoryName,$event->id);

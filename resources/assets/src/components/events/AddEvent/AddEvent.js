@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Radio } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, change } from 'redux-form';
 import { addEvent, getEventTypes } from '../../../actions/events';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
 import { config } from '../../../config';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import AddCategories from '../AddCategories';
+import moment from 'moment';
 
 class AddEvent extends Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class AddEvent extends Component {
       modalOpen: false,
       address: '',
       categoryBag: [],
+      startDate:null,
+      endDate:null,
     };
     this.onChange = address => this.setState({ address });
     this.addCategoryToBag = this.addCategoryToBag.bind(this);
@@ -26,6 +29,11 @@ class AddEvent extends Component {
     this.props.getEventTypes();
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.startDate && nextState.endDate === null) {
+      this.props.dispatch(change('addEventForm', 'end', new Date(moment(nextState.startDate).add(1,'days'))));
+    }
+  }
 
   onSubmit(values) {
     values.user_id = this.props.currentUser.user.id;
@@ -128,6 +136,7 @@ class AddEvent extends Component {
                   <Field
                     label="Event Start"
                     name="date"
+                    onChange={(e,value) => this.setState({ startDate: value })}
                     component={input.renderDatepicker}
                   />
                 </div>
@@ -135,6 +144,7 @@ class AddEvent extends Component {
                   <Field
                     label="Event End"
                     name="end"
+                    onChange={(e,value) => this.setState({ endDate: value })}
                     component={input.renderDatepicker}
                   />
                 </div>

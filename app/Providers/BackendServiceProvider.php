@@ -28,6 +28,5 @@ class BackendServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class,DbUserRepository::class);
         $this->app->bind(EventRepositoryInterface::class,DbEventRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class,DbCategoryRepository::class);
-
     }
 }
