@@ -14,7 +14,7 @@ class AddAchievement extends Component{
 
         this.state = {
             modalOpen: false,
-            selectedEvent:null
+          selectedEventCategories:null
         };
     }
 
@@ -26,17 +26,32 @@ class AddAchievement extends Component{
         this.setState({selectedEvent:null});
     }
 
-    handleOpen = () => this.setState({ modalOpen: true });
+    handleOpen() {
+      this.setState({
+        modalOpen: true
+      });
+    }
 
-    handleClose = () => this.setState({ modalOpen: false });
+    handleClose() {
+      this.setState({ modalOpen: false });
+    }
 
     renderSelect = (field) => {
         const error = !!(field.meta.touched && field.meta.error);
         return(
             <div>
-                <label>Search by Year <br/>
-                    or Exact Tournament Name and Year</label><br/>
-                <Dropdown fluid search selection  error={error} className={field.className} { ...field.input }  onChange={(param,data) => {field.input.onChange(data.value);this.selectEvent(data.value)}} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
+              <label>Search by Tournament Name<br/></label>
+                <Dropdown
+                  fluid
+                  search
+                  selection
+                  error={error}
+                  className={field.className} { ...field.input }
+                  onChange={(param,data) => {field.input.onChange(data.value);this.selectEvent(data.value)}}
+                  placeholder={field.placeholder}
+                  value={field.input.value}
+                  options={field.options}
+                />
                 <div style={{color:'red'}} className="text-help">
                     { field.meta.touched ? field.meta.error : '' }
                 </div>
@@ -44,7 +59,8 @@ class AddAchievement extends Component{
         )
     };
 
-    selectEvent(event){
+    selectEvent(eventId){
+      const event = _.find(this.props.events,['event_id',eventId]);
         this.setState({ selectedEvent: event });
     }
 
@@ -61,7 +77,6 @@ class AddAchievement extends Component{
     }
 
     render(){
-
         const{user} = this.props.currentUser;
         const handleSubmit = this.props.handleSubmit;
 
@@ -70,15 +85,16 @@ class AddAchievement extends Component{
 
         const events = _.map(_.filter(this.props.events,(e) => { return e.category.length !== 0}),event => {
             return {
-              key: event.location,
-              value: event,
+              key: event.event_id,
+              categories: event.category,
+              value: event.event_id,
               flag: event.location,
               text: `${event.title} ${event.date.substring(0, 4)}`
             };
         });
 
         return(
-            <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button disabled={events.length == 0 ? true : false} color={'black'}  onClick={this.handleOpen} className="float-right">{events.length == 0 ? 'No events':'Add'}</Button>}>
+            <Modal closeIcon size="mini" open={this.state.modalOpen}  onClose={() => this.handleClose()} trigger={<Button disabled={this.props.events.length == 0 ? true : false} color={'black'}  onClick={() => this.handleOpen()} className="float-right">{this.props.events.length == 0 ? 'No events':'Add'}</Button>}>
                 <Modal.Header>Add Achievement</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

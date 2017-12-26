@@ -31,14 +31,12 @@ class UpdateTriathlon extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         const countryOptions = _.map(this.props.events.events,event => {
-            if(this.props.fighter.club_id != 0 && ((event.club_id == this.props.fighter.club.id) || event.global)) {
-                return {
-                    key: event.location,
-                    value: event.id,
-                    flag: event.location,
-                    text: `${event.title} ${event.date.substring(0, 4)}`
-                };
-            }
+            return {
+                key: event.event_id,
+                value: event.id,
+                flag: event.location,
+                text: `${event.title} ${event.date.substring(0, 4)}`
+            };
         });
 
         const events = _.filter(countryOptions, function(o) { return o != undefined });

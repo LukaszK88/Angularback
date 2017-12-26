@@ -33,7 +33,7 @@ class UpdateBohurt extends Component{
 
         const countryOptions = _.map(this.props.events,event => {
             return {
-                key: event.location,
+                key: event.event_id,
                 value: event.event_id,
                 flag: event.location,
                 text: `${event.title} ${event.date.substring(0, 4)}`
