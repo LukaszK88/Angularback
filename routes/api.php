@@ -81,6 +81,7 @@ Route::get('/clubs-all','ClubsController@getAllClubs');
 Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 Route::post('/club-fighter','ClubsController@registerClubFighter');
 Route::get('/club-fighter-remove/{userId}','ClubsController@removeFighterFromClub');
+Route::get('/club-captain-replace/{userId}/{captainId}','ClubsController@replaceClubCaptain');
 
 
 // FEED

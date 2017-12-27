@@ -1,9 +1,20 @@
 import axios from 'axios';
 import { API } from './index';
-import { FETCH_CLUBS, FETCH_CLUB, FETCH_ALL_CLUBS, REMOVE_FIGHTER_FROM_CLUB } from './types';
+import { FETCH_CLUBS, FETCH_CLUB, FETCH_ALL_CLUBS, REMOVE_FIGHTER_FROM_CLUB, REPLACE_CAPTAIN } from './types';
 import { addFlashMessage } from './flashMessages';
 import request from 'superagent';
 import { loading } from './config';
+import { currentLoggedInUser } from './user';
+
+
+export function replaceCaptain(userId, captain) {
+  return axios.get(`${API}club-captain-replace/${userId}/${captain.id}`).then(response => (dispatch) => {
+    console.log(captain);
+    dispatch(addFlashMessage('success', response.data.message));
+    dispatch(fetchClub(captain.club_id));
+    dispatch(currentLoggedInUser(window.localStorage.getItem('token')));
+  });
+}
 
 
 export function removeFighterFromClub(userId) {

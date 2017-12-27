@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeFighterFromClub } from '../../../actions';
+import { removeFighterFromClub, replaceCaptain } from '../../../actions';
 import { Card, Icon, Image, List, Button, Popup } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
 import _ from 'lodash';
@@ -21,9 +21,12 @@ class ClubFighters extends Component {
             trigger={<Icon name="add" />}
             content="Add ranking record"
           />
-          <Popup
-            trigger={<Icon name="star" />}
-            content="Promote to Captain"
+          <DeleteConfirmIcon
+            iconName="star"
+            content="There can be only one captain..., promoting this fighter will demote you"
+            header="change captain"
+            action={() => this.props.replaceCaptain(fighter.id,this.props.currentUser.user)}
+            popupText="Promote to Captain"
           />
           <DeleteConfirmIcon
             iconName="user delete"
@@ -75,4 +78,4 @@ function mapStateToProps(state) {
   return { };
 }
 
-export default connect(mapStateToProps, { removeFighterFromClub })(ClubFighters);
+export default connect(mapStateToProps, { removeFighterFromClub, replaceCaptain })(ClubFighters);

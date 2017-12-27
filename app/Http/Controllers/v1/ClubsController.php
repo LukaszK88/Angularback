@@ -101,6 +101,13 @@ class ClubsController extends ApiController
         return $this->responseCreated('Fighter removed');
     }
 
+    public function replaceClubCaptain($userId, $captainId)
+    {
+        $this->user->replaceCaptain($userId,$captainId);
+
+        return $this->responseCreated('Captain changed');
+    }
+
     /**
      * @param Request $request
      * @param AuthService $authService

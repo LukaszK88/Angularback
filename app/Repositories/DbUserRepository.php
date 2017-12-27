@@ -22,4 +22,13 @@ class DbUserRepository implements UserRepositoryInterface
                 User::COL_CLUB_ID => 0
             ]);
     }
+
+    public function replaceCaptain($userId, $captainId)
+    {
+        $captain = User::find($captainId);
+        $clubId = $captain->club_id;
+        $captain->update([User::COL_CLUB_ADMIN_ID => 0]);
+
+        return $this->setUserAsClubAdmin($userId,$clubId);
+    }
 }
