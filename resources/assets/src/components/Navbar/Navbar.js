@@ -24,7 +24,7 @@ class NavbarComp extends Component {
           <Link className="nav-link" to="/ranking-clubs">Clubs</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/events">Events</Link>
+          <Link className="nav-link" to="/events">Feed / Events</Link>
         </li>
         <li className="nav-item">
           <Login />

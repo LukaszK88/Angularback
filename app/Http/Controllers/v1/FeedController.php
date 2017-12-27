@@ -7,10 +7,10 @@ use Carbon\Carbon;
 
 class FeedController extends ApiController
 {
-    public function getFeed()
+    public function getFeed($feedOffset = 1)
     {
-        $feed = Feed::
-        where(Feed::COL_CREATED_AT,'>=',Carbon::today()->subMonths(1))
+        $feedData = Feed::
+        where(Feed::COL_CREATED_AT,'>=',Carbon::today()->subMonths($feedOffset))
             ->with([
                 'user',
                 'event',
@@ -28,6 +28,9 @@ class FeedController extends ApiController
             ])
             ->orderBy(Feed::COL_CREATED_AT,'desc')
             ->get();
+
+        $feed['data'] = $feedData;
+        $feed['count'] = Feed::all()->count();
 
         return $this->respond($feed);
     }

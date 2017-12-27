@@ -32,7 +32,7 @@ class SideNavbar extends Component {
           <Link className="sideNavLink" to="/ranking-clubs">Clubs</Link>
         </Menu.Item>
         <Menu.Item name='events' active={activeMenuItem === 'events'} onClick={this.handleItemClick}>
-          <Link className="sideNavLink" to="/events">Events</Link>
+          <Link className="sideNavLink" to="/events">Feed / Events</Link>
         </Menu.Item>
         <Menu.Item name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to={`/profile/${user.id}`}>My Profile</Link>

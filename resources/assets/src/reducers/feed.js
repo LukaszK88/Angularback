@@ -1,7 +1,10 @@
 import { FETCH_FEED } from '../actions/types';
 
 const initState = {
-  feed: null,
+  feed: {
+    data:[],
+    count:null,
+  },
 };
 
 export default function (state = initState, action) {

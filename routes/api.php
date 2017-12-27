@@ -82,7 +82,7 @@ Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 Route::post('/club-fighter','ClubsController@registerClubFighter');
 
 // FEED
-Route::get('/feed','FeedController@getFeed');
+Route::get('/feed/{feedOffset}','FeedController@getFeed');
 
 
 

@@ -15,6 +15,7 @@ class EventListPage extends Component {
     super(props);
 
     this.state = {
+      currentFeedOffset: 1,
       toggleEventsMobile: false,
     };
   }
@@ -22,9 +23,10 @@ class EventListPage extends Component {
   toggleEvents() {
     this.setState({ toggleEventsMobile: !this.state.toggleEventsMobile });
   }
+
   componentDidMount() {
     this.props.fetchFutureEvents();
-    this.props.fetchFeed();
+    this.props.fetchFeed(this.state.currentFeedOffset);
   }
 
   // todo better name
@@ -50,6 +52,11 @@ class EventListPage extends Component {
     ));
   }
 
+  loadMoreFeeds() {
+    this.props.fetchFeed(this.state.currentFeedOffset + 1);
+    this.setState({ currentFeedOffset: this.state.currentFeedOffset + 1 });
+  }
+
   render() {
     const { isLoggedIn } = this.props;
 
@@ -58,7 +65,7 @@ class EventListPage extends Component {
         <div className="row">
           {(isLoggedIn) &&
           <div className="col-md-12 hidden-sm-down">
-            <AddEvent/>
+            <AddEvent />
           </div>
           }
           <div className="col-md-12 hidden-sm-up">
@@ -84,6 +91,11 @@ class EventListPage extends Component {
                   {this.renderFeed()}
                 </Feed>
               </Card.Content>
+              <Card.Content className="text-center" extra>
+                {(this.props.count > this.props.feed.length) &&
+                <Button onClick={() => this.loadMoreFeeds()} size="tiny" className="whiteButton">Load More</Button>
+                }
+              </Card.Content>
             </Card>
           </div>
           <div className={classNames(
@@ -106,7 +118,8 @@ function mapStateToProps(state) {
     eventsFuture: state.events.eventsFuture,
     currentUserClubId: state.currentUser.user.club_id,
     isLoggedIn: state.currentUser.isLoggedIn,
-    feed: state.feed.feed,
+    feed: state.feed.feed.data,
+    count: state.feed.feed.count,
   };
 }
 
