@@ -42,7 +42,17 @@ class UpdateSwordShield extends Component{
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
         return(
-            <Modal  closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+            <Modal
+              closeIcon
+              size={'tiny'}
+              open={this.state.modalOpen}
+              onClose={this.handleClose}
+              trigger={
+                  <Button color="black" onClick={this.handleOpen} style={{ padding:'5px', fontWeight:'100', fontSize:'11px'}} animated>
+                      <Button.Content visible>s&s</Button.Content>
+                      <Button.Content hidden>add</Button.Content>
+                  </Button>
+              }>
                 <Modal.Header>Update {this.props.fighter.name}
                     { (this.props.fighter.sword_shield.length  > 0 ) &&
                     <LastRecords category="sword_shield" fighter={this.props.fighter}/>

@@ -1,16 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeFighterFromClub, replaceCaptain } from '../../../actions';
-import { Card, Icon, Image, List, Button, Popup } from 'semantic-ui-react';
+import { removeFighterFromClub, replaceCaptain, fetchEventsAchievements } from '../../../actions';
+import { Card, Icon, Image, List, Button, Popup, Grid } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import AddFighter from '../partials/AddFighter';
 import { DeleteConfirmIcon } from '../../index';
+import UpdateBohurt from '../../ranking/bohurt/bohurtUpdate';
+import UpdateProfight from '../../ranking/profight/profightUpdate';
+import UpdateLongsword from '../../ranking/longsword/longswordUpdate';
+import UpdatePolearm from '../../ranking/polearm/polearmUpdate';
+import UpdateTriathlon from '../../ranking/triathlon/triathlonUpdate';
+import UpdateSwordBuckler from '../../ranking/swordBuckler/swordBucklerUpdate';
+import UpdateSwordShield from '../../ranking/swordShield/swordShieldUpdate';
 
 import './ClubFighters.css';
 
 class ClubFighters extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: null,
+    };
+  }
+
+  componentDidMount() {
+    this.props.fetchEventsAchievements();
+  }
+
+  handleOpen(fighter) {
+    this.setState({ isOpen: fighter.id });
+  }
+
+  handleClose() {
+    this.setState({ isOpen: null });
+  }
+
   renderClubFighters() {
     const { club } = this.props;
 
@@ -18,9 +45,39 @@ class ClubFighters extends Component {
       <List.Item key={fighter.id}>
         <List.Content floated="right" >
           <Popup
-            trigger={<Icon name="add" />}
-            content="Add ranking record"
-          />
+            style={{ zIndex: '10' }}
+            trigger={<Icon onClick={() => this.handleClose()} name="plus"/>}
+            flowing
+            position="top left"
+            on="click"
+            open={this.state.isOpen === fighter.id}
+            onOpen={() => this.handleOpen(fighter)}
+            hoverable
+          >
+            <div className="updateFighterRecordContainer" >
+              <div >
+                <UpdateBohurt events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdateProfight events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdateSwordShield events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdateLongsword events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdatePolearm events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdateSwordBuckler events={this.props.events} fighter={fighter}/>
+              </div>
+              <div>
+                <UpdateTriathlon events={this.props.events} fighter={fighter}/>
+              </div>
+            </div>
+          </Popup>
           <DeleteConfirmIcon
             iconName="star"
             content="There can be only one captain..., promoting this fighter will demote you"
@@ -75,7 +132,9 @@ class ClubFighters extends Component {
 }
 
 function mapStateToProps(state) {
-  return { };
+  return {
+    events: state.events.eventsAchievements,
+  };
 }
 
-export default connect(mapStateToProps, { removeFighterFromClub, replaceCaptain })(ClubFighters);
+export default connect(mapStateToProps, { removeFighterFromClub, replaceCaptain, fetchEventsAchievements })(ClubFighters);

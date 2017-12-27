@@ -21,7 +21,12 @@ class Triathlon extends Component {
           <div className="col-sm-7 col-6 ">
             <List.Content>
               <List.Header><Link to={`/profile/${fighter.id}`}> {fighter.name}</Link></List.Header>
+              {(fighter.club_id !== 0) &&
               <Link to={`/club/${fighter.club.id}`}>{fighter.club.name}</Link>
+              }
+              {(fighter.club_id === 0) &&
+              <span>mercenary</span>
+              }
             </List.Content>
           </div>
 

@@ -61,7 +61,7 @@ class DefaultLayout extends Component {
                 {this.props.children}
               </div>
               {this.props.isLoggedIn &&
-              <div className="col-sm-1 hidden-sm-down noMargin">
+              <div className="col-sm-1 hidden-sm-down noMargin sideNavContainer">
                 <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle} />
               </div>
               }

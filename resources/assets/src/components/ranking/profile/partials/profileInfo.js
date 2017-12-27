@@ -49,6 +49,9 @@ export default class ProfileInfo extends Component {
                       src={profile.user.club.logo}
                     />
                     </Link>}
+                    {(profile.user.club_id === 0) &&
+                    <span>mercenary</span>
+                    }
                   </List>
                 </div>
                 <div className="col-md-6">

@@ -54,6 +54,7 @@ class RankingFeed extends Component {
 
   render() {
     const { feed } = this.props;
+    console.log(feed);
     return (
       <Feed.Event>
         <Feed.Label>
@@ -67,9 +68,10 @@ class RankingFeed extends Component {
               </Link>
             </Feed.User>
             <span>{feed.body}</span>
-            {(feed.event_id !== null) && <Link to={`/event/${feed.event.id}`}>{feed.event.title}</Link>}
+            {(feed.event !== null) && <Link to={`/event/${feed.event.id}`}>{feed.event.title}</Link>}
             {(feed.achievement_id !== null) && <Link to={`/profile/${feed.user.id}`}><span dangerouslySetInnerHTML={{ __html: feed.achievement.cup }} /></Link>}
             {(feed.club_id !== null) && <Link to={`/club/${feed.club.id}`}>{feed.club.name}</Link>}
+            {(feed.club_id === 0) && <span>mercenary</span>}
             {(feed.event_attendance_id !== null) &&
             <span>
                 <Link to={`/event/${feed.event_attendance.event_id}`}>{feed.event_attendance.event.title}</Link>

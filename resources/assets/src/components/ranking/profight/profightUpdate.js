@@ -41,7 +41,17 @@ class UpdateProfight extends Component{
         const events = _.filter(countryOptions, function(o) { return o != undefined });
 
         return(
-                <Modal closeIcon size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<Icon onClick={this.handleOpen} name="edit"></Icon>}>
+                <Modal
+                  closeIcon
+                  size={'tiny'}
+                  open={this.state.modalOpen}
+                  onClose={this.handleClose}
+                  trigger={
+                      <Button color="black" onClick={this.handleOpen} style={{ padding:'5px', fontWeight:'100', fontSize:'11px'}} animated>
+                          <Button.Content visible>profight</Button.Content>
+                          <Button.Content hidden>add</Button.Content>
+                      </Button>
+                  }>
                 <Modal.Header>Update {this.props.fighter.name}
                     { (this.props.fighter.profight.length  > 0 ) &&
                     <LastRecords category="profight" fighter={this.props.fighter}/>
