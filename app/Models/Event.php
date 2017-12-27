@@ -27,6 +27,7 @@ class Event extends BaseModel
             TCOL_LOCATION = self::TABLE.'.'.self::COL_LOCATION,
             TCOL_BODY = self::TABLE.'.'.self::COL_BODY,
             TCOL_USER_ID= self::TABLE.'.'.self::COL_USER_ID,
+            TCOL_DATE= self::TABLE.'.'.self::COL_DATE,
             TCOL_EVENT_TYPE_ID = self::TABLE.'.'.self::COL_EVENT_TYPE_ID;
 
     protected $fillable=[

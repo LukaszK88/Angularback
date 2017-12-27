@@ -95,8 +95,8 @@ export function addEvent(data) {
   });
 }
 
-export function fetchUserHostedEvents(userId) {
-  const request = axios.get(`${API}events-host/${userId}`);
+export function fetchUserHostedEvents(userId,future) {
+  const request = axios.get(`${API}events-host/${userId}/${future}`);
 
   return {
     type: FETCH_USER_HOSTED_EVENTS,

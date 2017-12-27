@@ -11,9 +11,6 @@ import _ from 'lodash';
 BigCalendar.momentLocalizer(moment);
 
 class MyEventsPage extends Component {
-  componentDidMount() {
-    this.props.fetchUserHostedEvents(this.props.match.params.userId);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentUser.isLoggedIn === false) {
@@ -43,7 +40,7 @@ class MyEventsPage extends Component {
             <Attending attendence={this.props.currentUser.user.attendence} />
           </div>
           <div className="col-md-4">
-            <Hosting eventsHosted={this.props.eventsHosted} currentUser={this.props.currentUser} />
+            <Hosting userId={this.props.match.params.userId} currentUser={this.props.currentUser} />
           </div>
           <div className="col-md-4">
             <Card fluid>
@@ -67,7 +64,6 @@ class MyEventsPage extends Component {
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
-    eventsHosted: state.events.eventsHosted,
   };
 }
 

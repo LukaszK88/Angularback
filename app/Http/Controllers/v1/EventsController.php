@@ -106,9 +106,9 @@ class EventsController extends ApiController
         return $this->respond($events);
     }
 
-    public function getUserHostedEvents($userId)
+    public function getUserHostedEvents($userId,$future)
     {
-        $events = $this->event->getUserHosted($userId);
+        $events = $this->event->getUserHosted($userId, $future);
 
         return $this->respond($events);
     }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List, Icon, Card, Popup, Grid, Button } from 'semantic-ui-react';
+import { List, Icon, Card, Popup, Radio, Button } from 'semantic-ui-react';
 import { stringHelper } from '../../../helpers/string';
 import EditEvent from './EditEvent';
 import { EditCategories } from '../../events';
-import { deleteEvent } from '../../../actions/events';
+import { deleteEvent, fetchUserHostedEvents } from '../../../actions';
 import { ConfirmDelete } from '../../../components';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -17,7 +17,17 @@ class Hosting extends Component {
 
     this.state = {
       isOpen: null,
+      future:false,
     };
+  }
+
+  toggleFuturePastEvents() {
+    this.setState({ future: !this.state.future });
+    this.props.fetchUserHostedEvents(this.props.userId,this.state.future);
+  }
+
+  componentDidMount() {
+    this.props.fetchUserHostedEvents(this.props.userId,true);
   }
 
   handleOpen(event) {
@@ -113,7 +123,13 @@ class Hosting extends Component {
     return (
       <Card fluid>
         <Card.Content>
-          <Card.Header className="text-center">
+          <div className="float-left eventDateToggleContainer">
+            <Radio onClick={() => this.toggleFuturePastEvents()} slider/>
+            <span className="eventDataToggleText">
+              { this.state.future ? 'past events' : 'future events' }
+            </span>
+          </div>
+          <Card.Header className="text-center hostingCardHeader">
             Hosting
           </Card.Header>
           {(this.props.eventsHosted.length === 0) &&
@@ -130,4 +146,11 @@ class Hosting extends Component {
   }
 }
 
-export default connect(null, { deleteEvent })(Hosting);
+function mapStateToProps(state) {
+  return {
+    eventsHosted: state.events.eventsHosted,
+  };
+}
+
+
+export default connect(mapStateToProps, { deleteEvent, fetchUserHostedEvents })(Hosting);
