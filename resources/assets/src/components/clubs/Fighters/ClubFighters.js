@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Card, Icon, Image, List, Button } from 'semantic-ui-react';
+import { removeFighterFromClub } from '../../../actions';
+import { Card, Icon, Image, List, Button, Popup } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import AddFighter from '../partials/AddFighter';
+import { DeleteConfirmIcon } from '../../index';
 
 import './ClubFighters.css';
 
@@ -15,12 +16,33 @@ class ClubFighters extends Component {
 
     return _.map(club.fighters, fighter => (
       <List.Item key={fighter.id}>
-        <List.Content floated="right" />
+        <List.Content floated="right" >
+          <Popup
+            trigger={<Icon name="add" />}
+            content="Add ranking record"
+          />
+          <Popup
+            trigger={<Icon name="star" />}
+            content="Promote to Captain"
+          />
+          <DeleteConfirmIcon
+            iconName="user delete"
+            content="Are you sure you want to remove this fighter?"
+            header="remove from club"
+            action={() => this.props.removeFighterFromClub(fighter.id)}
+            popupText="remove from club"
+          />
+        </List.Content>
         <List.Content floated="left">
           <Image src={userHelper.getImage(fighter)} shape="rounded" size="tiny" />
         </List.Content>
         <List.Content>
-          <List.Header><a><Link to={`/profile/${fighter.id}`}>{fighter.name}</Link></a></List.Header>
+          <List.Header><a><Link to={`/profile/${fighter.id}`}>
+            {fighter.name}
+            {(fighter.club_admin_id === fighter.club_id) ? <Icon name="favorite" /> : ''}
+          </Link>
+          </a>
+          </List.Header>
         </List.Content>
       </List.Item>
     ));
@@ -32,7 +54,7 @@ class ClubFighters extends Component {
         {userHelper.isClubAdmin(this.props.currentUser, this.props.club.id) &&
         <Card.Content extra>
           <div className="float-right">
-            <AddFighter clubId={this.props.club.id}/>
+            <AddFighter clubId={this.props.club.id} />
           </div>
         </Card.Content>
         }
@@ -53,8 +75,4 @@ function mapStateToProps(state) {
   return { };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({});
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClubFighters);
+export default connect(mapStateToProps, { removeFighterFromClub })(ClubFighters);

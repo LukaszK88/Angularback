@@ -14,4 +14,12 @@ class DbUserRepository implements UserRepositoryInterface
                     User::COL_CLUB_ID => $clubId
                 ]);
     }
+
+    public function removeFromClub($userId)
+    {
+        return  User::where(User::COL_ID,$userId)
+            ->update([
+                User::COL_CLUB_ID => 0
+            ]);
+    }
 }

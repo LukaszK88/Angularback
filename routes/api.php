@@ -80,6 +80,8 @@ Route::post('/club-logo/{id}','ClubsController@storeClubLogo');
 Route::get('/clubs-all','ClubsController@getAllClubs');
 Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 Route::post('/club-fighter','ClubsController@registerClubFighter');
+Route::get('/club-fighter-remove/{userId}','ClubsController@removeFighterFromClub');
+
 
 // FEED
 Route::get('/feed/{feedOffset}','FeedController@getFeed');

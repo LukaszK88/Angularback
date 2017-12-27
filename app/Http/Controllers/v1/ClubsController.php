@@ -94,6 +94,13 @@ class ClubsController extends ApiController
         return $this->responseCreated('Fighter added');
     }
 
+    public function removeFighterFromClub($userId)
+    {
+        $this->user->removeFromClub($userId);
+
+        return $this->responseCreated('Fighter removed');
+    }
+
     /**
      * @param Request $request
      * @param AuthService $authService

@@ -1,12 +1,23 @@
 import axios from 'axios';
 import { API } from './index';
-import { FETCH_CLUBS, FETCH_CLUB, FETCH_ALL_CLUBS } from './types';
+import { FETCH_CLUBS, FETCH_CLUB, FETCH_ALL_CLUBS, REMOVE_FIGHTER_FROM_CLUB } from './types';
 import { addFlashMessage } from './flashMessages';
 import request from 'superagent';
 import { loading } from './config';
 
-export function fetchClubs($country = 0, $year = 0) {
-  const request = axios.get(`${API}clubs/${$country}/${$year}`);
+
+export function removeFighterFromClub(userId) {
+  return axios.get(`${API}club-fighter-remove/${userId}`).then(response => (dispatch) => {
+    dispatch(addFlashMessage('success', response.data.message));
+    dispatch({
+      type: REMOVE_FIGHTER_FROM_CLUB,
+      payload: userId,
+    });
+  });
+}
+
+export function fetchClubs(country = 0, year = 0) {
+  const request = axios.get(`${API}clubs/${country}/${year}`);
 
   return {
     type: FETCH_CLUBS,
