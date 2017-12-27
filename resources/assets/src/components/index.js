@@ -6,3 +6,6 @@ export { default as RegisterUser } from './User/UserRegister';
 export { default as RegisterClub } from './User/ClubRegister';
 export { default as SideNavbar } from './SideNavbar';
 export { default as ChangePassword } from './User/ChangePassword';
+export { default as Login } from './User/Login';
+export { default as Password } from './User/Password';
+export { default as ForgotPassword } from './User/ForgotPassword';

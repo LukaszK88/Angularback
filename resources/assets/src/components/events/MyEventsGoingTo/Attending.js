@@ -52,7 +52,6 @@ class Attending extends Component {
   }
 
   render() {
-    console.log(this.props.attendence);
     return (
       <Card fluid>
         <Card.Content>

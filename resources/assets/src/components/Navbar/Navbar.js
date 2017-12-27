@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import LoginModal from '../auth/login';
+import { Login } from '../index';
 import { logout } from '../../actions';
 import { Image } from 'semantic-ui-react';
 import { config } from '../../config';
@@ -27,7 +27,7 @@ class NavbarComp extends Component {
           <Link className="nav-link" to="/events">Events</Link>
         </li>
         <li className="nav-item">
-          <LoginModal />
+          <Login />
         </li>
         <li className="nav-item">
           <JoinClub />

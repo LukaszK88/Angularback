@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { loginUser } from '../../actions';
+import { loginUser, loading } from '../../../actions';
 import { withRouter } from 'react-router-dom';
-import { input } from '../../helpers/input';
-import { loading } from '../../actions/config';
+import { input } from '../../../helpers/input';
 
 class PasswordModal extends Component {
   constructor(props) {
@@ -24,31 +23,24 @@ class PasswordModal extends Component {
     const handleSubmit = this.props.handleSubmit;
 
     return (
-      <Modal closeIcon size="tiny" open={this.props.passwordModal} onClose={this.props.handleClose} trigger={<Button loading={this.props.config.loading} color="black" type="submit">Login</Button>}>
-        <Modal.Header>Login </Modal.Header>
-        <Modal.Content image>
-          <Modal.Description>
-            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-              <Field
-                label="Password"
-                name="password"
-                type="password"
-                component={input.renderField}
-              />
-              {this.props.createPassword &&
-              <Field
-                label="Confirm Password"
-                name="newPasswordAgain"
-                type="password"
-                component={input.renderField}
-              />
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <Field
+          label="Password"
+          name="password"
+          type="password"
+          component={input.renderField}
+        />
+        {this.props.createPassword &&
+        <Field
+          label="Confirm Password"
+          name="newPasswordAgain"
+          type="password"
+          component={input.renderField}
+        />
               }
-              <br />
-              <Button loading={this.props.config.loading} color="black" type="submit">Login</Button>
-            </form>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
+        <br />
+        <Button loading={this.props.config.loading} color="black" type="submit">Login</Button>
+      </form>
     );
   }
 }
