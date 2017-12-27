@@ -18,8 +18,8 @@ class AddEvent extends Component {
       modalOpen: false,
       address: '',
       categoryBag: [],
-      startDate:null,
-      endDate:null,
+      startDate: null,
+      endDate: null,
     };
     this.onChange = address => this.setState({ address });
     this.addCategoryToBag = this.addCategoryToBag.bind(this);
@@ -31,7 +31,7 @@ class AddEvent extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.startDate && nextState.endDate === null) {
-      this.props.dispatch(change('addEventForm', 'end', new Date(moment(nextState.startDate).add(1,'days'))));
+      this.props.dispatch(change('addEventForm', 'end', new Date(moment(nextState.startDate).add(1, 'days'))));
     }
   }
 
@@ -86,7 +86,13 @@ class AddEvent extends Component {
 
     return (
 
-      <Modal closeIcon size="tiny" open={this.state.modalOpen} onClose={() => this.handleClose()} trigger={<Button color="black" onClick={() => this.handleOpen()}>Add Event </Button>}>
+      <Modal
+        closeIcon
+        size="tiny"
+        open={this.state.modalOpen}
+        onClose={() => this.handleClose()}
+        trigger={<Button className="float-right" color="black" onClick={() => this.handleOpen()}>Add Event </Button>}
+      >
         <Modal.Header>Add Event</Modal.Header>
         <Modal.Content>
           <Modal.Description>
@@ -136,7 +142,7 @@ class AddEvent extends Component {
                   <Field
                     label="Event Start"
                     name="date"
-                    onChange={(e,value) => this.setState({ startDate: value })}
+                    onChange={(e, value) => this.setState({ startDate: value })}
                     component={input.renderDatepicker}
                   />
                 </div>
@@ -144,7 +150,7 @@ class AddEvent extends Component {
                   <Field
                     label="Event End"
                     name="end"
-                    onChange={(e,value) => this.setState({ endDate: value })}
+                    onChange={(e, value) => this.setState({ endDate: value })}
                     component={input.renderDatepicker}
                   />
                 </div>

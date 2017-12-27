@@ -116,7 +116,7 @@ class TabsComp extends Component {
             <Button
               onClick={() => this.handleToggle()}
               color="black"
-            >{this.props.ranking.category}
+            >{this.props.ranking.category.replace('_',' ')}
             </Button>
             <Drawer
               containerClassName="bg"
@@ -127,13 +127,13 @@ class TabsComp extends Component {
             >
               <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Total')}>Total</MenuItem>
               <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Leaderboard')}>Leaderboard</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Bohurt')}>Bohurt</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Profight')}>Profight</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Sword&Shield')}>Sword&Shield</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Longsword')}>Longsword</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Sword&Buckler')}>Sword&Buckler</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Triathlon')}>Triathlon</MenuItem>
-              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('Polearm')}>Polearms</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('bohurt')}>Bohurt</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('profight')}>Profight</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('sword_shield')}>Sword&Shield</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('longsword')}>Longsword</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('sword_buckler')}>Sword&Buckler</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('triathlon')}>Triathlon</MenuItem>
+              <MenuItem className="menuDrawerItem" onClick={() => this.switchCategory('polearm')}>Polearms</MenuItem>
             </Drawer>
           </div>
           <div className="col-4">
@@ -196,49 +196,49 @@ class TabsComp extends Component {
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Bohurt' &&
+            {this.props.ranking.category === 'bohurt' &&
             <Bohurt
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Profight' &&
+            {this.props.ranking.category === 'profight' &&
             <Profight
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Sword&Shield' &&
+            {this.props.ranking.category === 'sword_shield' &&
             <SwordShield
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Longsword' &&
+            {this.props.ranking.category === 'longsword' &&
             <Longsword
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Sword&Buckler' &&
+            {this.props.ranking.category === 'sword_buckler' &&
             <SwordBuckler
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Triathlon' &&
+            {this.props.ranking.category === 'triathlon' &&
             <Triathlon
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}
               fighters={this.props.ranking.fighters}
             />
             }
-            {this.props.ranking.category === 'Polearm' &&
+            {this.props.ranking.category === 'polearm' &&
             <Polearm
               events={this.props.eventsAchievements}
               fetchFighters={this.props.fetchFighters}

@@ -11,7 +11,7 @@ const EventListCard = ({
   event,
 }) => (
   <Card fluid >
-    <Card.Content style={{ padding: '5px 5px' }}>
+    <Card.Content style={{ padding: '0px 5px' }}>
       <Feed.Event>
         <Feed.Content >
           <Feed.Summary>

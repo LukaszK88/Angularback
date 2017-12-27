@@ -32,8 +32,6 @@ class Attending extends Component {
                   format={{
                     day: 'DD',
                     hour: 'HH',
-                    minute: 'MM',
-                    second: 'SS',
                   }}
                   interval={1000}
                   timeSeparator=":"

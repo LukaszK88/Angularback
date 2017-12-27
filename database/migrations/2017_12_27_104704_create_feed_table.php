@@ -22,6 +22,13 @@ class CreateFeedTable extends Migration
             $table->integer('event_id')->nullable();
             $table->integer('achievement_id')->nullable();
             $table->integer('event_attendance_id')->nullable();
+            $table->integer('bohurt_id')->nullable();
+            $table->integer('polearm_id')->nullable();
+            $table->integer('sword_shield_id')->nullable();
+            $table->integer('sword_buckler_id')->nullable();
+            $table->integer('triathlon_id')->nullable();
+            $table->integer('profight_id')->nullable();
+            $table->integer('longsword_id')->nullable();
             $table->timestamps();
         });
     }
