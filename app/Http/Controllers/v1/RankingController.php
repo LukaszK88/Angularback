@@ -4,7 +4,9 @@ namespace App\Http\Controllers\v1;
 
 use App\Contracts\Repositories\FighterRepositoryInterface;
 use App\Http\Transformers\RankingTransformer;
+use App\Models\Feed;
 use App\Models\User;
+use App\Services\FeedService;
 use App\Services\RankingService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -127,6 +129,11 @@ class RankingController extends ApiController
         if($record){
             $this->fighter->updateFightsAndPoints($record,$category);
         }
+
+        FeedService::feedEntry(
+            FeedService::RANKING_RECORD,
+            [$category.'_id' => $record->id ?? 0, Feed::COL_USER_ID => $request->input('user_id')]);
+
         return $this->responseCreated('Fighter record updated');
     }
 

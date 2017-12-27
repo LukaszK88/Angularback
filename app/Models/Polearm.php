@@ -15,6 +15,11 @@ class Polearm extends BaseRanking
         self::COL_LOSS
     ];
 
+    public function eventAchievement()
+    {
+        return $this->belongsTo(EventAchievement::class,'event_id','event_id');
+    }
+
     public function user()
     {
         return $this->belongsToMany(User::class);

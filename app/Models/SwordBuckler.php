@@ -16,6 +16,11 @@ class SwordBuckler extends BaseRanking
 
     ];
 
+    public function eventAchievement()
+    {
+        return $this->belongsTo(EventAchievement::class,'event_id','event_id');
+    }
+
     public function user()
     {
         return $this->belongsToMany(User::class);

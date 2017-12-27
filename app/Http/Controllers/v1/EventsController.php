@@ -11,9 +11,11 @@ use App\Models\EventAttendCategory;
 use App\Models\EventAttendence;
 use App\Models\EventCategories;
 use App\Models\EventType;
+use App\Models\Feed;
 use App\Models\Image;
 use App\Models\User;
 use App\Services\EventAchievementService;
+use App\Services\FeedService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -21,17 +23,20 @@ class EventsController extends ApiController
 {
     protected $event,
         $eventAchievementService,
-        $category;
+        $category,
+        $feedService;
 
     public function __construct(
         EventRepositoryInterface $event,
         CategoryRepositoryInterface $category,
-        EventAchievementService $eventAchievementService
+        EventAchievementService $eventAchievementService,
+        FeedService $feedService
     )
     {
         $this->event = $event;
         $this->category = $category;
         $this->eventAchievementService = $eventAchievementService;
+        $this->feedService = $feedService;
     }
 
     /**
@@ -117,6 +122,10 @@ class EventsController extends ApiController
         unset($data['categories']);
         $event = $this->event->create($data);
         if(!$event) return $this->respondWithError('Event did not save');
+
+        FeedService::feedEntry(
+            FeedService::CREATED_EVENT,
+            [Feed::COL_EVENT_ID => $event->id, Feed::COL_USER_ID => $data['user_id']]);
         //store event Achievement location
         if($event->event_type_id === 1) {
             $this->eventAchievementService->createEntry($event);
@@ -204,6 +213,10 @@ class EventsController extends ApiController
                     ->delete();
             }
         }
+
+        FeedService::feedEntry(
+            FeedService::ATTENDING,
+            [Feed::COL_EVENT_ATTENDANCE_ID => $attendance->id ?? 0, Feed::COL_USER_ID => $userId]);
 
         return $this->respond($attendance);
     }

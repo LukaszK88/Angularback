@@ -21,6 +21,11 @@ class Longsword extends BaseRanking {
         self::COL_FIGHTS,
         self::COL_LOSS
     ];
+
+    public function eventAchievement()
+    {
+        return $this->belongsTo(EventAchievement::class,'event_id','event_id');
+    }
     
     public function user()
     {

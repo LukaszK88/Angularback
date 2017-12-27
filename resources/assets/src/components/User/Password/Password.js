@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { loginUser, loading } from '../../../actions';
 import { withRouter } from 'react-router-dom';

@@ -38,9 +38,14 @@ class Bohurt extends Model{
         self::COL_POINTS
     ];
 
+    public function eventAchievement()
+    {
+        return $this->belongsTo(EventAchievement::class,'event_id','event_id');
+    }
+
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class,'event_id','id');
     }
     
     public function user()

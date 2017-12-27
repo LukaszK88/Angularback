@@ -4,6 +4,8 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Achievement;
 use App\Models\Event;
+use App\Models\Feed;
+use App\Services\FeedService;
 use Illuminate\Http\Request;
 
 class AchievementController extends ApiController
@@ -44,16 +46,6 @@ class AchievementController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,6 +60,10 @@ class AchievementController extends ApiController
         $data[Achievement::COL_CUP] = $this->prepareCup($data);
 
         $achievement = Achievement::create($data);
+
+        FeedService::feedEntry(
+            FeedService::ACHIEVEMENT,
+            [Feed::COL_ACHIEVEMENT_ID => $achievement->id, Feed::COL_USER_ID => $data['user_id']]);
 
         return $this->respondWithMessageAndData('Achievement added',$achievement);
 
@@ -87,16 +83,6 @@ class AchievementController extends ApiController
        return $this->respond($achievement);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

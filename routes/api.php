@@ -81,6 +81,11 @@ Route::get('/clubs-all','ClubsController@getAllClubs');
 Route::post('/club-action/{action}','ClubsController@takeClubAdminAction');
 Route::post('/club-fighter','ClubsController@registerClubFighter');
 
+// FEED
+Route::get('/feed','FeedController@getFeed');
+
+
+
 //BLOG
 Route::resource('/post','PostsController');
 Route::get('/posts/{type}','PostsController@getPostsOfType');
