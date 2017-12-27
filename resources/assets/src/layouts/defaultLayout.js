@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, SideNavbar } from '../components';
-import { Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react';
 import FlashMessages from '../helpers/message';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
@@ -25,19 +25,35 @@ class DefaultLayout extends Component {
       <div>
         <FlashMessages />
         {!this.props.isLoggedIn &&
-        <Navbar />
+          <div>
+            <div className="hidden-sm-down">
+              <Navbar />
+            </div>
+            <div className="container-fluid">
+              <div style={{ marginBottom: (!this.state.mobileNavToggle ? '5px' : '') }} className="row topMenuToggleButton">
+                <Icon className="toggleBurger" onClick={() => this.toggleMobileNav()} size="large" name="content" />
+              </div>
+              {this.state.mobileNavToggle &&
+                <div className="row">
+                  <Navbar />
+                </div>
+              }
+            </div>
+          </div>
         }
         <div>
           <div className="container-fluid">
+            {this.props.isLoggedIn &&
             <div className="row sideMenuToggleButton">
-              <Icon className="toggleBurger" onClick={() => this.toggleMobileNav()} size="large" name="content"/>
+              <Icon className="toggleBurger" onClick={() => this.toggleMobileNav()} size="large" name="content" />
               {this.state.mobileNavToggle &&
-                <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle}/>
+              <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle} />
               }
             </div>
+            }
             <div className="row">
               <div
-                style={{ marginTop:(!this.props.isLoggedIn ? '5px' : '15px')}}
+                style={{ marginTop: (!this.props.isLoggedIn ? '5px' : '15px') }}
                 className={
                   classNames(!this.props.isLoggedIn ? 'col-12' : 'col-sm-11 col-12')
                 }
@@ -46,7 +62,7 @@ class DefaultLayout extends Component {
               </div>
               {this.props.isLoggedIn &&
               <div className="col-sm-1 hidden-sm-down noMargin">
-                <SideNavbar toggleMobileNav={() => this.toggleMobileNav()}  mobileNavToggle={this.state.mobileNavToggle}/>
+                <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle} />
               </div>
               }
             </div>

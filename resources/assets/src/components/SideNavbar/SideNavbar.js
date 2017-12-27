@@ -19,8 +19,8 @@ class SideNavbar extends Component {
     const { user, clubAdmin, admin, activeMenuItem } = this.props;
 
     return (
-      <div className={this.state.mobileNavToggle ? 'showSideNav' : 'hideSideNav'}>
-      <Menu fluid size='mini' vertical>
+      <div className='showSideNav'>
+      <Menu  fluid size='mini' vertical>
         <Menu.Item name='avatar' active={activeMenuItem === 'avatar'} onClick={this.handleItemClick}>
           <Icon className="hidden-sm-up" onClick={() => this.props.toggleMobileNav()} name="chevron right" />
           <div className="sideNavAvatar"><Image avatar src={userHelper.getImage(user)}/></div>

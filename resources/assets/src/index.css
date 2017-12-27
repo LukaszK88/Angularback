@@ -161,45 +161,7 @@ body {
   background-color: black;
   color: white;
 }
-@media (max-width: 752px){
 
-  .navbar-toggleable-md .navbar-nav .nav-item .nav-link{
-    text-align: right;
-
-  }
-}
-
-@media (min-width: 992px){
-  .navbar-toggleable-md .navbar-nav{
-    margin-left: auto;
-  }
-
-  ul.navbar-nav.mr-auto{
-    margin-right: 0px!important;
-    margin-left: auto!important;
-  }
-
-  .navbar-toggleable-md .navbar-nav .nav-item .nav-link{
-    font-size: large;
-    cursor: pointer;
-    transition: linear 0.1s;
-  }
-
-  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:hover{
-    color: black;
-    margin-top: -3px;
-    border-bottom: 2px solid black;
-  }
-
-  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:active{
-    color: white;
-    background-color: black;
-    margin-top: -3px;
-    border-radius: 25px;
-
-  }
-
-}
 
 .ui.segment{
   padding:0px!important;
