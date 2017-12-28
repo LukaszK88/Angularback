@@ -75,10 +75,12 @@ class RankingFeed extends Component {
             {(feed.event_attendance_id !== null) &&
             <span>
                 <Link to={`/event/${feed.event_attendance.event_id}`}>{feed.event_attendance.event.title}</Link>
-                <Feed.Extra text>
-                  <div> will fight in:</div>
-                  {this.renderCategories(feed.event_attendance)}
-                </Feed.Extra>
+              {(feed.event_attendance.event_attend_category.length !== 0) &&
+              <Feed.Extra text>
+                <div> will fight in:</div>
+                {this.renderCategories(feed.event_attendance)}
+              </Feed.Extra>
+              }
               </span>
             }
             {(feed.bohurt_id || feed.polearm_id || feed.sword_shield_id || feed.sword_buckler_id || feed.longsword_id || feed.profight_id || feed.triathlon_id) &&

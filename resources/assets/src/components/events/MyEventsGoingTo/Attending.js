@@ -38,10 +38,12 @@ class Attending extends Component {
                   leadingZero
                 />
               </List.Header>
+              {(attending.event_attend_category.length > 0) &&
               <List.Description>
-                Fighting in:<br />
+                Fighting in:<br/>
                 {this.renderCategories(attending)}
               </List.Description>
+              }
             </List.Content>
           </List.Item>
         );

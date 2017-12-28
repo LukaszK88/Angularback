@@ -19,6 +19,7 @@ class Club extends Model
         COL_FOUNDATION = 'foundation',
         COL_ACTIVE = 'active',
         COL_FOUNDER = 'founder',
+        COL_CLUB_ID = 'club_id',
         COL_COUNTRY = 'country';
 
     const TCOL_NAME = self::TABLE.'.'.self::COL_NAME;
@@ -32,7 +33,8 @@ class Club extends Model
         self::COL_ACTIVE,
         self::COL_LOGO,
         self::COL_FOUNDER,
-        self::COL_COUNTRY
+        self::COL_COUNTRY,
+        self::COL_CLUB_ID,
     ];
 
     public function users()

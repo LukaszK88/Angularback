@@ -87,6 +87,7 @@ class EventPageCard extends Component {
           </p>
         </Card.Content>
         }
+        {event.category.length !== 0 &&
         <Card.Content>
           <Card.Header className="text-center">
             Event Categories
@@ -95,6 +96,7 @@ class EventPageCard extends Component {
             {this.renderCategories()}
           </List>
         </Card.Content>
+        }
       </Card>
     );
   }

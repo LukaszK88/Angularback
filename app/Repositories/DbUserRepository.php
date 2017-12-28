@@ -19,7 +19,7 @@ class DbUserRepository implements UserRepositoryInterface
     {
         return  User::where(User::COL_ID,$userId)
             ->update([
-                User::COL_CLUB_ID => 0
+                User::COL_CLUB_ID => 1
             ]);
     }
 

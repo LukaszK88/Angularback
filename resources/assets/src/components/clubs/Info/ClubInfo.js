@@ -18,7 +18,7 @@ const ClubInfo = ({
           <List>
             <List.Item
               icon="certificate"
-              content={`Club Total Points: ${club.total_points}`}
+              content={`Total Points: ${club.total_points}`}
             />
             <List.Item icon="certificate" content="Attended Events: coming soon..." />
             <List.Item icon="certificate" content={`Total Fights: ${club.total_fights}`} />

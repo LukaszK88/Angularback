@@ -43,9 +43,10 @@ class ClubFighters extends Component {
 
     return _.map(club.fighters, fighter => (
       <List.Item key={fighter.id}>
-        <List.Content floated="right" >
+        {userHelper.isClubAdmin(this.props.currentUser, this.props.club.id) &&
+        <List.Content floated="right">
           <Popup
-            style={{ zIndex: '10' }}
+            style={{zIndex: '10'}}
             trigger={<Icon onClick={() => this.handleClose()} name="plus"/>}
             flowing
             position="top left"
@@ -54,8 +55,8 @@ class ClubFighters extends Component {
             onOpen={() => this.handleOpen(fighter)}
             hoverable
           >
-            <div className="updateFighterRecordContainer" >
-              <div >
+            <div className="updateFighterRecordContainer">
+              <div>
                 <UpdateBohurt events={this.props.events} fighter={fighter}/>
               </div>
               <div>
@@ -82,7 +83,7 @@ class ClubFighters extends Component {
             iconName="star"
             content="There can be only one captain..., promoting this fighter will demote you"
             header="change captain"
-            action={() => this.props.replaceCaptain(fighter.id,this.props.currentUser.user)}
+            action={() => this.props.replaceCaptain(fighter.id, this.props.currentUser.user)}
             popupText="Promote to Captain"
           />
           <DeleteConfirmIcon
@@ -93,6 +94,7 @@ class ClubFighters extends Component {
             popupText="remove from club"
           />
         </List.Content>
+        }
         <List.Content floated="left">
           <Image src={userHelper.getImage(fighter)} shape="rounded" size="tiny" />
         </List.Content>
@@ -120,7 +122,7 @@ class ClubFighters extends Component {
         }
         <Card.Content>
           <Card.Header className="text-center" >
-            Club Fighters
+            {(this.props.club.id !== 1 ? 'Club Fighters' : 'Mercenaries')}
           </Card.Header>
           <List divided verticalAlign="middle">
             {this.renderClubFighters()}

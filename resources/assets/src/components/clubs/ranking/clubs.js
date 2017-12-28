@@ -36,7 +36,7 @@ class Clubs extends Component {
   prepareClubCountryLocations(clubs) {
     const all = [{ key: 0, value: 0, text: 'All' }];
     const locations = _.map(clubs, (club) => {
-      const txt = _.find(config.select.locations, location => location.countryCode === club.country);
+      const txt = _.pick(_.find(config.select.locations, location => location.countryCode === club.country),_.identity);
       return {
         key: club.id, flag: club.country, value: club.country, text: txt.name,
       };
