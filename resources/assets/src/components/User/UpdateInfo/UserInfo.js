@@ -25,7 +25,8 @@ class UpdateUser extends Component {
     this.props.dispatch(change('updateUser', 'weight', this.props.currentUser.user.weight));
     this.props.dispatch(change('updateUser', 'about', this.props.currentUser.user.about));
     this.props.dispatch(change('updateUser', 'quote', this.props.currentUser.user.quote));
-    this.props.dispatch(change('updateUser', 'age', new Date(this.props.currentUser.user.age.replace(' ', 'T'))));
+    this.props.dispatch(change('updateUser', 'age',
+      (this.props.currentUser.user.age === null ? new Date("1988/01/01 00:00:00") : new Date(this.props.currentUser.user.age.replace(' ', 'T')))));
     this.props.fetchClubs();
   }
 

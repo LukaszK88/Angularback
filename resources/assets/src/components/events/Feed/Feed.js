@@ -76,9 +76,11 @@ class RankingFeed extends Component {
             <span>{feed.body}</span>
             {(feed.event !== null) && <Link to={`/event/${feed.event.id}`}>{feed.event.title}</Link>}
             {(feed.achievement !== null) && <Link to={`/profile/${feed.user.id}`}><span dangerouslySetInnerHTML={{ __html: feed.achievement.cup }} /></Link>}
-            {(feed.club_id !== null) && <Link to={`/club/${feed.club.id}`}>{feed.club.name}</Link>}
+            {(feed.club !== null) && <Link to={`/club/${feed.club.id}`}>{feed.club.name}</Link>}
             {(feed.club_id === 0) && <span>mercenary</span>}
-            {(feed.club_join_id !== null) &&  <Link to={`/club/${feed.user.club.id}`}>{feed.user.club.name}</Link>}
+            {(feed.club_join_id !== null) &&  <Link to={`/club/${feed.club_join_id}`}>
+              {feed.user === null ? 'Here' : feed.user.club.name }
+              </Link>}
             {(feed.event_attendance !== null) &&
             <span>
                 <Link to={`/event/${feed.event_attendance.event_id}`}>{feed.event_attendance.event.title}</Link>

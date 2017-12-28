@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DefaultLayout from '../../layouts/defaultLayout';
 import BigCalendar from 'react-big-calendar';
-import { fetchUserHostedEvents } from '../../actions/events';
+import { fetchUserHostedEvents, currentLoggedInUser } from '../../actions';
 import moment from 'moment';
 import { Attending, Hosting } from '../../components/events';
 import { Card } from 'semantic-ui-react';
@@ -16,6 +16,10 @@ class MyEventsPage extends Component {
     if (nextProps.currentUser.isLoggedIn === false) {
       this.props.history.push('/ranking');
     }
+  }
+
+  componentDidMount() {
+    this.props.currentLoggedInUser(window.localStorage.getItem('token'));
   }
 
   goToEvent(event) {
@@ -67,4 +71,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchUserHostedEvents })(MyEventsPage);
+export default connect(mapStateToProps, { fetchUserHostedEvents, currentLoggedInUser })(MyEventsPage);

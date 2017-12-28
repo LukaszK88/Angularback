@@ -17,7 +17,7 @@ const EventListCard = ({
           <Feed.Summary>
             <div className="row eventListTitleContainer">
               <Link to={`/event/${event.id}`}>   <div className="eventListCardTitle"><Flag name={event.location} />  {event.title}</div> </Link>
-              <div className="eventListCardHost">Added by: {event.user.name}</div>
+              <div className="eventListCardHost">Added by: {event.user === null ? 'unknown' : event.user.name}</div>
             </div>
             <div className="row eventListCountdownContainer">
               <div className="eventListCardCountdown">

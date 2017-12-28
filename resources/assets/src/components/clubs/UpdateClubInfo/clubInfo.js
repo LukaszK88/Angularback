@@ -34,7 +34,9 @@ class ClubInfo extends Component {
     this.props.dispatch(change('updateClubInfo', 'fb', this.props.club.fb));
     this.props.dispatch(change('updateClubInfo', 'description', this.props.club.description));
     this.props.dispatch(change('updateClubInfo', 'motto', this.props.club.motto));
-    this.props.dispatch(change('updateClubInfo', 'foundation', this.props.club.foundation));
+    this.props.dispatch(change('updateClubInfo', 'foundation',
+      (this.props.club.foundation === null ? new Date() : new Date(this.props.club.foundation.replace(' ', 'T')))));
+
     this.props.dispatch(change('updateClubInfo', 'country', this.props.club.country));
     this.setState({ modalOpen: true });
   }

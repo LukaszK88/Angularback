@@ -34,32 +34,28 @@ class TabsComp extends Component {
       navClass: '',
       open: false,
       openSecondary: false,
-      clubId: 0,
+      clubId: null,
       tooltipOpen: false,
     };
   }
 
   componentDidMount() {
     this.props.fetchClubs();
-    this.props.fetchFighters();
     this.props.fetchEventsAchievements();
     this.props.fetchLeaderboard();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.clubId == null && nextProps.currentUser.isLoggedIn) {
-      if (nextProps.currentUser.user.club == null) {
-        if (!nextProps.currentUser.user.name || nextProps.currentUser.user.club_id == 0) {
-          this.props.addFlashMessage('success', 'Update your club and name to be displayed', <UpdateUserInfo class="fake-link" />);
-        }
-        this.props.dispatch(change('filterClubs', 'club_id', 0));
-        this.props.fetchFighters(0);
-        this.setState({ clubId: 0 });
-      } else {
-        this.props.dispatch(change('filterClubs', 'club_id', nextProps.currentUser.user.club.id));
-        this.setState({ clubId: nextProps.currentUser.user.club.id });
-        this.props.fetchFighters(nextProps.currentUser.user.club.id);
+  componentWillUpdate(nextProps, nextState) {
+    if(nextProps.currentUser.isLoggedIn && nextState.clubId === null){
+      if(nextProps.currentUser.user.club_id !== null) {
+        this.props.fetchFighters(nextProps.currentUser.user.club_id);
+        this.setState({ clubId: nextProps.currentUser.user.club_id });
+        this.props.dispatch(change('filterClubs', 'club_id', parseInt(nextProps.currentUser.user.club_id)));
       }
+    }
+    if(!nextProps.currentUser.isLoggedIn && nextState.clubId === null){
+      this.props.fetchFighters(0);
+      this.setState({ clubId: 0 });
     }
   }
 
