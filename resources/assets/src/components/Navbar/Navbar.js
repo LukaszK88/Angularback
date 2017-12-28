@@ -38,10 +38,10 @@ class NavbarComp extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+      <div className="navbar">
         <Link className="navbar-brand" to="/"><Image size="tiny" src={`${config.url.base}storage/swords_black.png`} /></Link>
           {this.renderLoggedOut()}
-      </nav>
+      </div>
     );
   }
 }

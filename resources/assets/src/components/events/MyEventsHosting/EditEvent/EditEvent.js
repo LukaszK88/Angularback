@@ -56,7 +56,8 @@ class EditEvent extends Component {
       this.props.dispatch(change('editEventForm', 'event_type_id', this.props.event.event_type_id));
       this.props.dispatch(change('editEventForm', 'club_id', this.props.event.club_id !== null));
       this.props.dispatch(change('editEventForm', 'body', this.props.event.body));
-      this.props.dispatch(change('editEventForm', 'date', new Date(this.props.event.date)));
+      this.props.dispatch(change('editEventForm', 'date', new Date(this.props.event.date.replace(' ', 'T'))));
+      this.props.dispatch(change('editEventForm', 'date', new Date(this.props.event.end.replace(' ', 'T'))));
     this.setState({ modalOpen: true });
   }
 

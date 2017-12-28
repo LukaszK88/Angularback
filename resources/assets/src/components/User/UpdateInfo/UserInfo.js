@@ -7,7 +7,6 @@ import { fetchClubs } from '../../../actions/clubs';
 import { input } from '../../../helpers/input';
 import { stringHelper } from '../../../helpers/string';
 import _ from 'lodash';
-import { Tooltip } from 'reactstrap';
 
 import './UserInfo.css';
 
@@ -16,17 +15,9 @@ class UpdateUser extends Component {
     super(props);
     this.state = {
       modalOpen: false,
-      tooltipOpen: false,
       value: 40,
-      showDatePicker: false,
       belongsToClub: false,
     };
-  }
-
-  toggle() {
-    this.setState({
-      tooltipOpen: !this.state.tooltipOpen,
-    });
   }
 
   componentDidMount() {
@@ -34,6 +25,7 @@ class UpdateUser extends Component {
     this.props.dispatch(change('updateUser', 'weight', this.props.currentUser.user.weight));
     this.props.dispatch(change('updateUser', 'about', this.props.currentUser.user.about));
     this.props.dispatch(change('updateUser', 'quote', this.props.currentUser.user.quote));
+    this.props.dispatch(change('updateUser', 'age', new Date(this.props.currentUser.user.age.replace(' ', 'T'))));
     this.props.fetchClubs();
   }
 
@@ -131,26 +123,11 @@ class UpdateUser extends Component {
                 component={input.renderTextField}
               />
               <br />
-              {(this.props.currentUser.user.age && !this.state.showDatePicker) &&
-              <div>
-                <p onClick={() => { this.setState({ showDatePicker: true }); }} id="age">{stringHelper.limitTo(this.props.currentUser.user.age, 10)}</p><br />
-                <Tooltip
-                  placement="top"
-                  isOpen={this.state.tooltipOpen}
-                  target="age"
-                  toggle={this.toggle.bind(this)}
-                >
-                                    Click to update
-                </Tooltip>
-              </div>
-                            }
-              {(this.state.showDatePicker || !this.props.currentUser.user.age) &&
               <Field
                 label="Date of birth *"
                 name="age"
                 component={input.renderDatepicker}
               />
-                            }
               <Button color="black" type="submit">Submit</Button>
             </form>
           </Modal.Description>

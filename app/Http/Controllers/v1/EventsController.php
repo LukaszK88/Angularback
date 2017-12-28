@@ -126,7 +126,7 @@ class EventsController extends ApiController
             FeedService::CREATED_EVENT,
             [Feed::COL_EVENT_ID => $event->id, Feed::COL_USER_ID => $data['user_id']]);
         //store event Achievement location
-        if($event->event_type_id === 1) {
+        if($event->event_type_id === 1 || $event->event_type_id === '1' ) {
             $this->eventAchievementService->createEntry($event);
         }
         // if cat is here we can save it

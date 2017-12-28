@@ -14,7 +14,8 @@ import {
   FETCH_EVENTS_ACHIEVEMENTS,
 } from './types';
 import { addFlashMessage } from './flashMessages';
-
+import _ from 'lodash';
+import { mapAttendance } from "../services/events/index";
 
 export function fetchFutureEvents() {
   const request = axios.get(`${API}events-future`);
@@ -45,12 +46,27 @@ export function fetchEvents() {
 }
 
 export function fetchEvent(eventId) {
-  const request = axios.get(`${API}event/${eventId}`);
+  return axios.get(`${API}event/${eventId}`).then(response => (dispatch) => {
 
-  return {
-    type: FETCH_EVENT,
-    payload: request,
-  };
+    const event = {
+      ...response.data,
+      id:response.data.id,
+      attendance: mapAttendance(response.data.attendance),
+      body:response.data.body,
+      club_id:response.data.club_id,
+      event_type:response.data.event_type,
+      event_type_id:response.data.event_type_id,
+      lat:response.data.lat,
+      lng:response.data.lng,
+      user:response.data.user,
+      user_id:response.data.user_id,
+    }
+
+    dispatch({
+      type: FETCH_EVENT,
+      payload: event,
+    });
+  });
 }
 
 export function deleteEvent(event) {
@@ -95,7 +111,7 @@ export function addEvent(data) {
   });
 }
 
-export function fetchUserHostedEvents(userId,future) {
+export function fetchUserHostedEvents(userId, future) {
   const request = axios.get(`${API}events-host/${userId}/${future}`);
 
   return {
@@ -125,7 +141,7 @@ export function fetchUserEvents(userClubId) {
 export function addEventCategories(categories) {
   return axios.post(`${API}event-categories`, categories).then(response => (dispatch) => {
     dispatch(addFlashMessage('success', 'Categories added'));
-    dispatch(fetchUserHostedEvents(categories.user_id));
+    dispatch(fetchUserHostedEvents(categories.user_id, true));
   });
 }
 

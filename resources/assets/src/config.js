@@ -1,14 +1,14 @@
 export const config = {
   API: {
     // local
-     base: 'http://127.0.0.1:8000/api/v1/',
+     //base: 'http://127.0.0.1:8000/api/v1/',
     // prod
-     // base:'http://www.medievalclubs.com/api/'
+      base:'http://www.medievalclubs.com/api/v1/'
   },
   url: {
-    base: 'http://localhost:8000/',
+   // base: 'http://localhost:8000/',
     // base: 'http://www.whitecompanyy.com/'
-    // base: 'http://www.medievalclubs.com/'
+     base: 'http://www.medievalclubs.com/'
   },
   select: {
     categories: [

@@ -24,12 +24,12 @@ class MyEventsPage extends Component {
 
   render() {
     const events = _.map(this.props.currentUser.user.attendence, (attendance) => {
-      if (new Date(attendance.event.date) >= new Date()) {
+      if (new Date(attendance.event.date.replace(' ', 'T')) >= new Date()) {
         return {
           id: attendance.event.id,
           title: attendance.event.title,
-          start: new Date(attendance.event.date),
-          end: moment(attendance.event.date).add(1, 'days'),
+          start: new Date(attendance.event.date.replace(' ', 'T')),
+          end: moment(attendance.event.date.replace(' ', 'T')).add(1, 'days'),
         };
       }
     });

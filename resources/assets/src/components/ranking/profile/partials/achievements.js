@@ -24,7 +24,7 @@ class Achievements extends Component {
   renderAchievements() {
     const { profile } = this.props;
     if (profile.achievements) {
-      const achievements = _.orderBy(profile.achievements.data.data, ['event.date'], ['desc']);
+      const achievements = _.orderBy(profile.achievements.data.data, ['event_achievement.date'], ['desc']);
       return _.map(achievements, achievement => (
         <List.Item>
           <List.Icon dangerouslySetInnerHTML={{ __html: achievement.cup }} />

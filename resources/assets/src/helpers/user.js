@@ -2,6 +2,9 @@ import { config } from '../config';
 
 export const userHelper = {
   getImage: (user) => {
+    if(user === null){
+      return `${config.url.base}storage/profile_placeholder.png`;
+    }
     if (user.image) {
       return user.image;
     }

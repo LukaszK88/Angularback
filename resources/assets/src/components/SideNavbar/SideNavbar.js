@@ -24,7 +24,7 @@ class SideNavbar extends Component {
         <Menu.Item name='avatar' active={activeMenuItem === 'avatar'} onClick={this.handleItemClick}>
           <Icon className="hidden-sm-up" onClick={() => this.props.toggleMobileNav()} name="chevron right" />
           <div className="sideNavAvatar">
-            <Image avatar src={userHelper.getImage(user)}/>
+            <Link to={`/profile/${user.id}`}> <Image avatar src={userHelper.getImage(user)}/></Link>
             <div className="sideNavAvatarClubName" >{user.club.name}</div>
             {user.name === null &&
             <Popup

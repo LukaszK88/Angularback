@@ -22,7 +22,7 @@ const EventListCard = ({
             <div className="row eventListCountdownContainer">
               <div className="eventListCardCountdown">
                 <Countdown
-                  targetDate={new Date(event.date)}
+                  targetDate={new Date(event.date.replace(' ', 'T'))}
                   format={{
                     day: 'DD',
                     hour: 'HH',
@@ -78,7 +78,7 @@ const EventListCard = ({
                   {_.map(event.attendance, attendee => (
                     <List.Item key={attendee.id}>
                       <Popup
-                        trigger={<Image avatar src={userHelper.getImage(attendee)} />}
+                        trigger={<Image avatar src={userHelper.getImage(attendee.user)} />}
                         flowing
                         hoverable
                       >

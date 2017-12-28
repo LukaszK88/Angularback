@@ -2,6 +2,13 @@ a{
     color: black!important;
 }
 
+@media only screen and (max-width: 500px) {
+    .hiddenSmDown{
+        display:none;
+    }
+}
+
+
 .noMargin{
     margin-left: 0!important;
     margin-right: 0!important;

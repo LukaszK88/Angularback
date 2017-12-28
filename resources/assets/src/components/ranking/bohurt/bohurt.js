@@ -32,25 +32,25 @@ class Bohurt extends Component {
             </List.Content>
           </div>
 
-          <div className="col-sm-1 text-center hidden-xs-down align-center">
+          <div className="col-sm-1 text-center d-none d-sm-block align-center">
             <div className="rankingRecordText">{fighter.bohurtTable.won}</div>
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
+          <div className="col-sm-1 text-center d-none d-sm-block borderLeft">
             <div className="rankingRecordText">{fighter.bohurtTable.last}</div>
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
+          <div className="col-sm-1 text-center d-none d-sm-block borderLeft">
             <div className="rankingRecordText">{fighter.bohurtTable.suicide}</div>
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
+          <div className="col-sm-1 text-center d-none d-sm-block borderLeft">
             <div className="rankingRecordText">{fighter.bohurtTable.down}</div>
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
+          <div className="col-sm-1 text-center d-none d-sm-block borderLeft">
             <div className="rankingRecordText">{userHelper.ratioBohurt(fighter)}%</div>
           </div>
-          <div className="col-sm-1 text-center hidden-xs-down borderLeft">
+          <div className="col-sm-1 text-center d-none d-sm-block borderLeft">
             <div className="rankingRecordText">{fighter.bohurtTable.points}</div>
           </div>
-          <div className="col-2 hidden-sm-up rankingRecordText">
+          <div className="col-2 d-sm-none rankingRecordText">
             <div className="small text-center">points</div>
             <div className="small text-center">{fighter.bohurtTable.points}</div>
           </div>
@@ -60,8 +60,8 @@ class Bohurt extends Component {
           </div>
           }
         </div>
-        <hr className="hidden-sm-up" />
-        <div className="row hidden-sm-up rankingRecordText">
+        <hr className="d-sm-none" />
+        <div className="row d-sm-none rankingRecordText">
           <div className="col-2">
             <div className="small text-center">win</div>
             <div className="small text-center">{fighter.bohurtTable.won}</div>
@@ -101,7 +101,7 @@ class Bohurt extends Component {
             </div>
           </div>
           <List.Item>
-            <div className="row hidden-xs-down rankingRecordText">
+            <div className="row d-none d-sm-flex rankingRecordText">
               <div className="col-sm-1" />
               <div className="col-sm-4 " />
               <div className="col-sm-1 text-center">

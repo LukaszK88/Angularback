@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { fetchFutureEvents, fetchFeed, setActiveCategory } from '../../actions';
 import DefaultLayout from '../../layouts/defaultLayout';
@@ -62,7 +61,7 @@ class EventListPage extends Component {
           }
         }
         // check if feed relates to event attendance
-      } else if (feed.event_attendance_id !== null) {
+      } else if (feed.event_attendance !== null) {
         // add feed to bag if attending event is global
         if (feed.event_attendance.event.club_id === null) {
           filtredFeeds.push(feed);
@@ -113,10 +112,9 @@ class EventListPage extends Component {
         </div>
         <div style={{ marginTop: 10 }} className="row">
           <div className={
-            classNames(
-'col-sm-7', 'col-12',
-              (this.state.toggleEventsMobile ? 'hideFeed' : 'showFeed'),
-              )}
+'col-sm-7 col-12' +
+              (this.state.toggleEventsMobile ? ' hideFeed' : ' showFeed')
+              }
           >
             <Card fluid >
               <h4 style={{ padding: '10px 0px' }} className="text-center">Feed</h4>
@@ -132,10 +130,10 @@ class EventListPage extends Component {
               </Card.Content>
             </Card>
           </div>
-          <div className={classNames(
-            'col-sm-5', 'col-12',
-            (this.state.toggleEventsMobile ? 'showEvents' : 'hideEvents'),
-          )}
+          <div className={
+            'col-sm-5 col-12' +
+            (this.state.toggleEventsMobile ? ' showEvents' : ' hideEvents')
+          }
           >
             <Feed size="large">
               {this.renderFutureEvents()}

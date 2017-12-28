@@ -21,6 +21,7 @@
 }
 
 .eventDateToggleContainer{
+    justify-content: space-between;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -29,4 +30,9 @@
 .eventDataToggleText{
     margin-left: 3px;
     font-size: 12px;
+}
+
+.hostingCardHeader{
+    font-size: 18px;
+    font-weight: 700;
 }

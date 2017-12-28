@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
     case FETCH_EVENTS_BY_TYPE:
       return { ...state, eventsList: action.payload.data };
     case FETCH_EVENT:
-      return { ...state, event: action.payload.data };
+      return { ...state, event: action.payload };
     case DELETE_EVENT:
       return { ...state, eventsHosted: { ...state }.eventsHosted.filter(event => event.id !== action.payload.id) };
     case FETCH_EVENT_TYPES:

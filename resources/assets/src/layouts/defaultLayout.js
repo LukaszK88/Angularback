@@ -3,7 +3,6 @@ import { Navbar, SideNavbar } from '../components';
 import { Icon } from 'semantic-ui-react';
 import FlashMessages from '../helpers/message';
 import { connect } from 'react-redux';
-import * as classNames from 'classnames';
 
 import './DefaultLayout.css';
 
@@ -26,7 +25,7 @@ class DefaultLayout extends Component {
         <FlashMessages />
         {!this.props.isLoggedIn &&
           <div>
-            <div className="hidden-sm-down">
+            <div className="d-none d-md-block">
               <Navbar />
             </div>
             <div className="container-fluid">
@@ -54,9 +53,7 @@ class DefaultLayout extends Component {
             <div className="row">
               <div
                 style={{ marginTop: (!this.props.isLoggedIn ? '5px' : '15px') }}
-                className={
-                  classNames(!this.props.isLoggedIn ? 'col-12' : 'col-sm-11 col-12')
-                }
+                className={(!this.props.isLoggedIn ? 'col-12' : 'col-sm-11 col-12')}
               >
                 {this.props.children}
               </div>

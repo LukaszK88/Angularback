@@ -75,7 +75,7 @@ class LoginModal extends Component {
             {(!this.state.password && !this.state.createPassword) &&
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
               <Field
-                label="Username"
+                label="Email"
                 name="username"
                 type="text"
                 component={input.renderField}

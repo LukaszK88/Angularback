@@ -16,7 +16,7 @@ class Attending extends Component {
 
   renderMyEvents() {
     return _.map(this.props.attendence, (attending) => {
-      if (new Date(attending.event.date) >= new Date()) {
+      if (new Date(attending.event.date.replace(' ', 'T')) >= new Date()) {
         return (
           <List.Item key={attending.id}>
             <List.Content floated="right" />
@@ -28,7 +28,7 @@ class Attending extends Component {
               <List.Header>
                 <Link to={`/event/${attending.event.id}`}>{attending.event.title}</Link>
                 <Countdown
-                  targetDate={new Date(attending.event.date)}
+                  targetDate={new Date(attending.event.date.replace(' ', 'T'))}
                   format={{
                     day: 'DD',
                     hour: 'HH',
@@ -53,7 +53,7 @@ class Attending extends Component {
 
   render() {
     return (
-      <Card fluid>
+      <Card style={{ marginBottom: '5px' }} fluid>
         <Card.Content>
           <Card.Header className="text-center">
             You are going to

@@ -61,18 +61,25 @@ class RankingFeed extends Component {
         </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
+            {(feed.user !== null) &&
             <Feed.User>
               <Link to={`/profile/${feed.user.id}`}>
                 {(feed.user.name === null ? 'Fighter' : feed.user.name)}
               </Link>
             </Feed.User>
+            }
+            {(feed.user === null) &&
+            <Feed.User>
+              Fighter
+            </Feed.User>
+            }
             <span>{feed.body}</span>
             {(feed.event !== null) && <Link to={`/event/${feed.event.id}`}>{feed.event.title}</Link>}
             {(feed.achievement !== null) && <Link to={`/profile/${feed.user.id}`}><span dangerouslySetInnerHTML={{ __html: feed.achievement.cup }} /></Link>}
             {(feed.club_id !== null) && <Link to={`/club/${feed.club.id}`}>{feed.club.name}</Link>}
             {(feed.club_id === 0) && <span>mercenary</span>}
             {(feed.club_join_id !== null) &&  <Link to={`/club/${feed.user.club.id}`}>{feed.user.club.name}</Link>}
-            {(feed.event_attendance_id !== null) &&
+            {(feed.event_attendance !== null) &&
             <span>
                 <Link to={`/event/${feed.event_attendance.event_id}`}>{feed.event_attendance.event.title}</Link>
               {(feed.event_attendance.event_attend_category.length !== 0) &&
@@ -86,7 +93,7 @@ class RankingFeed extends Component {
             {(feed.bohurt_id || feed.polearm_id || feed.sword_shield_id || feed.sword_buckler_id || feed.longsword_id || feed.profight_id || feed.triathlon_id) &&
             <span>{this.renderRankingFeedItem(feed)}</span>
             }
-            <Feed.Date>{moment(new Date(feed.created_at)).from(new Date())}</Feed.Date>
+            <Feed.Date>{moment(new Date(feed.created_at.replace(' ', 'T'))).from(new Date())}</Feed.Date>
           </Feed.Summary>
         </Feed.Content>
       </Feed.Event>

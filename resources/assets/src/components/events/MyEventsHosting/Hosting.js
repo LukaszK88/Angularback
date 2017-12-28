@@ -121,17 +121,19 @@ class Hosting extends Component {
   render() {
     // todo will need two apis for past future as data grows
     return (
-      <Card fluid>
+      <Card style={{ marginBottom: '5px' }} fluid>
         <Card.Content>
-          <div className="float-left eventDateToggleContainer">
-            <Radio onClick={() => this.toggleFuturePastEvents()} slider/>
-            <span className="eventDataToggleText">
-              { this.state.future ? 'past events' : 'future events' }
-            </span>
+          <div className="eventDateToggleContainer">
+            <Card.Header className="hostingCardHeader">
+              Hosting
+            </Card.Header>
+            <div>
+              <Radio onClick={() => this.toggleFuturePastEvents()} slider/>
+              <span className="eventDataToggleText">
+                { this.state.future ? 'past events' : 'future events' }
+              </span>
+            </div>
           </div>
-          <Card.Header className="text-center hostingCardHeader">
-            Hosting
-          </Card.Header>
           {(this.props.eventsHosted.length === 0) &&
           <p className="text-center">To create an event head to <Link className="fake-link" to="/events">Events</Link></p>
           }
