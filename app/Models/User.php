@@ -58,7 +58,14 @@ class User extends Authenticatable
         RREL_SWORD_BUCKLER_EVENT = 'swordBuckler.event',
         RREL_LONGSWORD_EVENT = 'longsword.event',
         RREL_POLEARM_EVENT = 'polearm.event',
-        RREL_TRIATHLON_EVENT = 'triathlon.event';
+        RREL_TRIATHLON_EVENT = 'triathlon.event',
+        RREL_BOHURT_EVENT_ACHIEVEMENT = 'bohurt.eventAchievement',
+        RREL_SWORD_SHIELD_EVENT_ACHIEVEMENT = 'swordShield.eventAchievement',
+        RREL_PROFIGHT_EVENT_ACHIEVEMENT = 'profight.eventAchievement',
+        RREL_SWORD_BUCKLER_EVENT_ACHIEVEMENT = 'swordBuckler.eventAchievement',
+        RREL_LONGSWORD_EVENT_ACHIEVEMENT = 'longsword.eventAchievement',
+        RREL_POLEARM_EVENT_ACHIEVEMENT = 'polearm.eventAchievement',
+        RREL_TRIATHLON_EVENT_ACHIEVEMENT = 'triathlon.eventAchievement';
 
     protected $fillable=[
         self::COL_NAME,

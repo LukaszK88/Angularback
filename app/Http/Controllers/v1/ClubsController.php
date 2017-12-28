@@ -9,9 +9,11 @@ use App\Mail\ClubCaptainRegistration;
 use App\Mail\ClubFighterRegistration;
 use App\Mail\ClubRegistration;
 use App\Models\Club;
+use App\Models\Feed;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Services\ClubService;
+use App\Services\FeedService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -121,14 +123,18 @@ class ClubsController extends ApiController
 
         if($club) return $this->respondWithError('Club already exists');
 
-        $captain = $authService->registerUser($request,$data['email'],$data['password']);
-        if($captain instanceof MessageBag) return $this->responseNotFound($captain);
-
         $data['founder'] = $data['email'];
 
         $club = $this->club->create($data);
 
+        $captain = $authService->registerUser($request,$data['email'],$data['password'],$club->id);
+        if($captain instanceof MessageBag) return $this->responseNotFound($captain);
+
         $this->user->setUserAsClubAdmin($captain->id,$club->id);
+
+        FeedService::feedEntry(
+            FeedService::CLUB_JOIN_RANKING,
+            [Feed::COL_CLUB_JOIN_ID => $club->id ?? 0, Feed::COL_USER_ID => $captain->id]);
 
         //email captain
         Mail::to($data['email'])->send(new ClubCaptainRegistration($data));

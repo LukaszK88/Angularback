@@ -11,6 +11,7 @@ class FeedService
     const CLUB_JOIN = ' joined club ';
     const ATTENDING = ' is attending ';
     const RANKING_RECORD = ' gained ';
+    const CLUB_JOIN_RANKING = ' created new club ';
 
     public static function feedEntry($body,Array $info)
     {

@@ -12,7 +12,7 @@ class FeedController extends ApiController
         $feedData = Feed::
         where(Feed::COL_CREATED_AT,'>=',Carbon::today()->subMonths($feedOffset))
             ->with([
-                'user',
+                'user.club',
                 'event',
                 'achievement',
                 'club',

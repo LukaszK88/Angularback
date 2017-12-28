@@ -37,6 +37,7 @@ export function recoverPassword(data) {
 export function updateUser(data) {
   return axios.put(`${API}user-update`, data).then(response => (dispatch) => {
     dispatch(addFlashMessage('success', response.data.message));
+    dispatch(currentLoggedInUser(window.localStorage.getItem('token')));
     dispatch({
       type: UPDATE_USER,
       payload: response.data.data,

@@ -25,6 +25,7 @@ class Bohurt extends Model{
             COL_SUICIDE = 'suicide',
             COL_POINTS = 'points';
 
+    const REL_EVENT_ACHIEVEMENT = 'eventAchievement';
 
     protected $fillable=[
         self::COL_USER_ID,

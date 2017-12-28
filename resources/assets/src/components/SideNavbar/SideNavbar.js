@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Label, Menu, Icon, Image } from 'semantic-ui-react'
+import { Popup, Menu, Icon, Image, Label} from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { logout, setActiveMenuItem } from '../../actions';
 import { UpdateUserInfo, ChangePassword } from '../index';
@@ -20,10 +20,26 @@ class SideNavbar extends Component {
 
     return (
       <div className='showSideNav'>
-      <Menu  fluid size='mini' vertical>
+      <Menu style={{ border: '1px solid black' }} fluid size='mini' vertical>
         <Menu.Item name='avatar' active={activeMenuItem === 'avatar'} onClick={this.handleItemClick}>
           <Icon className="hidden-sm-up" onClick={() => this.props.toggleMobileNav()} name="chevron right" />
-          <div className="sideNavAvatar"><Image avatar src={userHelper.getImage(user)}/></div>
+          <div className="sideNavAvatar">
+            <Image avatar src={userHelper.getImage(user)}/>
+            <div className="sideNavAvatarClubName" >{user.club.name}</div>
+            {user.name === null &&
+            <Popup
+              style={{ fontSie:'10px' }}
+              trigger={<Icon
+                style={{position: 'absolute', top: '1px', left: '1px'}}
+                color="red" name="warning circle"/>}
+              content=
+                'You need to fill your name in account section to be shown in ranking'
+              inverted
+              hoverable
+              position="bottom left"
+            />
+            }
+          </div>
         </Menu.Item>
         <Menu.Item name='ranking' active={activeMenuItem === 'ranking'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to="/ranking">Ranking</Link>

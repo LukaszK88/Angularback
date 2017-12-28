@@ -20,6 +20,7 @@ class Feed extends BaseModel
         COL_PROFIGHT_ID = 'profight_id',
         COL_SWORD_SHIELD_ID = 'sword_shield_id',
         COL_SWORD_BUCKLER_ID = 'sword_buckler_id',
+        COL_CLUB_JOIN_ID = 'club_join_id',
         COL_ACHIEVEMENT_ID = 'achievement_id';
 
     protected $fillable=[
@@ -36,6 +37,7 @@ class Feed extends BaseModel
         self::COL_POLEARM_ID,
         self::COL_LONGSWORD_ID,
         self::COL_BOHURT_ID,
+        self::COL_CLUB_JOIN_ID,
     ];
 
     public function swordBuckler()

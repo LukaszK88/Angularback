@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthService
 {
-    public function registerUser($request,$username,$password)
+    public function registerUser($request,$username,$password, $clubId = 1)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|unique:users,username',
@@ -20,12 +20,12 @@ class AuthService
         $user = User::create([
             'username' => $username,
             'password' => bcrypt($password),
-            'club_id' => $request->input('club_id') ?? 0
+            'club_id' => $request->input('club_id') ?? $clubId ?? 1
         ]);
 
         FeedService::feedEntry(
             FeedService::CLUB_JOIN,
-            [Feed::COL_CLUB_ID => $request->input('club_id') ?? 0, Feed::COL_USER_ID => $user->id]);
+            [Feed::COL_CLUB_ID => $request->input('club_id') ??  $clubId ?? 1, Feed::COL_USER_ID => $user->id]);
 
         return $user;
     }
