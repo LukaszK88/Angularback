@@ -122,7 +122,6 @@ class EventsController extends ApiController
         unset($data['categories']);
         $event = $this->event->create($data);
         if(!$event) return $this->respondWithError('Event did not save');
-
         FeedService::feedEntry(
             FeedService::CREATED_EVENT,
             [Feed::COL_EVENT_ID => $event->id, Feed::COL_USER_ID => $data['user_id']]);

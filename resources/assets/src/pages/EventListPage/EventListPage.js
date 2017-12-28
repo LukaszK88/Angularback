@@ -46,8 +46,42 @@ class EventListPage extends Component {
     ));
   }
 
+  filterFeeds(feeds) {
+    // todo mental
+    const filtredFeeds = [];
+    _.forEach(feeds, (feed) => {
+      if (feed.event_id !== null) {
+        // add feed to bag if event is global
+        if (feed.event.club_id === null) {
+          filtredFeeds.push(feed);
+          // if it is not global check if user is logged in
+        } else if (this.props.currentUserClubId !== undefined) {
+          // if there is a match on club id push it to the bag
+          if (feed.event.club_id === this.props.currentUserClubId) {
+            filtredFeeds.push(feed);
+          }
+        }
+        // check if feed relates to event attendance
+      } else if (feed.event_attendance_id !== null) {
+        // add feed to bag if attending event is global
+        if (feed.event_attendance.event.club_id === null) {
+          filtredFeeds.push(feed);
+        } else if (this.props.currentUserClubId !== undefined) {
+          // if there is a match on club id push it to the bag
+          if (feed.event_attendance.event.club_id === this.props.currentUserClubId) {
+            filtredFeeds.push(feed);
+          }
+        }
+      } else {
+        filtredFeeds.push(feed);
+      }
+    });
+    return filtredFeeds;
+  }
+
+
   renderFeed() {
-    return _.map(this.props.feed, feed => (
+    return _.map(this.filterFeeds(this.props.feed), feed => (
       <RankingFeed feed={feed} />
     ));
   }

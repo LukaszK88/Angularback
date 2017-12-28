@@ -54,7 +54,6 @@ class RankingFeed extends Component {
 
   render() {
     const { feed } = this.props;
-    console.log(feed);
     return (
       <Feed.Event>
         <Feed.Label>
