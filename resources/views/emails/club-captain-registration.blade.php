@@ -6,7 +6,7 @@ Very soon you will hear back from us once your account is active.<br>
 You have registered as Captain for {{ $user['name'] }} club<br>
 Once your club is active you will receive another email...<br>
 
-You might be contacted before that.
+
 
 Thanks,<br>
 {{ config('app.name') }}
