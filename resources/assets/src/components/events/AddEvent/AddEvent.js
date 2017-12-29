@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, Radio } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm, change } from 'redux-form';
 import { addEvent, getEventTypes } from '../../../actions/events';
 import _ from 'lodash';
 import { input } from '../../../helpers/input';
 import { config } from '../../../config';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import AddCategories from '../AddCategories';
 import moment from 'moment';
 
 class AddEvent extends Component {
@@ -17,9 +16,10 @@ class AddEvent extends Component {
     this.state = {
       modalOpen: false,
       address: '',
-      categoryBag: [],
+      categoryBag: {},
       startDate: null,
       endDate: null,
+      showCategories: false,
     };
     this.onChange = address => this.setState({ address });
     this.addCategoryToBag = this.addCategoryToBag.bind(this);
@@ -52,21 +52,44 @@ class AddEvent extends Component {
     } else {
       this.props.addEvent(values);
     }
-    this.setState({ categoryBag: [] });
+    this.setState({ categoryBag: [], showCategories: false });
     this.handleClose();
   }
 
-  addCategoryToBag(categories) {
-    this.setState({ categoryBag: categories });
+  addCategoryToBag(category, value) {
+    this.setState({ categoryBag: Object.assign({}, this.state.categoryBag, this.state.categoryBag[category] = value) });
   }
 
   handleOpen() {
     this.props.reset();
+    _.forEach(this.props.categoryBag, (value, category) => {
+      this.props.dispatch(change('addEventForm', category, value));
+    });
     this.setState({ modalOpen: true });
   }
 
   handleClose() {
     this.setState({ modalOpen: false });
+  }
+
+  showCategories(e) {
+    e.preventDefault();
+    this.setState({ showCategories: !this.state.showCategories });
+  }
+
+  renderCategories() {
+    return _.map(config.select.categories, (category, key) => (
+      <span>
+        <div style={{ display: '-webkit-inline-box', marginBottom: '10px' }} className="col-md-6 col-6">
+          <Field
+            label={category.value}
+            name={category.value}
+            component={input.renderSwitchCheckbox}
+            onChange={(e, value) => this.addCategoryToBag(category.value, value)}
+          />
+        </div>
+      </span>
+    ));
   }
 
 
@@ -164,12 +187,29 @@ class AddEvent extends Component {
               {/* categories */}
               <div className="row">
                 <div className="col-sm-12">
-                  <AddCategories
-                    addCategoryToBag={this.addCategoryToBag}
-                    categoryBag={this.state.categoryBag}
-                  />
+                  {this.state.showCategories &&
+                  <Icon style={{ marginBottom: '15px' }}  onClick={e => this.showCategories(e)} name="remove" />
+                  }
+                  {!this.state.showCategories &&
+                  <Button
+                    color="black"
+                    onClick={e => this.showCategories(e)}
+                    size="tiny"
+                  >
+                    Add Categories
+                  </Button>
+                  }
                 </div>
               </div>
+                  {this.state.showCategories &&
+                  <div className="row">
+                    <div className="col-sm-12">
+                      { this.renderCategories()}
+                    </div>
+                  </div>
+                  }
+
+
               <br />
               <label>Tournament location</label>
               <PlacesAutocomplete inputProps={inputProps} />

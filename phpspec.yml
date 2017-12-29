@@ -1,0 +1,6 @@
+suites:
+ app_suite:
+  namespace: App
+  src_path: ./
+  spec_path: app
+  spec_prefix: spec

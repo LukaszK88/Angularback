@@ -30,6 +30,7 @@ class SideNavbar extends Component {
             <Popup
               style={{ fontSie:'10px' }}
               trigger={<Icon
+                size="large"
                 style={{position: 'absolute', top: '1px', left: '1px'}}
                 color="red" name="warning circle"/>}
               content=

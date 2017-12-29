@@ -131,7 +131,9 @@ class EventsController extends ApiController
         }
         // if cat is here we can save it
         foreach ($categories as $categoryName => $value){
-            $this->category->create($categoryName,$event->id);
+            if($value !== false){
+                $this->category->create($categoryName,$event->id);
+            }
         }
         return $this->respond('Event and categories saved');
     }
