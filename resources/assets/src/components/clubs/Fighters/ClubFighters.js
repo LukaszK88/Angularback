@@ -79,6 +79,7 @@ class ClubFighters extends Component {
               </div>
             </div>
           </Popup>
+          {(fighter.club_admin_id === '0') &&
           <DeleteConfirmIcon
             iconName="star"
             content="There can be only one captain..., promoting this fighter will demote you"
@@ -86,6 +87,7 @@ class ClubFighters extends Component {
             action={() => this.props.replaceCaptain(fighter.id, this.props.currentUser.user)}
             popupText="Promote to Captain"
           />
+          }
           <DeleteConfirmIcon
             iconName="user delete"
             content="Are you sure you want to remove this fighter?"
