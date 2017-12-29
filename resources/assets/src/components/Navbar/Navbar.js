@@ -18,7 +18,7 @@ class NavbarComp extends Component {
     return (
       <ul className="navbar-nav">
         <li className="nav-item">
-          <Link className="nav-link" to="/ranking">Ranking</Link>
+          <Link className="nav-link" to="/">Ranking</Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/ranking-clubs">Clubs</Link>

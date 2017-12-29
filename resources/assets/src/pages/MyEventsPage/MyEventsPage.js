@@ -14,7 +14,7 @@ class MyEventsPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentUser.isLoggedIn === false) {
-      this.props.history.push('/ranking');
+      this.props.history.push('/');
     }
   }
 

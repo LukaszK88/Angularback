@@ -70,8 +70,7 @@ ReactDOM.render(
           <PrivateRoute admin path="/users" component={AdminUsers} />
           <PrivateRoute admin path="/clubs-admin" component={AdminClubs} />
           <Route path="/ranking-clubs" component={ClubsRanking} />
-          <Route path="/ranking" component={TabsComp} />
-          <Redirect from="/" to="/ranking" />
+          <Route path="/" component={TabsComp} />
         </Switch>
       </BrowserRouter>
     </Provider>

@@ -42,7 +42,7 @@ class SideNavbar extends Component {
           </div>
         </Menu.Item>
         <Menu.Item name='ranking' active={activeMenuItem === 'ranking'} onClick={this.handleItemClick}>
-          <Link className="sideNavLink" to="/ranking">Ranking</Link>
+          <Link className="sideNavLink" to="/">Ranking</Link>
         </Menu.Item>
         <Menu.Item name='clubs' active={activeMenuItem === 'clubs'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to="/ranking-clubs">Clubs</Link>

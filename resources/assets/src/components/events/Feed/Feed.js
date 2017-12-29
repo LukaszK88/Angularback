@@ -5,6 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { userHelper } from '../../../helpers/user';
+import { setActiveCategory } from '../../../actions';
 
 import './Feed.css';
 
@@ -22,7 +23,9 @@ class RankingFeed extends Component {
     return (
       <span>
         <span className="feedWeakText">{feed[key].points}pts in</span>
-        <Link onClick={() => this.props.setActiveCategory(key)} to="/ranking"> {key.replace('_', ' ')}</Link>
+        <Link to="/">
+          <span onClick={() => this.props.setActiveCategory(key)}>{key.replace('_', ' ')}</span>
+        </Link>
         <Feed.Extra text>
             at <Link to={`/event/${feed[key].event_achievement.event_id}`}>{feed[key].event_achievement.title}</Link>
         </Feed.Extra>
@@ -105,8 +108,4 @@ class RankingFeed extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { };
-}
-
-export default connect(mapStateToProps)(RankingFeed);
+export default connect(null, { setActiveCategory })(RankingFeed);
