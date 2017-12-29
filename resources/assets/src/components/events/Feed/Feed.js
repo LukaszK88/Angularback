@@ -6,10 +6,12 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { userHelper } from '../../../helpers/user';
 
+import './Feed.css';
+
 class RankingFeed extends Component {
   renderCategories(attending) {
     return _.map(attending.event_attend_category, category => (
-      <span>
+      <span className="feedWeakText">
         <Icon name="protect" size="small" /> <b key={category.id}>{category.name}</b> <br />
       </span>
     ));
@@ -19,7 +21,7 @@ class RankingFeed extends Component {
     // if(feed.hasOwnProperty(`${key}_id'`) && feed[key] !== null){
     return (
       <span>
-        {feed[key].points}pts in
+        <span className="feedWeakText">{feed[key].points}pts in</span>
         <Link onClick={() => this.props.setActiveCategory(key)} to="/ranking"> {key.replace('_', ' ')}</Link>
         <Feed.Extra text>
             at <Link to={`/event/${feed[key].event_achievement.event_id}`}>{feed[key].event_achievement.title}</Link>
@@ -73,7 +75,7 @@ class RankingFeed extends Component {
               Fighter
             </Feed.User>
             }
-            <span>{feed.body}</span>
+            <span className="feedWeakText">{feed.body}</span>
             {(feed.event !== null) && <Link to={`/event/${feed.event.id}`}>{feed.event.title}</Link>}
             {(feed.achievement !== null) && <Link to={`/profile/${feed.user.id}`}><span dangerouslySetInnerHTML={{ __html: feed.achievement.cup }} /></Link>}
             {(feed.club !== null) && <Link to={`/club/${feed.club.id}`}>{feed.club.name}</Link>}
@@ -86,7 +88,7 @@ class RankingFeed extends Component {
                 <Link to={`/event/${feed.event_attendance.event_id}`}>{feed.event_attendance.event.title}</Link>
               {(feed.event_attendance.event_attend_category.length !== 0) &&
               <Feed.Extra text>
-                <div> will fight in:</div>
+                <div className="feedWeakText"> will fight in:</div>
                 {this.renderCategories(feed.event_attendance)}
               </Feed.Extra>
               }

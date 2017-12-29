@@ -79,7 +79,7 @@ class ClubFighters extends Component {
               </div>
             </div>
           </Popup>
-          {(fighter.club_admin_id === '0') &&
+          {(fighter.club_admin_id === 0) &&
           <DeleteConfirmIcon
             iconName="star"
             content="There can be only one captain..., promoting this fighter will demote you"

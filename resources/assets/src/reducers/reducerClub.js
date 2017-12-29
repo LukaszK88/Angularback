@@ -28,7 +28,7 @@ export default function (state = initState, action) {
     case FETCH_CLUB_FIGHTERS:
       return { ...state, fighters: action.payload.data };
     case FETCH_CLUB:
-      return { ...state, club: action.payload.data };
+      return { ...state, club: action.payload };
     default:
       return state;
   }

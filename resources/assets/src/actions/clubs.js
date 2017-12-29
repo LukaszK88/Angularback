@@ -5,11 +5,10 @@ import { addFlashMessage } from './flashMessages';
 import request from 'superagent';
 import { loading } from './config';
 import { currentLoggedInUser } from './user';
-
+import { mapFighters } from '../services/user';
 
 export function replaceCaptain(userId, captain) {
   return axios.get(`${API}club-captain-replace/${userId}/${captain.id}`).then(response => (dispatch) => {
-    console.log(captain);
     dispatch(addFlashMessage('success', response.data.message));
     dispatch(fetchClub(captain.club_id));
     dispatch(currentLoggedInUser(window.localStorage.getItem('token')));
@@ -90,10 +89,14 @@ export function uploadClubLogo(clubId, images) {
 }
 
 export function fetchClub(clubId) {
-  const request = axios.get(`${API}clubs/${clubId}`);
-
-  return {
-    type: FETCH_CLUB,
-    payload: request,
-  };
+  return axios.get(`${API}clubs/${clubId}`).then(response => (dispatch) => {
+    const club = {
+      ...response.data,
+      fighters: mapFighters(response.data.fighters),
+    };
+    dispatch({
+      type: FETCH_CLUB,
+      payload: club,
+    });
+  });
 }
