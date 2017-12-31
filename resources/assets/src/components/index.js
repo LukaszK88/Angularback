@@ -11,3 +11,5 @@ export { default as Password } from './User/Password';
 export { default as ForgotPassword } from './User/ForgotPassword';
 export { default as RankingFeed } from './events/Feed';
 export { default as DeleteConfirmIcon } from './ConfirmDelete/ConfirmDeleteIcon';
+export { default as ChatConvrsations } from './Chat/Conversations';
+export { default as Messages } from './Chat/Messages';

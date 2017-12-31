@@ -11,6 +11,13 @@
 }
 
 
+@media only screen and (max-width: 767px) {
+    hideOnMobile{
+        display: none;
+    }
+}
+
+
 @media only screen and (max-width: 500px) {
     .hideSideNav{
        position:fixed;
@@ -30,3 +37,4 @@
 .sideNavAvatarClubName{
     font-size: 8px;
 }
+

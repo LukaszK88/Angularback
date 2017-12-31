@@ -89,6 +89,16 @@ class User extends Authenticatable
         self::COL_LAST_LOGIN
     ];
 
+    public function conversationsFrom()
+    {
+        return $this->hasMany(Conversation::class,'from','id');
+    }
+
+    public function conversationsTo()
+    {
+        return $this->hasMany(Conversation::class,'to','id');
+    }
+
     public function getUserWithCategoriesHeAttendsOnEvent($eventAttendId,$userId)
     {
         return User::

@@ -10,16 +10,19 @@
         "doctrine/dbal": "^2.5",
         "guzzle/http": "^3.9",
         "guzzlehttp/guzzle": "~6.0",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.*",
         "laravel/socialite": "~2.0",
         "laravel/tinker": "~1.0",
+        "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "~3.0",
         "tymon/jwt-auth": "^0.5.11"
     },
     "require-dev": {
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpspec/phpspec": "^4.3",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "classmap": [
@@ -48,6 +51,10 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {

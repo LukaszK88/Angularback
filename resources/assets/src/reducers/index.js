@@ -11,6 +11,7 @@ import AdminReducer from './admin';
 import ConfigReducer from './reducerConfig';
 import ClubReducer from './reducerClub';
 import Feed from './feed';
+import Messages from './messages';
 
 const rootReducer = combineReducers({
   ranking: FighterReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   config: ConfigReducer,
   club: ClubReducer,
   feed: Feed,
+  messages: Messages,
   form: formReducer,
 });
 

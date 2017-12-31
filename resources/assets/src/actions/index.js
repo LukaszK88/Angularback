@@ -6,3 +6,4 @@ export * from './flashMessages';
 export * from './admin';
 export * from './ranking';
 export * from './feed';
+export * from './messgaes';

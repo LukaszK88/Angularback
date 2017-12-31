@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Popup, Menu, Icon, Image, Label} from 'semantic-ui-react'
+import { Popup, Menu, Icon, Image, Label, List } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
-import { logout, setActiveMenuItem } from '../../actions';
-import { UpdateUserInfo, ChangePassword } from '../index';
+import { logout, setActiveMenuItem} from '../../actions';
+import { UpdateUserInfo, ChangePassword, ChatConvrsations } from '../index';
 import { UpdateClubInfo } from '../clubs';
 import { userHelper } from '../../helpers/user';
+import _ from 'lodash';
 
 import './SideNavbar.css';
 
@@ -53,6 +54,11 @@ class SideNavbar extends Component {
         </Menu.Item>
         <Menu.Item name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to={`/profile/${user.id}`}>My Profile</Link>
+        </Menu.Item>
+        <Menu.Item className="hidden-sm-down" name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>
+          <div className="sideNavLink " >
+           <ChatConvrsations user={user} />
+          </div>
         </Menu.Item>
         <Menu.Item name='myEvents' active={activeMenuItem === 'myEvents'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to={`/my-events/${user.id}`}>My Events</Link>

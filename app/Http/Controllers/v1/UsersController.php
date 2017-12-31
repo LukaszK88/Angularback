@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
+use App\Models\Conversation;
 use App\Models\User;
 use App\Models\UserRole;
 use Carbon\Carbon;
@@ -43,10 +44,26 @@ class UsersController extends ApiController
 
         $user = JWTAuth::toUser($token);
 
-        $user = User::with(['club','attendence.event','attendence.eventAttendCategory'])->where(User::COL_ID,$user->id)->first();
+        $user = User::with(['club','attendence.event','attendence.eventAttendCategory','conversationsFrom'])
+            ->with(['conversationsTo' => function($query){
+                $query->with(['fromUser' => function($q){
+                    $q->select(['id','name','image']);
+                }]);
+                $query->with(['toUser' => function($q){
+                    $q->select(['id','name','image']);
+                }]);
+            }])
+            ->with(['conversationsFrom' => function($query){
+                $query->with(['fromUser' => function($q){
+                    $q->select(['id','name','image']);
+                }]);
+                $query->with(['toUser' => function($q){
+                    $q->select(['id','name','image']);
+                }]);
+            }])
+            ->where(User::COL_ID,$user->id)->first();
 
         return response()->json($user);
-
     }
 
     public function updateUser(Request $request)
@@ -116,32 +133,25 @@ class UsersController extends ApiController
         return $this->respond($userEventInfo);
     }
 
+
+    public function getUsersForConversation(Request $request)
+    {
+        $data = $request->all();
+        $from = array_column($data,'from');
+        $to = array_column($data,'to');
+        $existingConversations = array_merge($from,$to);
+
+        $data = User::whereNotIn('id',$existingConversations)->select(['users.id','users.name'])->get();
+
+        return $this->respond($data);
+    }
+
+
     /**
-     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * return users for admin purposes
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show()
-    {
-
-    }
-
     public function showUsers()
     {
         $data = User::all();
@@ -204,18 +214,6 @@ class UsersController extends ApiController
         //sent email
         Mail::to($user->username)->send(new PasswordRecovery($password));
         return $this->responseCreated('Recovery email sent!');
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

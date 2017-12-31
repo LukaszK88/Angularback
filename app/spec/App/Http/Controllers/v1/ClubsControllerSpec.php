@@ -44,9 +44,8 @@ class ClubsControllerSpec extends ObjectBehavior
         $this->shouldHaveType(ClubsController::class);
     }
 
-
     function it_returns_clubs_based_on_country()
     {
-        //$this->getClubs(0,0)->shoulReturn(null);
+        $this->getClubs(0,0)->shoulReturn(null);
     }
 }

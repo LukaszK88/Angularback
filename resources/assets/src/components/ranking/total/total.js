@@ -8,7 +8,7 @@ class Total extends Component {
   renderFighters() {
     const fighters = _.orderBy(this.props.fighters, ['total_points'], ['desc']);
     return _.map(fighters, (fighter, index) => (
-      <List.Item>
+      <List.Item key={fighter.id}>
         <div className="row">
           <div className="index-number">{index + 1}</div>
           <div className="col-sm-1 col-2">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, SideNavbar } from '../components';
+import { Navbar, SideNavbar, ChatConvrsations, Messages } from '../components';
 import { Icon } from 'semantic-ui-react';
 import FlashMessages from '../helpers/message';
 import { connect } from 'react-redux';
@@ -43,7 +43,9 @@ class DefaultLayout extends Component {
         <div>
           <div className="container-fluid">
             {this.props.isLoggedIn &&
+
             <div className="row sideMenuToggleButton">
+              <ChatConvrsations user={this.props.currentUser.user} />
               <Icon className="toggleBurger" onClick={() => this.toggleMobileNav()} size="large" name="content" />
               {this.state.mobileNavToggle &&
               <SideNavbar toggleMobileNav={() => this.toggleMobileNav()} mobileNavToggle={this.state.mobileNavToggle} />
@@ -65,6 +67,9 @@ class DefaultLayout extends Component {
             </div>
           </div>
         </div>
+        {(this.props.activeChat.conversationId !== null) &&
+        <Messages user={this.props.currentUser.user} />
+        }
       </div>
     );
   }
@@ -74,6 +79,7 @@ function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
     isLoggedIn: state.currentUser.isLoggedIn,
+    activeChat: state.config.activeChat,
   };
 }
 

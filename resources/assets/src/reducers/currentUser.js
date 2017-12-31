@@ -19,20 +19,20 @@ export default function (state = initialState, action) {
         ...state, user: action.payload,
       };
     case CURRENT_USER:
-      if (!action.payload.data) {
+      if (!action.payload) {
         window.localStorage.removeItem('token');
         return initialState;
-      } else if (action.payload.data) {
+      } else if (action.payload) {
         // admin
-        if (action.payload.data.user_role_id == '3') {
+        if (action.payload.user_role_id == '3') {
           // admin + club admin
-          if (action.payload.data.user_role_id == '3' && action.payload.data.club_admin_id) {
+          if (action.payload.user_role_id == '3' && action.payload.club_admin_id) {
             return {
               isLoggedIn: true,
               admin: true,
               editor: true,
-              clubAdmin: parseInt(action.payload.data.club_admin_id),
-              user: action.payload.data,
+              clubAdmin: parseInt(action.payload.club_admin_id),
+              user: action.payload,
             };
           }
           return {
@@ -40,27 +40,27 @@ export default function (state = initialState, action) {
             admin: true,
             editor: true,
             clubAdmin: null,
-            user: action.payload.data,
+            user: action.payload,
           };
         }
         // club admin
-        if (action.payload.data.club_admin_id != '0') {
+        if (action.payload.club_admin_id != '0') {
           return {
             isLoggedIn: true,
             admin: false,
             editor: true,
-            clubAdmin: parseInt(action.payload.data.club_admin_id),
-            user: action.payload.data,
+            clubAdmin: parseInt(action.payload.club_admin_id),
+            user: action.payload,
           };
         }
         // editor
-        if (action.payload.data.user_role_id == '2') {
+        if (action.payload.user_role_id == '2') {
           return {
             isLoggedIn: true,
             admin: false,
             editor: true,
             clubAdmin: null,
-            user: action.payload.data,
+            user: action.payload,
           };
         }
         // normal user
@@ -68,7 +68,7 @@ export default function (state = initialState, action) {
           isLoggedIn: true,
           admin: false,
           clubAdmin: null,
-          user: action.payload.data,
+          user: action.payload,
         };
       }
 

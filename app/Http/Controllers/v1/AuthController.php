@@ -62,12 +62,12 @@ class AuthController extends ApiController
         }
     }
 
-    public function authenticatePassword(Request $request, bool $createPassword)
+    public function authenticatePassword(Request $request, $createPassword)
     {
         $password = $request->input('password');
         $username = $request->input('username');
 
-        if ($createPassword){
+        if ($createPassword === "true"){
             User::where('username',$username)->update([
                 'password' => bcrypt($password)
             ]);

@@ -87,7 +87,14 @@ Route::get('/club-captain-replace/{userId}/{captainId}','ClubsController@replace
 // FEED
 Route::get('/feed/{feedOffset}','FeedController@getFeed');
 
+//MESSAGES
+Route::get('/messages/{conversationId}','MessagesController@getUserMessages');
+Route::post('/messages','MessagesController@storeMessage');
 
+//CONVERSATIONS
+Route::get('/conversations/{userId}','ConversationsController@getUserConversations');
+Route::post('/conversations-users','UsersController@getUsersForConversation');
+Route::get('/conversation-users-start/{to}/{from}','ConversationsController@startUsersConversation');
 
 //BLOG
 Route::resource('/post','PostsController');

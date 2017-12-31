@@ -120,10 +120,17 @@ export function loginWithFacebook(data) {
 }
 
 export function currentLoggedInUser(token) {
-  const request = axios.get(`${API}user-current`, { Authorization: `Bearer ${token}` });
+  return axios.get(`${API}user-current`, { Authorization: `Bearer ${token}` }).then((response) => {
+    return (dispatch) => {
+      const currentUser = {
+        ...response.data,
+        conversations: response.data.conversations_from.concat(response.data.conversations_to),
+      };
 
-  return {
-    type: CURRENT_USER,
-    payload: request,
-  };
+      dispatch({
+        type: CURRENT_USER,
+        payload: currentUser,
+      });
+    };
+  });
 }
