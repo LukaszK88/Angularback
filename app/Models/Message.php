@@ -14,12 +14,14 @@ class Message extends BaseModel
         COL_FROM = 'from',
         COL_CONVERSATION_ID = 'conversation_id',
         COL_BODY = 'body',
+        COL_READ = 'read',
         COL_TO = 'to';
 
     protected $fillable = [
         self::COL_BODY,
         self::COL_FROM,
         self::COL_TO,
+        self::COL_READ,
         self::COL_CONVERSATION_ID,
     ];
 
@@ -32,4 +34,5 @@ class Message extends BaseModel
     {
         return $this->belongsTo(User::class,'to','id');
     }
+
 }

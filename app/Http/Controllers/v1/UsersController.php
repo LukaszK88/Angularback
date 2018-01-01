@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Mail\AccountActivated;
 use App\Mail\PasswordRecovery;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\User;
 use App\Models\UserRole;
 use Carbon\Carbon;
@@ -45,22 +46,29 @@ class UsersController extends ApiController
         $user = JWTAuth::toUser($token);
 
         $user = User::with(['club','attendence.event','attendence.eventAttendCategory','conversationsFrom'])
-            ->with(['conversationsTo' => function($query){
+            ->with(['conversationsTo' => function($query) use ($user){
                 $query->with(['fromUser' => function($q){
                     $q->select(['id','name','image']);
                 }]);
                 $query->with(['toUser' => function($q){
                     $q->select(['id','name','image']);
                 }]);
+                $query->with(['messages' => function($q) use ($user){
+                    $q->where([[Message::COL_FROM,'!=',$user->id],[Message::COL_READ,0]]);
+                }]);
             }])
-            ->with(['conversationsFrom' => function($query){
+            ->with(['conversationsFrom' => function($query) use ($user){
                 $query->with(['fromUser' => function($q){
                     $q->select(['id','name','image']);
                 }]);
                 $query->with(['toUser' => function($q){
                     $q->select(['id','name','image']);
                 }]);
+                $query->with(['messages' => function($q) use ($user){
+                    $q->where([[Message::COL_FROM,'!=',$user->id],[Message::COL_READ,0]]);
+                }]);
             }])
+
             ->where(User::COL_ID,$user->id)->first();
 
         return response()->json($user);
@@ -141,7 +149,7 @@ class UsersController extends ApiController
         $to = array_column($data,'to');
         $existingConversations = array_merge($from,$to);
 
-        $data = User::whereNotIn('id',$existingConversations)->select(['users.id','users.name'])->get();
+        $data = User::whereNotIn('id',$existingConversations)->whereNotNull(User::COL_NAME)->select(['users.id','users.name'])->get();
 
         return $this->respond($data);
     }

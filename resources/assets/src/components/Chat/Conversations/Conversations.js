@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Popup, Icon, Image, List, Dropdown } from 'semantic-ui-react';
+import { Popup, Icon, Image, List, Dropdown, Label } from 'semantic-ui-react';
 import { userHelper } from '../../../helpers/user';
 import { fetchUsersForConversation, startConversationWithUser, activeChatConfig } from '../../../actions';
 import _ from 'lodash';
@@ -15,11 +15,13 @@ class Conversations extends React.Component {
 
     this.state = {
       isOpen: false,
+      conversations:[]
     };
   }
 
   componentDidMount() {
     this.props.fetchUsersForConversation(this.props.user.conversations);
+    this.setState({ conversations: this.props.user.conversations })
   }
 
   setActiveChat(conversationId, activeChatUser) {
@@ -35,12 +37,14 @@ class Conversations extends React.Component {
   }
 
   renderConversations() {
-
-    return _.map(this.props.user.conversations, conversation => (
+    return _.map(this.state.conversations, conversation => (
       <List.Item>
         {(conversation.from !== this.props.user.id) &&
           <div className="row">
             <div className="col-12 conversationPersonContainer">
+              {(conversation.messages.length > 0) &&
+              <Label size="tiny" circular color="green">{conversation.messages.length}</Label>
+              }
               <Image avatar src={userHelper.getImage(conversation.from_user)} />
               <div>
                 <div onClick={() => this.setActiveChat(conversation.id, conversation.from_user)} className="conversationPersonName">{conversation.from_user.name}</div>
@@ -51,6 +55,9 @@ class Conversations extends React.Component {
         {(conversation.to !== this.props.user.id) &&
           <div className="row">
             <div className="col-12 conversationPersonContainer">
+              {(conversation.messages.length > 0) &&
+              <Label size="tiny" circular color="green">{conversation.messages.length}</Label>
+              }
               <Image avatar src={userHelper.getImage(conversation.to_user)} />
               <div>
                 <div onClick={() => this.setActiveChat(conversation.id, conversation.to_user)} className="conversationPersonName"> {conversation.to_user.name}</div>
@@ -63,8 +70,10 @@ class Conversations extends React.Component {
   }
 
   selectUserForConversation(userId) {
-    this.props.startConversationWithUser(userId,this.props.user.id, (response)=>{
-      this.props.activeChat(response.data.id, response.data.to_user);
+    this.props.startConversationWithUser(userId, this.props.user.id, (response) => {
+      this.props.activeChatConfig(response.data.id, response.data.to_user);
+      response.data.messages = [];
+      this.setState({ conversations: this.state.conversations.concat(response.data)});
     });
   }
 
@@ -73,23 +82,35 @@ class Conversations extends React.Component {
     return (
       <div>
         <Dropdown
+          selectOnBlur={false}
           fluid
           search
           selection
           options={users}
-            onChange={(e,data) => this.selectUserForConversation(data.value)}
+          onChange={(e, data) => this.selectUserForConversation(data.value)}
         />
       </div>
     );
   }
 
   render() {
+    const unreadMessages = _.filter(this.props.user.conversations, conversation => (
+      conversation.messages.length > 0 && _.filter(conversation.messages, (message) => {
+        (message.from !== this.props.user.id && message.read === 0);
+      })
+    ));
+
+    console.log(unreadMessages);
     return (
       <Popup
-        trigger={<span>
-          <Icon className="hidden-sm-up mobileMessengerIcon" size="large" onClick={() => this.handleConversationClose()} name="comments" />
-          <Icon className="hidden-sm-down" onClick={() => this.handleConversationClose()} name="comments" />
-          <span className="hidden-sm-down">messages</span>
+        trigger={<span onClick={() => this.handleConversationClose()}>
+          <Icon className="hidden-sm-up mobileMessengerIcon" size="large" name="comments" />
+          <Icon className="hidden-sm-down" name="comments" />
+          <span className="hidden-sm-down">messages
+          </span>
+          {(unreadMessages.length > 0) &&
+          <Label size="mini" empty circular color="green" />
+          }
         </span>}
         content={
           <List>

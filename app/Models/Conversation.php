@@ -28,4 +28,9 @@ class Conversation extends Model
     {
         return $this->belongsTo(User::class,'to','id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class,Message::COL_CONVERSATION_ID,'id');
+    }
 }

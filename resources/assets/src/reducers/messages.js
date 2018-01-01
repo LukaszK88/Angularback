@@ -1,4 +1,4 @@
-import { FETCH_MESSAGES, SEND_MESSAGE, FETCH_USERS_FOR_CONVERSATIONS } from '../actions/types';
+import { FETCH_MESSAGES, SEND_MESSAGE, FETCH_USERS_FOR_CONVERSATIONS, READ_MESSAGE } from '../actions/types';
 
 const initState = {
   messages: [],

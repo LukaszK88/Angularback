@@ -90,6 +90,7 @@ Route::get('/feed/{feedOffset}','FeedController@getFeed');
 //MESSAGES
 Route::get('/messages/{conversationId}','MessagesController@getUserMessages');
 Route::post('/messages','MessagesController@storeMessage');
+Route::post('/message-read','MessagesController@readMessage');
 
 //CONVERSATIONS
 Route::get('/conversations/{userId}','ConversationsController@getUserConversations');

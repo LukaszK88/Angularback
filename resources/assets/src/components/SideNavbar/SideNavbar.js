@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Popup, Menu, Icon, Image, Label, List } from 'semantic-ui-react'
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout, setActiveMenuItem} from '../../actions';
 import { UpdateUserInfo, ChangePassword, ChatConvrsations } from '../index';
 import { UpdateClubInfo } from '../clubs';
@@ -11,6 +11,13 @@ import _ from 'lodash';
 import './SideNavbar.css';
 
 class SideNavbar extends Component {
+
+  logout() {
+    this.props.logout();
+    console.log('log out');
+    // todo can do better
+    window.location.reload();
+  }
 
   handleItemClick = (e, { name }) => {
     this.props.setActiveMenuItem(name);
@@ -102,7 +109,7 @@ class SideNavbar extends Component {
           }
         </Menu.Item>
         <Menu.Item name='logout' active={activeMenuItem === 'logout'} onClick={this.handleItemClick}>
-          <div className="sideNavLink" onClick={() => this.props.logout()}>Logout</div>
+          <div className="sideNavLink" onClick={() => this.logout()}>Logout</div>
         </Menu.Item>
       </Menu>
       </div>
@@ -120,4 +127,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { logout, setActiveMenuItem })(SideNavbar);
+export default withRouter(connect(mapStateToProps, { logout, setActiveMenuItem })(SideNavbar));

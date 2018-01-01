@@ -3,19 +3,11 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Conversation;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class ConversationsController extends ApiController
 {
-
-    public function getUserConversations($userId)
-    {
-        $userConversations = Conversation::with('fromUser')->where(Conversation::COL_FROM,$userId)->orWhere(Conversation::COL_TO,$userId)->get();
-
-        if($userConversations->count() < 1) return $this->respondWithError('No Conversations Found');
-
-        return $this->respond($userConversations);
-    }
 
     public function startUsersConversation($to, $from)
     {

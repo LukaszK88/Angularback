@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API } from './index';
-import { FETCH_MESSAGES, SEND_MESSAGE, FETCH_USERS_FOR_CONVERSATIONS } from './types';
+import { FETCH_MESSAGES, SEND_MESSAGE, FETCH_USERS_FOR_CONVERSATIONS, READ_MESSAGE } from './types';
+import { currentLoggedInUser } from "./user";
 import { addFlashMessage } from './flashMessages';
 
 export function sendMessage(data) {
@@ -8,10 +9,19 @@ export function sendMessage(data) {
     // const messages = {
     //   ...response,
     // };
-
     dispatch({
       type: SEND_MESSAGE,
       payload: data,
+    });
+  });
+}
+
+export function readMessage(messageId) {
+  return axios.post(`${API}message-read`,messageId).then(response => (dispatch) => {
+
+    dispatch({
+      type: READ_MESSAGE,
+      payload: messageId,
     });
   });
 }

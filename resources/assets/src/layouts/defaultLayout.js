@@ -3,8 +3,12 @@ import { Navbar, SideNavbar, ChatConvrsations, Messages } from '../components';
 import { Icon } from 'semantic-ui-react';
 import FlashMessages from '../helpers/message';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+import { currentLoggedInUser} from "../actions/user";
+
 
 import './DefaultLayout.css';
+const socket = io('http://localhost:3000');
 
 class DefaultLayout extends Component {
   constructor(props) {
@@ -13,6 +17,17 @@ class DefaultLayout extends Component {
     this.state = {
       mobileNavToggle: false,
     };
+  }
+
+  componentDidMount() {
+    // get user to notify him that he has unread message when the chat window is closed!
+    socket.on('chatroom', (response) => {
+      if (response.from !== this.props.currentUser.user.id) {
+        if(this.props.activeChat.conversationId === null) {
+          this.props.currentLoggedInUser(window.localStorage.getItem('token'));
+        }
+      }
+    });
   }
 
   toggleMobileNav() {
@@ -83,4 +98,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DefaultLayout);
+export default connect(mapStateToProps, { currentLoggedInUser })(DefaultLayout);

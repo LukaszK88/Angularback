@@ -47,4 +47,15 @@ class MessagesController extends ApiController
 
         return $this->respond('Message stored');
     }
+
+    public function readMessage(Request $request)
+    {
+        $messageId = $request->all();
+
+        foreach ($messageId as $id){
+            Message::where(Message::COL_ID, $id)->update([Message::COL_READ => 1]);
+        }
+
+        return $this->respond('Message Read!');
+    }
 }
