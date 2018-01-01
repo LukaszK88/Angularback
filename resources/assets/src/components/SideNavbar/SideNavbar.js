@@ -62,11 +62,11 @@ class SideNavbar extends Component {
         <Menu.Item name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to={`/profile/${user.id}`}>My Profile</Link>
         </Menu.Item>
-        <Menu.Item className="hidden-sm-down" name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>
-          <div className="sideNavLink " >
-           <ChatConvrsations user={user} />
-          </div>
-        </Menu.Item>
+        {/*<Menu.Item className="hidden-sm-down" name='myProfile' active={activeMenuItem === 'myProfile'} onClick={this.handleItemClick}>*/}
+          {/*<div className="sideNavLink " >*/}
+           {/*<ChatConvrsations user={user} />*/}
+          {/*</div>*/}
+        {/*</Menu.Item>*/}
         <Menu.Item name='myEvents' active={activeMenuItem === 'myEvents'} onClick={this.handleItemClick}>
           <Link className="sideNavLink" to={`/my-events/${user.id}`}>My Events</Link>
         </Menu.Item>
