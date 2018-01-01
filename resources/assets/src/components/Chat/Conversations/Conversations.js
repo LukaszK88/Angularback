@@ -104,7 +104,7 @@ class Conversations extends React.Component {
     return (
       <Popup
         trigger={<span onClick={() => this.handleConversationClose()}>
-          <Icon className="hidden-sm-up mobileMessengerIcon" size="large" name="comments" />
+          {/*<Icon className="hidden-sm-up mobileMessengerIcon" size="large" name="comments" />*/}
           <Icon className="hidden-sm-down" name="comments" />
           <span className="hidden-sm-down">messages
           </span>
