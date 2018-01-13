@@ -14,6 +14,7 @@ class Triathlon extends BaseRanking
         self::COL_LOSS,
         self::COL_POINTS,
         self::COL_FIGHTS,
+        self::COL_DATE,
 
     ];
 

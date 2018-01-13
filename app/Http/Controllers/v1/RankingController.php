@@ -4,7 +4,14 @@ namespace App\Http\Controllers\v1;
 
 use App\Contracts\Repositories\FighterRepositoryInterface;
 use App\Http\Transformers\RankingTransformer;
+use App\Models\Bohurt;
 use App\Models\Feed;
+use App\Models\Longsword;
+use App\Models\Polearm;
+use App\Models\Profight;
+use App\Models\SwordBuckler;
+use App\Models\SwordShield;
+use App\Models\Triathlon;
 use App\Models\User;
 use App\Services\FeedService;
 use App\Services\RankingService;
@@ -41,6 +48,50 @@ class RankingController extends ApiController
      */
     public function getFighters($clubId = null, $year)
     {
+        $bohurts = Bohurt::all();
+        foreach ($bohurts as $bohurt){
+            if(!$bohurt->date){
+                $bohurt->update(['date' => $bohurt->created_at]);
+            }
+        }
+
+        $profights = Profight::all();
+        foreach ($profights as $profight){
+            if(!$profight->date){
+                $profight->update(['date' => $profight->created_at]);
+            }
+        }
+        $polearms = Polearm::all();
+        foreach ($polearms as $polearm){
+            if(!$polearm->date){
+                $polearm->update(['date' => $polearm->created_at]);
+            }
+        }
+        $longswords = Longsword::all();
+        foreach ($longswords as $longsword){
+            if(!$longsword->date){
+                $longsword->update(['date' => $longsword->created_at]);
+            }
+        }
+        $swordShields = SwordShield::all();
+        foreach ($swordShields as $shield){
+            if(!$shield->date){
+                $shield->update(['date' => $shield->created_at]);
+            }
+        }
+        $swordBuklers = SwordBuckler::all();
+        foreach ($swordBuklers as $bukler){
+            if(!$bukler->date){
+                $bukler->update(['date' => $bukler->created_at]);
+            }
+        }
+        $triathlons = Triathlon::all();
+        foreach ($triathlons as $triathlon){
+            if(!$triathlon->date){
+                $triathlon->update(['date' => $triathlon->created_at]);
+            }
+        }
+
         // yar must be optional
         $rawFightersData = $this->fighter->getAllByDateAndClub($clubId,$year);
 

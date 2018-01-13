@@ -23,6 +23,7 @@ class Bohurt extends Model{
             COL_LAST = 'last',
             COL_DOWN = 'down',
             COL_SUICIDE = 'suicide',
+            COL_DATE = 'date',
             COL_POINTS = 'points';
 
     const REL_EVENT_ACHIEVEMENT = 'eventAchievement';
@@ -36,7 +37,8 @@ class Bohurt extends Model{
         self::COL_DOWN,
         self::COL_SUICIDE,
         self::COL_EVENT_ID,
-        self::COL_POINTS
+        self::COL_POINTS,
+        self::COL_DATE
     ];
 
     public function eventAchievement()

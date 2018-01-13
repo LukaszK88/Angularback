@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Bohurt;
+use App\Models\EventAchievement;
 use App\Models\Longsword;
 use App\Models\Polearm;
 use App\Models\Profight;
@@ -49,19 +50,19 @@ class RankingService
 
         $relationship = $categoryToRelationship[$category];
 
-        $oldRecord = $relationship->find($recordId);
+     //   $oldRecord = $relationship->find($recordId);
 
-        switch ($category){
-            case 'bohurt':
-                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->calculateBohurtPoints($oldRecord)]);
-                break;
-            case 'profight':
-                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->calculateProfightPoints($oldRecord)]);
-                break;
-            default:
-                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $oldRecord->win]);
-                break;
-        }
+//        switch ($category){
+//            case 'bohurt':
+//                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->calculateBohurtPoints($oldRecord)]);
+//                break;
+//            case 'profight':
+//                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $this->calculateProfightPoints($oldRecord)]);
+//                break;
+//            default:
+//                $user->update([User::COL_TOTAL_POINTS => $user->total_points - $oldRecord->win]);
+//                break;
+//        }
 
         $newRecord = $relationship->updateOrCreate(['id' => $recordId], $data);
 
@@ -94,7 +95,15 @@ class RankingService
 
         $relationship = $categoryToRelationship[$category];
 
-        $savedRecord = $relationship->create($request->all());
+        $data = $request->all();
+
+        $eventId = $data['event_id'];
+
+        $eventAchievement = EventAchievement::where('event_id',$eventId)->first();
+
+        $data['date'] = $eventAchievement->date;
+
+        $savedRecord = $relationship->create($data);
 
         return $savedRecord;
     }

@@ -1,9 +1,0 @@
-export { default as Bohurt } from './bohurt';
-export { default as Profight } from './profight';
-export { default as SwordShield } from './swordShield';
-export { default as Longsword } from './longsword';
-export { default as SwordBuckler } from './swordBuckler';
-export { default as Polearm } from './polearm';
-export { default as Triathlon } from './triathlon';
-export { default as Total } from './total';
-export { default as Leaderboard } from './leaderboard';

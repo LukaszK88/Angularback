@@ -1,0 +1,39 @@
+version: '3'
+services:
+  ranking:
+    build: .
+    volumes:
+     - .:/var/www/html
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_HOSTNAME: ${DB_HOST}
+  mysql:
+    image: mysql:8.0.1
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_HOSTNAME: ${DB_HOST}
+  web:
+      image: php:apache
+      ports:
+          - "8080:80"
+      volumes:
+          - .:/var/www/html
+      links:
+          - ranking
+  redis:
+    image: redis
+    volumes:
+     - .:/var/www/html
+    ports:
+        - "6379:6379"

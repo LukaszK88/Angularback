@@ -12,6 +12,7 @@ class SwordBuckler extends BaseRanking
         self::COL_WIN,
         self::COL_POINTS,
         self::COL_LOSS,
+        self::COL_DATE,
         self::COL_FIGHTS
 
     ];

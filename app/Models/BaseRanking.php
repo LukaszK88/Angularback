@@ -10,6 +10,7 @@ class BaseRanking extends Model{
             COL_FIGHTS = 'fights',
             COL_LOSS = 'loss',
             COL_WIN = 'win',
+            COL_DATE = 'date',
             COL_POINTS = 'points';
 
     protected $fillable=[

@@ -13,7 +13,7 @@ return [
     'twitter_key' => '',
     'twitter_secret' => '',
 
-    'myEmail' => env('MAIL_USERNAME', false),
+    'myEmail' => env('MY_EMAIL', false),
 
     /*
     |--------------------------------------------------------------------------

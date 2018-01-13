@@ -18,6 +18,7 @@ class SwordShield extends BaseRanking {
         self::COL_WIN,
         self::COL_POINTS,
         self::COL_FIGHTS,
+        self::COL_DATE,
         self::COL_LOSS
     ];
 

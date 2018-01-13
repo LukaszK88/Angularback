@@ -6,7 +6,10 @@ var Redis = require('ioredis');
 
 var redis = new Redis();
 
-
+redis.on('error', function (error) {
+  console.log('@@@@@@@@@@')
+  console.dir(error)
+})
 
 redis.subscribe('chatroom');
 

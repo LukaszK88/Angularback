@@ -107,43 +107,43 @@ class DbFighterRepository implements FighterRepositoryInterface
        return User::with([User::REL_BOHURT => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
         ->with([User::REL_PROFIGHT => function($query) use ($year){
             $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
             $query->when($year, function ($q) use ($year) {
-                return $q-> whereRaw('year(`created_at`) = '.$year.'');
+                return $q-> whereRaw('year(`date`) = '.$year.'');
             });
         }])
        ->with([User::REL_SWORD_SHIELD => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
        ->with([User::REL_LONGSWORD => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
        ->with([User::REL_SWORD_BUCKLER => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
        ->with([User::REL_POLEARM => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
        ->with([User::REL_TRIATHLON => function($query) use ($year){
            $query->with(Bohurt::REL_EVENT_ACHIEVEMENT);
            $query->when($year, function ($q) use ($year) {
-               return $q-> whereRaw('year(`created_at`) = '.$year.'');
+               return $q-> whereRaw('year(`date`) = '.$year.'');
            });
        }])
        ->with(User::REL_CLUB)
